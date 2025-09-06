@@ -4,6 +4,10 @@ import discord
 from discord.ext import commands
 from dotenv import load_dotenv
 
+# Enable logging
+import logging
+import sys
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -14,10 +18,6 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
-
-# Enable logging
-import logging
-import sys
 
 # Set up logging to stdout so it shows in Docker logs
 logging.basicConfig(
@@ -47,7 +47,7 @@ async def on_ready():
 
         traceback.print_exc()
 
-    logger.info(f"🎯 Bot ready! Try /ping command.")
+    logger.info("🎯 Bot ready! Try /ping command.")
 
 
 @bot.tree.command(name="ping", description="Test the bot's responsiveness")
