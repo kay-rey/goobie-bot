@@ -530,11 +530,35 @@ async def create_game_embed(game_data, logos):
     # Format date
     if date:
         try:
-            game_date = datetime.fromisoformat(date.replace("Z", "+00:00"))
-            # Convert to local time (you can adjust timezone as needed)
-            formatted_date = game_date.strftime("%A, %B %d, %Y at %I:%M %p")
+            from datetime import timezone, timedelta
+
+            # Parse the UTC date
+            game_date_utc = datetime.fromisoformat(date.replace("Z", "+00:00"))
+
+            # Convert to Pacific Time
+            # Use UTC-8 for PST (winter) and UTC-7 for PDT (summer)
+            # For simplicity, we'll use UTC-8 (PST) - in a production app you'd want proper DST handling
+            pacific_tz = timezone(timedelta(hours=-8))
+            game_date_pacific = game_date_utc.astimezone(pacific_tz)
+
+            # Determine if it's PST or PDT based on the month
+            month = game_date_pacific.month
+            if 3 <= month <= 10:  # Roughly March to October for PDT
+                timezone_name = "PDT"
+                # Adjust for PDT (UTC-7)
+                pacific_tz = timezone(timedelta(hours=-7))
+                game_date_pacific = game_date_utc.astimezone(pacific_tz)
+            else:
+                timezone_name = "PST"
+
+            # Format for display
+            formatted_date = game_date_pacific.strftime(
+                f"%A, %B %d, %Y at %I:%M %p {timezone_name}"
+            )
             embed.add_field(name="📅 Date", value=formatted_date, inline=True)
-            logger.info(f"Game date: {game_date} (UTC) -> {formatted_date}")
+            logger.info(
+                f"Game date: {game_date_utc} (UTC) -> {game_date_pacific} ({timezone_name}) -> {formatted_date}"
+            )
         except Exception as e:
             logger.warning(f"Error formatting date {date}: {e}")
             embed.add_field(name="📅 Date", value=date, inline=True)
