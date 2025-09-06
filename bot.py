@@ -97,35 +97,27 @@ async def nextgame(interaction: discord.Interaction):
             # If no logos found, try fallback from search results
             if not any(logos.values()):
                 logger.info("No logos from lookup, trying search results...")
-                logos = {
-                    "logo": team_data.get("strTeamBadge", ""),
-                    "logo_small": team_data.get("strTeamBadge", "") + "/small"
-                    if team_data.get("strTeamBadge")
-                    else "",
-                    "jersey": team_data.get("strTeamJersey", ""),
-                    "stadium": team_data.get("strStadium", ""),
-                    "stadium_thumb": team_data.get("strStadiumThumb", ""),
-                    "stadium_thumb_small": team_data.get("strStadiumThumb", "")
-                    + "/small"
-                    if team_data.get("strStadiumThumb")
-                    else "",
-                }
+                logos = extract_logos_from_team(team_data)
                 logger.info(f"Using search result logos: {logos}")
         else:
             # Fallback to basic logo extraction
-            logos = {
-                "logo": team_data.get("strTeamBadge", ""),
-                "logo_small": team_data.get("strTeamBadge", "") + "/small"
-                if team_data.get("strTeamBadge")
-                else "",
-                "jersey": team_data.get("strTeamJersey", ""),
-                "stadium": team_data.get("strStadium", ""),
-                "stadium_thumb": team_data.get("strStadiumThumb", ""),
-                "stadium_thumb_small": team_data.get("strStadiumThumb", "") + "/small"
-                if team_data.get("strStadiumThumb")
-                else "",
-            }
+            logos = extract_logos_from_team(team_data)
             logger.info(f"Using fallback logos: {logos}")
+
+        # If still no logos, try alternative sources or use default
+        if not any(logos.values()):
+            logger.warning(
+                "No logos found from any source, using default LA Galaxy logo"
+            )
+            # Use a known working LA Galaxy logo URL as fallback
+            logos = {
+                "logo": "https://www.thesportsdb.com/images/media/team/badge/2j3v8t1602782514.png",
+                "logo_small": "https://www.thesportsdb.com/images/media/team/badge/2j3v8t1602782514.png",
+                "jersey": "",
+                "stadium": team_data.get("strStadium", "Dignity Health Sports Park"),
+                "stadium_thumb": "",
+                "stadium_thumb_small": "",
+            }
 
         # Create rich embed
         logger.info("Creating embed...")
@@ -391,51 +383,39 @@ async def get_galaxy_next_game_extended():
 async def get_team_logos(team_id):
     """Get team logos from TheSportsDB"""
     try:
-        # TheSportsDB lookup seems to have issues with LA Galaxy ID,
-        # so let's try a different approach - search again with the team name
         logger.info(f"Attempting to get logos for team ID: {team_id}")
 
-        # First try the lookup
-        url = f"https://www.thesportsdb.com/api/v1/json/123/lookupteam.php?id={team_id}"
-        response = requests.get(url, timeout=10)
-        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+        # Skip the problematic lookup API and go straight to search
+        # The lookup API seems to have issues with LA Galaxy's ID
+        logger.info("Using search approach for LA Galaxy logos...")
+        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
+        search_params = {"t": "LA Galaxy"}
+
+        search_response = requests.get(search_url, params=search_params, timeout=10)
+        logger.info(
+            f"TheSportsDB search response status: {search_response.status_code}"
+        )
 
         # Handle rate limiting as per TheSportsDB docs
-        if response.status_code == 429:
+        if search_response.status_code == 429:
             logger.warning(
                 "Rate limited by TheSportsDB API (429). Free tier allows 30 requests per minute."
             )
             return {}
 
-        if response.status_code == 200:
-            data = response.json()
-            if data.get("teams") and len(data["teams"]) > 0:
-                team = data["teams"][0]
-                logger.info(
-                    f"Lookup found: {team.get('strTeam')} (ID: {team.get('idTeam')})"
-                )
-
-                # Check if this is the right team
-                if team.get("idTeam") == str(team_id):
-                    return extract_logos_from_team(team)
-                else:
-                    logger.warning(
-                        f"Lookup returned wrong team. Expected ID {team_id}, got {team.get('idTeam')}"
-                    )
-
-        # If lookup failed or returned wrong team, try search approach
-        logger.info("Trying search approach for LA Galaxy logos...")
-        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
-        search_params = {"t": "LA Galaxy"}
-
-        search_response = requests.get(search_url, params=search_params, timeout=10)
         if search_response.status_code == 200:
             search_data = search_response.json()
             if search_data.get("teams"):
                 for team in search_data["teams"]:
-                    if "LA Galaxy" in team.get("strTeam", "") and team.get(
-                        "idTeam"
-                    ) == str(team_id):
+                    # Look for LA Galaxy specifically in MLS
+                    if (
+                        (
+                            "LA Galaxy" in team.get("strTeam", "")
+                            or "Los Angeles Galaxy" in team.get("strTeam", "")
+                        )
+                        and "Soccer" in team.get("strSport", "")
+                        and "American Major League Soccer" in team.get("strLeague", "")
+                    ):
                         logger.info(
                             f"Search found correct team: {team.get('strTeam')} (ID: {team.get('idTeam')})"
                         )
@@ -451,19 +431,32 @@ async def get_team_logos(team_id):
 
 def extract_logos_from_team(team):
     """Extract logos from team data with different sizes"""
+    # Get the base logo URL
+    base_logo = team.get("strTeamBadge", "")
+
+    # Try alternative logo fields if the main one is empty
+    if not base_logo:
+        base_logo = team.get("strTeamLogo", "") or team.get("strTeamBanner", "")
+
+    # Create logos dictionary with proper fallbacks
     logos = {
-        "logo": team.get("strTeamBadge", ""),
-        "logo_small": team.get("strTeamBadge", "") + "/small"
-        if team.get("strTeamBadge")
-        else "",
+        "logo": base_logo,
+        "logo_small": f"{base_logo}/small" if base_logo else "",
         "jersey": team.get("strTeamJersey", ""),
         "stadium": team.get("strStadium", ""),
         "stadium_thumb": team.get("strStadiumThumb", ""),
-        "stadium_thumb_small": team.get("strStadiumThumb", "") + "/small"
+        "stadium_thumb_small": f"{team.get('strStadiumThumb', '')}/small"
         if team.get("strStadiumThumb")
         else "",
     }
+
+    # Log the team data structure for debugging
+    logger.info(f"Team data keys: {list(team.keys())}")
+    logger.info(
+        f"Logo fields - strTeamBadge: '{team.get('strTeamBadge', '')}', strTeamLogo: '{team.get('strTeamLogo', '')}', strTeamBanner: '{team.get('strTeamBanner', '')}'"
+    )
     logger.info(f"Extracted logos: {logos}")
+
     return logos
 
 
