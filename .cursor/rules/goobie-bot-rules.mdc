@@ -72,9 +72,14 @@ alwaysApply: true
 
 ### Development
 
+- **ALL development work MUST be done inside Docker containers**
 - Use docker-compose.yml for development with volume mounting
 - Use dev.sh script for common operations
 - Enable live reloading for efficient development
+- **NEVER run Python commands directly on the host system**
+- All testing, debugging, and development should happen in the container
+- Use `./dev.sh logs` to view container logs
+- Use `./dev.sh restart` to restart the container after changes
 
 ### Production
 
