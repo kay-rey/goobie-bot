@@ -42,13 +42,14 @@ tests/
 pytest.ini
 .coverage
 htmlcov/
+.pytest_cache/
 
 # Virtual environment
 venv/
 env/
 ENV/
 
-# Python cache
+# Python cache and build artifacts
 __pycache__/
 *.pyc
 *.pyo
@@ -69,3 +70,61 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+
+# Additional Python files
+*.pyc
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Coverage and profiling
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+*.prof
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Logs and temporary files
+*.log
+logs/
+*.tmp
+*.temp
+temp/
+tmp/
+
+# Backup files
+*.bak
+*.backup
+*.old
+
+# Discord Bot specific
+diff.txt
+bot_old.py
+bot_clean.py
