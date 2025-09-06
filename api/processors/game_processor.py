@@ -8,8 +8,9 @@ from datetime import datetime
 import pytz
 import discord
 
-from .espn import get_team_name_from_ref
-from .sportsdb import search_team_logos, search_venue_logos
+from ..espn.teams import get_team_name_from_ref
+from ..sportsdb.teams import search_team_logos
+from ..sportsdb.venues import search_venue_logos
 
 logger = logging.getLogger(__name__)
 

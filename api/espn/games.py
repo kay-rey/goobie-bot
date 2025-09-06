@@ -1,6 +1,6 @@
 """
-ESPN API module for goobie-bot
-Handles all ESPN API calls for game data and team information
+ESPN Games API module for goobie-bot
+Handles all ESPN API calls related to games and events
 """
 
 import logging
@@ -125,26 +125,3 @@ async def get_galaxy_next_game_extended():
     except Exception as e:
         logger.error(f"Error fetching game data: {e}")
         return None
-
-
-async def get_team_name_from_ref(team_ref):
-    """Get team name from ESPN team reference URL"""
-    if not team_ref:
-        return "TBD"
-
-    try:
-        response = requests.get(team_ref, timeout=10)
-        if response.status_code == 200:
-            team_data = response.json()
-            # Try different name fields in order of preference
-            return (
-                team_data.get("displayName")
-                or team_data.get("name")
-                or team_data.get("shortDisplayName")
-                or team_data.get("abbreviation")
-                or "TBD"
-            )
-    except Exception as e:
-        logger.error(f"Error fetching team name from {team_ref}: {e}")
-
-    return "TBD"

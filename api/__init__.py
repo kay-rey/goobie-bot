@@ -16,9 +16,7 @@ from .sportsdb import (
     search_venue_logos,
     test_logo_url,
 )
-
-# Game data processing functions
-from .game_processor import get_game_logos, create_game_embed
+from .processors import get_game_logos, create_game_embed
 
 __all__ = [
     # ESPN API functions
