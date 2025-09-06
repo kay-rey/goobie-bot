@@ -279,3 +279,5 @@ dhcpcd.conf
 # Raspberry Pi specific Python packages
 *.whl
 *.tar.gz
+
+diff.txt
