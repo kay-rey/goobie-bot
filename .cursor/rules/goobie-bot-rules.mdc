@@ -223,7 +223,7 @@ alwaysApply: true
 
 ### Commit Messages
 
-- Be descriptive and clear
+- Be descriptive, clear and professional
 - Reference issues or features
 - Use present tense: "Add feature" not "Added feature"
 - Keep first line under 50 characters
