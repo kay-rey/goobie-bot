@@ -118,6 +118,7 @@ async def nextgame(interaction: discord.Interaction):
                 "stadium_thumb": "",
                 "stadium_thumb_small": "",
             }
+            logger.info(f"Using fallback logos: {logos}")
 
         # Create rich embed
         logger.info("Creating embed...")
@@ -431,12 +432,27 @@ async def get_team_logos(team_id):
 
 def extract_logos_from_team(team):
     """Extract logos from team data with different sizes"""
-    # Get the base logo URL
+    # Log all available fields for debugging
+    logger.info(f"Team data keys: {list(team.keys())}")
+    logger.info(f"Full team data: {team}")
+
+    # Get the base logo URL - try multiple possible fields
     base_logo = team.get("strTeamBadge", "")
 
     # Try alternative logo fields if the main one is empty
     if not base_logo:
-        base_logo = team.get("strTeamLogo", "") or team.get("strTeamBanner", "")
+        base_logo = (
+            team.get("strTeamLogo", "")
+            or team.get("strTeamBanner", "")
+            or team.get("strTeamFanart1", "")
+        )
+
+    # If still no logo, try to construct from team ID
+    if not base_logo and team.get("idTeam"):
+        # Try the standard SportsDB logo URL format
+        team_id = team.get("idTeam")
+        base_logo = f"https://www.thesportsdb.com/images/media/team/badge/{team_id}.png"
+        logger.info(f"Constructed logo URL from team ID: {base_logo}")
 
     # Create logos dictionary with proper fallbacks
     logos = {
@@ -451,9 +467,8 @@ def extract_logos_from_team(team):
     }
 
     # Log the team data structure for debugging
-    logger.info(f"Team data keys: {list(team.keys())}")
     logger.info(
-        f"Logo fields - strTeamBadge: '{team.get('strTeamBadge', '')}', strTeamLogo: '{team.get('strTeamLogo', '')}', strTeamBanner: '{team.get('strTeamBanner', '')}'"
+        f"Logo fields - strTeamBadge: '{team.get('strTeamBadge', '')}', strTeamLogo: '{team.get('strTeamLogo', '')}', strTeamBanner: '{team.get('strTeamBanner', '')}', strTeamFanart1: '{team.get('strTeamFanart1', '')}'"
     )
     logger.info(f"Extracted logos: {logos}")
 
