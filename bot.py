@@ -99,18 +99,31 @@ async def nextgame(interaction: discord.Interaction):
                 logger.info("No logos from lookup, trying search results...")
                 logos = {
                     "logo": team_data.get("strTeamBadge", ""),
+                    "logo_small": team_data.get("strTeamBadge", "") + "/small"
+                    if team_data.get("strTeamBadge")
+                    else "",
                     "jersey": team_data.get("strTeamJersey", ""),
                     "stadium": team_data.get("strStadium", ""),
                     "stadium_thumb": team_data.get("strStadiumThumb", ""),
+                    "stadium_thumb_small": team_data.get("strStadiumThumb", "")
+                    + "/small"
+                    if team_data.get("strStadiumThumb")
+                    else "",
                 }
                 logger.info(f"Using search result logos: {logos}")
         else:
             # Fallback to basic logo extraction
             logos = {
                 "logo": team_data.get("strTeamBadge", ""),
+                "logo_small": team_data.get("strTeamBadge", "") + "/small"
+                if team_data.get("strTeamBadge")
+                else "",
                 "jersey": team_data.get("strTeamJersey", ""),
                 "stadium": team_data.get("strStadium", ""),
                 "stadium_thumb": team_data.get("strStadiumThumb", ""),
+                "stadium_thumb_small": team_data.get("strStadiumThumb", "") + "/small"
+                if team_data.get("strStadiumThumb")
+                else "",
             }
             logger.info(f"Using fallback logos: {logos}")
 
@@ -180,6 +193,14 @@ async def get_galaxy_team_data():
 
         response = requests.get(url, params=params, timeout=10)
         logger.info(f"TheSportsDB search response status: {response.status_code}")
+
+        # Handle rate limiting as per TheSportsDB docs
+        if response.status_code == 429:
+            logger.warning(
+                "Rate limited by TheSportsDB API (429). Free tier allows 30 requests per minute."
+            )
+            return None
+
         if response.status_code == 200:
             data = response.json()
             logger.info(f"Search results: {json.dumps(data, indent=2)[:500]}...")
@@ -285,6 +306,14 @@ async def get_team_logos(team_id):
 
         response = requests.get(url, timeout=10)
         logger.info(f"TheSportsDB response status: {response.status_code}")
+
+        # Handle rate limiting as per TheSportsDB docs
+        if response.status_code == 429:
+            logger.warning(
+                "Rate limited by TheSportsDB API (429). Free tier allows 30 requests per minute."
+            )
+            return {}
+
         if response.status_code == 200:
             data = response.json()
             logger.info(f"TheSportsDB data: {json.dumps(data, indent=2)[:500]}...")
@@ -300,11 +329,18 @@ async def get_team_logos(team_id):
                         f"Team ID mismatch! Expected {team_id}, got {team.get('idTeam')}"
                     )
 
+                # Get logos with different sizes as per TheSportsDB docs
                 logos = {
                     "logo": team.get("strTeamBadge", ""),
+                    "logo_small": team.get("strTeamBadge", "") + "/small"
+                    if team.get("strTeamBadge")
+                    else "",
                     "jersey": team.get("strTeamJersey", ""),
                     "stadium": team.get("strStadium", ""),
                     "stadium_thumb": team.get("strStadiumThumb", ""),
+                    "stadium_thumb_small": team.get("strStadiumThumb", "") + "/small"
+                    if team.get("strStadiumThumb")
+                    else "",
                 }
                 logger.info(f"Extracted logos: {logos}")
 
@@ -343,10 +379,11 @@ def create_game_embed(game_data, logos):
     # Log logo availability for debugging
     logger.info(f"Creating embed with logos: {logos}")
 
-    # Add team logo if available
-    if logos.get("logo"):
-        logger.info(f"Setting thumbnail to: {logos['logo']}")
-        embed.set_thumbnail(url=logos["logo"])
+    # Add team logo if available (try small version first for better Discord display)
+    logo_url = logos.get("logo_small") or logos.get("logo")
+    if logo_url:
+        logger.info(f"Setting thumbnail to: {logo_url}")
+        embed.set_thumbnail(url=logo_url)
     else:
         logger.warning("No team logo available")
 
@@ -403,10 +440,11 @@ def create_game_embed(game_data, logos):
         embed.add_field(name="🏠 Home", value=home_team, inline=True)
         embed.add_field(name="✈️ Away", value=away_team, inline=True)
 
-    # Add stadium image if available
-    if logos.get("stadium_thumb"):
-        logger.info(f"Setting image to: {logos['stadium_thumb']}")
-        embed.set_image(url=logos["stadium_thumb"])
+    # Add stadium image if available (try small version first)
+    stadium_url = logos.get("stadium_thumb_small") or logos.get("stadium_thumb")
+    if stadium_url:
+        logger.info(f"Setting image to: {stadium_url}")
+        embed.set_image(url=stadium_url)
     else:
         logger.warning("No stadium image available")
 
