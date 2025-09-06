@@ -129,7 +129,7 @@ async def nextgame(interaction: discord.Interaction):
 
         # Create rich embed
         logger.info("Creating embed...")
-        embed = create_game_embed(game_data, logos)
+        embed = await create_game_embed(game_data, logos)
         await interaction.followup.send(embed=embed)
         logger.info("Nextgame command completed successfully")
 
@@ -260,12 +260,16 @@ async def get_galaxy_next_game():
 
                             if event_date_str:
                                 try:
-                                    # Parse the event date
+                                    # Parse the event date (make both timezone-aware)
                                     event_date = datetime.fromisoformat(
                                         event_date_str.replace("Z", "+00:00")
                                     )
+                                    # Make today timezone-aware for comparison
+                                    today_aware = today.replace(
+                                        tzinfo=event_date.tzinfo
+                                    )
                                     # Check if the event is in the future
-                                    if event_date > today:
+                                    if event_date > today_aware:
                                         logger.info(
                                             f"Found upcoming game on {event_date.strftime('%Y-%m-%d %H:%M')}"
                                         )
@@ -302,10 +306,14 @@ async def get_galaxy_next_game():
 async def get_team_logos(team_id):
     """Get team logos from TheSportsDB"""
     try:
-        url = f"https://www.thesportsdb.com/api/v1/json/123/lookupteam.php?id={team_id}"
+        # TheSportsDB lookup seems to have issues with LA Galaxy ID,
+        # so let's try a different approach - search again with the team name
+        logger.info(f"Attempting to get logos for team ID: {team_id}")
 
+        # First try the lookup
+        url = f"https://www.thesportsdb.com/api/v1/json/123/lookupteam.php?id={team_id}"
         response = requests.get(url, timeout=10)
-        logger.info(f"TheSportsDB response status: {response.status_code}")
+        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
 
         # Handle rate limiting as per TheSportsDB docs
         if response.status_code == 429:
@@ -316,47 +324,89 @@ async def get_team_logos(team_id):
 
         if response.status_code == 200:
             data = response.json()
-            logger.info(f"TheSportsDB data: {json.dumps(data, indent=2)[:500]}...")
             if data.get("teams") and len(data["teams"]) > 0:
                 team = data["teams"][0]
                 logger.info(
-                    f"Team found: {team.get('strTeam', 'Unknown')} (ID: {team.get('idTeam', 'Unknown')})"
+                    f"Lookup found: {team.get('strTeam')} (ID: {team.get('idTeam')})"
                 )
 
                 # Check if this is the right team
-                if team.get("idTeam") != str(team_id):
+                if team.get("idTeam") == str(team_id):
+                    return extract_logos_from_team(team)
+                else:
                     logger.warning(
-                        f"Team ID mismatch! Expected {team_id}, got {team.get('idTeam')}"
+                        f"Lookup returned wrong team. Expected ID {team_id}, got {team.get('idTeam')}"
                     )
 
-                # Get logos with different sizes as per TheSportsDB docs
-                logos = {
-                    "logo": team.get("strTeamBadge", ""),
-                    "logo_small": team.get("strTeamBadge", "") + "/small"
-                    if team.get("strTeamBadge")
-                    else "",
-                    "jersey": team.get("strTeamJersey", ""),
-                    "stadium": team.get("strStadium", ""),
-                    "stadium_thumb": team.get("strStadiumThumb", ""),
-                    "stadium_thumb_small": team.get("strStadiumThumb", "") + "/small"
-                    if team.get("strStadiumThumb")
-                    else "",
-                }
-                logger.info(f"Extracted logos: {logos}")
+        # If lookup failed or returned wrong team, try search approach
+        logger.info("Trying search approach for LA Galaxy logos...")
+        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
+        search_params = {"t": "LA Galaxy"}
 
-                # Test logo URLs for validity
-                for logo_type, logo_url in logos.items():
-                    if logo_url:
-                        is_valid = await test_logo_url(logo_url)
-                        logger.info(f"Logo {logo_type}: {logo_url} - Valid: {is_valid}")
-                        if not is_valid:
-                            logos[logo_type] = ""
+        search_response = requests.get(search_url, params=search_params, timeout=10)
+        if search_response.status_code == 200:
+            search_data = search_response.json()
+            if search_data.get("teams"):
+                for team in search_data["teams"]:
+                    if "LA Galaxy" in team.get("strTeam", "") and team.get(
+                        "idTeam"
+                    ) == str(team_id):
+                        logger.info(
+                            f"Search found correct team: {team.get('strTeam')} (ID: {team.get('idTeam')})"
+                        )
+                        return extract_logos_from_team(team)
 
-                return logos
+        logger.warning("Could not find LA Galaxy team data for logos")
         return {}
+
     except Exception as e:
         logger.error(f"Error getting team logos: {e}")
         return {}
+
+
+def extract_logos_from_team(team):
+    """Extract logos from team data with different sizes"""
+    logos = {
+        "logo": team.get("strTeamBadge", ""),
+        "logo_small": team.get("strTeamBadge", "") + "/small"
+        if team.get("strTeamBadge")
+        else "",
+        "jersey": team.get("strTeamJersey", ""),
+        "stadium": team.get("strStadium", ""),
+        "stadium_thumb": team.get("strStadiumThumb", ""),
+        "stadium_thumb_small": team.get("strStadiumThumb", "") + "/small"
+        if team.get("strStadiumThumb")
+        else "",
+    }
+    logger.info(f"Extracted logos: {logos}")
+    return logos
+
+
+async def get_team_name_from_ref(team_ref):
+    """Get team name from ESPN team reference URL"""
+    if not team_ref:
+        return "TBD"
+
+    try:
+        response = requests.get(team_ref, timeout=10)
+        if response.status_code == 200:
+            team_data = response.json()
+            # Try different name fields in order of preference
+            return (
+                team_data.get("displayName")
+                or team_data.get("name")
+                or team_data.get("shortDisplayName")
+                or team_data.get("abbreviation")
+                or "TBD"
+            )
+        else:
+            logger.warning(
+                f"Failed to fetch team data from {team_ref}: {response.status_code}"
+            )
+            return "TBD"
+    except Exception as e:
+        logger.warning(f"Error fetching team name from {team_ref}: {e}")
+        return "TBD"
 
 
 async def test_logo_url(url):
@@ -368,7 +418,7 @@ async def test_logo_url(url):
         return False
 
 
-def create_game_embed(game_data, logos):
+async def create_game_embed(game_data, logos):
     """Create a rich Discord embed for the game"""
     embed = discord.Embed(
         title="⚽ LA Galaxy Next Match",
@@ -422,20 +472,12 @@ def create_game_embed(game_data, logos):
             f"Competitor 1 structure: {json.dumps(competitors[1], indent=2)[:500]}..."
         )
 
-        # Try different possible team name fields
-        home_team = (
-            competitors[0].get("team", {}).get("displayName")
-            or competitors[0].get("team", {}).get("name")
-            or competitors[0].get("team", {}).get("shortDisplayName")
-            or competitors[0].get("team", {}).get("abbreviation")
-            or "TBD"
+        # Get team names from the team reference data
+        home_team = await get_team_name_from_ref(
+            competitors[0].get("team", {}).get("$ref")
         )
-        away_team = (
-            competitors[1].get("team", {}).get("displayName")
-            or competitors[1].get("team", {}).get("name")
-            or competitors[1].get("team", {}).get("shortDisplayName")
-            or competitors[1].get("team", {}).get("abbreviation")
-            or "TBD"
+        away_team = await get_team_name_from_ref(
+            competitors[1].get("team", {}).get("$ref")
         )
         embed.add_field(name="🏠 Home", value=home_team, inline=True)
         embed.add_field(name="✈️ Away", value=away_team, inline=True)
