@@ -229,9 +229,9 @@ async def get_galaxy_next_game():
 
         # Get current date and create a date range for upcoming games
         today = datetime.now()
-        # Start from today and go 6 months into the future
+        # Start from today and go only 2 weeks into the future to get the next game
         start_date = today.strftime("%Y%m%d")
-        end_date = (today + timedelta(days=180)).strftime("%Y%m%d")
+        end_date = (today + timedelta(days=14)).strftime("%Y%m%d")
 
         # ESPN API endpoint for MLS LA Galaxy
         url = "https://sports.core.api.espn.com/v2/sports/soccer/leagues/usa.1/teams/187/events"
@@ -248,7 +248,9 @@ async def get_galaxy_next_game():
             data = response.json()
             logger.info(f"ESPN API data keys: {list(data.keys())}")
             if data.get("items") and len(data["items"]) > 0:
-                # Find the first upcoming game (not past)
+                # Find the closest upcoming game (not past)
+                upcoming_games = []
+
                 for item in data["items"]:
                     event_ref = item.get("$ref")
                     if event_ref:
@@ -273,7 +275,7 @@ async def get_galaxy_next_game():
                                         logger.info(
                                             f"Found upcoming game on {event_date.strftime('%Y-%m-%d %H:%M')}"
                                         )
-                                        return event_data
+                                        upcoming_games.append((event_date, event_data))
                                     else:
                                         logger.info(
                                             f"Skipping past game on {event_date.strftime('%Y-%m-%d %H:%M')}"
@@ -283,9 +285,27 @@ async def get_galaxy_next_game():
                                         f"Error parsing date {event_date_str}: {date_error}"
                                     )
                                     # If we can't parse the date, assume it's upcoming
-                                    return event_data
+                                    upcoming_games.append((today, event_data))
 
-                # If no upcoming games found, return the first one anyway
+                # Sort by date and return the closest upcoming game
+                if upcoming_games:
+                    upcoming_games.sort(key=lambda x: x[0])  # Sort by date
+                    closest_game = upcoming_games[0][
+                        1
+                    ]  # Get the data of the closest game
+                    closest_date = upcoming_games[0][0]
+                    logger.info(
+                        f"Returning closest upcoming game on {closest_date.strftime('%Y-%m-%d %H:%M')}"
+                    )
+                    return closest_game
+                else:
+                    # If no upcoming games found in the 2-week window, try a longer period
+                    logger.warning(
+                        "No upcoming games found in 2-week window, trying longer period..."
+                    )
+                    return await get_galaxy_next_game_extended()
+
+                # Fallback to first available game
                 logger.warning(
                     "No upcoming games found, returning first available game"
                 )
@@ -300,6 +320,71 @@ async def get_galaxy_next_game():
         return None
     except Exception as e:
         logger.error(f"Error getting Galaxy next game: {e}")
+        return None
+
+
+async def get_galaxy_next_game_extended():
+    """Get LA Galaxy's next game with extended date range if no games found in 2 weeks"""
+    try:
+        from datetime import datetime, timedelta
+
+        # Get current date and create a longer date range
+        today = datetime.now()
+        start_date = today.strftime("%Y%m%d")
+        end_date = (today + timedelta(days=90)).strftime("%Y%m%d")  # 3 months
+
+        # ESPN API endpoint for MLS LA Galaxy
+        url = "https://sports.core.api.espn.com/v2/sports/soccer/leagues/usa.1/teams/187/events"
+        params = {
+            "limit": 20,
+            "dates": f"{start_date}-{end_date}",
+        }
+
+        logger.info(f"Extended search - Date range: {start_date} to {end_date}")
+
+        response = requests.get(url, params=params, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("items") and len(data["items"]) > 0:
+                # Find the closest upcoming game
+                upcoming_games = []
+
+                for item in data["items"]:
+                    event_ref = item.get("$ref")
+                    if event_ref:
+                        event_response = requests.get(event_ref, timeout=10)
+                        if event_response.status_code == 200:
+                            event_data = event_response.json()
+                            event_date_str = event_data.get("date", "")
+
+                            if event_date_str:
+                                try:
+                                    event_date = datetime.fromisoformat(
+                                        event_date_str.replace("Z", "+00:00")
+                                    )
+                                    today_aware = today.replace(
+                                        tzinfo=event_date.tzinfo
+                                    )
+
+                                    if event_date > today_aware:
+                                        upcoming_games.append((event_date, event_data))
+                                except Exception:
+                                    pass
+
+                if upcoming_games:
+                    upcoming_games.sort(key=lambda x: x[0])
+                    closest_game = upcoming_games[0][1]
+                    closest_date = upcoming_games[0][0]
+                    logger.info(
+                        f"Extended search found closest game on {closest_date.strftime('%Y-%m-%d %H:%M')}"
+                    )
+                    return closest_game
+
+        logger.warning("No upcoming games found even with extended search")
+        return None
+
+    except Exception as e:
+        logger.error(f"Error in extended game search: {e}")
         return None
 
 
