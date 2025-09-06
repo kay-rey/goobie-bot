@@ -128,3 +128,7 @@ tmp/
 diff.txt
 bot_old.py
 bot_clean.py
+
+# Additional files that should be excluded
+LICENSE
+.gitattributes
