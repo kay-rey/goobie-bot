@@ -78,33 +78,35 @@ async def nextgame(interaction: discord.Interaction):
             await interaction.followup.send("❌ Could not find LA Galaxy team data")
             return
 
-        # Get next game from ESPN API
+        # Get next game from ESPN API with logos
         logger.info("Fetching next game data...")
-        game_data = await get_galaxy_next_game_extended()
-        logger.info(f"Game data result: {bool(game_data)}")
-        if game_data:
-            logger.info(f"Game data structure: {game_data}")
-        if not game_data:
+        game_result = await get_galaxy_next_game_extended()
+        logger.info(f"Game data result: {bool(game_result)}")
+        if game_result:
+            logger.info(f"Game data structure: {game_result}")
+        if not game_result:
             await interaction.followup.send(
                 "❌ Could not find LA Galaxy's next game. The season may be over or no upcoming games are scheduled."
             )
             return
 
-        # Get team ID for more detailed logo lookup
-        team_id = team_data.get("idTeam")
-        if team_id:
-            logger.info(f"Getting detailed logos for team ID: {team_id}")
-            logos = await get_team_logos(team_id)
+        # Extract game data and logos from the result
+        game_data = game_result["game"]
+        logos = game_result["logos"]
+        logger.info(f"Game data: {game_data}")
+        logger.info(f"Logos: {logos}")
 
-            # If no logos found, try fallback from search results
-            if not any(logos.values()):
-                logger.info("No logos from lookup, trying search results...")
-                logos = extract_logos_from_team(team_data)
-                logger.info(f"Using search result logos: {logos}")
-        else:
-            # Fallback to basic logo extraction
-            logos = extract_logos_from_team(team_data)
-            logger.info(f"Using fallback logos: {logos}")
+        # If no logos found, try fallback from team data
+        if not any(logos.values()):
+            logger.info("No logos from game search, trying fallback...")
+            team_id = team_data.get("idTeam")
+            if team_id:
+                fallback_logos = await get_team_logos(team_id)
+                if not any(fallback_logos.values()):
+                    fallback_logos = extract_logos_from_team(team_data)
+                # Convert to new format
+                logos = {"LA Galaxy": fallback_logos}
+                logger.info(f"Using fallback logos: {logos}")
 
         # If still no logos, try alternative sources or use default
         if not any(logos.values()):
@@ -114,12 +116,16 @@ async def nextgame(interaction: discord.Interaction):
             # Use the actual working LA Galaxy logo URL from the team page
             # Reference: https://www.thesportsdb.com/team/134153-la-galaxy
             logos = {
-                "logo": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png",
-                "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png/small",
-                "jersey": "",
-                "stadium": team_data.get("strStadium", "Dignity Health Sports Park"),
-                "stadium_thumb": "",
-                "stadium_thumb_small": "",
+                "LA Galaxy": {
+                    "logo": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png",
+                    "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png/small",
+                    "jersey": "",
+                    "stadium": team_data.get(
+                        "strStadium", "Dignity Health Sports Park"
+                    ),
+                    "stadium_thumb": "",
+                    "stadium_thumb_small": "",
+                }
             }
             logger.info(f"Using fallback logos from LA Galaxy team page: {logos}")
 

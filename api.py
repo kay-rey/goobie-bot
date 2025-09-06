@@ -5,7 +5,7 @@ Handles all external API calls to ESPN and TheSportsDB
 
 import logging
 import requests
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 import pytz
 import discord
 
@@ -68,7 +68,7 @@ async def get_galaxy_next_game():
         logger.info(f"Date range: {start_date} to {end_date}")
 
         # ESPN API endpoint for LA Galaxy events
-        url = f"http://sports.core.api.espn.com/v2/sports/soccer/leagues/usa.1/teams/187/events"
+        url = "http://sports.core.api.espn.com/v2/sports/soccer/leagues/usa.1/teams/187/events"
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         response = requests.get(url, params=params, timeout=10)
@@ -118,7 +118,6 @@ async def get_galaxy_next_game_extended():
             data = response.json()
             logger.info(f"ESPN API data keys: {list(data.keys())}")
             logger.info(f"ESPN API items count: {len(data.get('items', []))}")
-            logger.info(f"ESPN API full response: {data}")
 
             if data.get("items") and len(data["items"]) > 0:
                 # Find the closest upcoming game by following $ref URLs
@@ -158,7 +157,12 @@ async def get_galaxy_next_game_extended():
                     upcoming_games.sort(key=lambda x: x[0])
                     closest_date, closest_game = upcoming_games[0]
                     logger.info(f"Found next game: {closest_game}")
-                    return closest_game
+
+                    # Now get team logos and venue info from TheSportsDB
+                    logos = await get_game_logos(closest_game)
+
+                    # Return both game data and logos
+                    return {"game": closest_game, "logos": logos}
 
         logger.warning("No upcoming games found")
         return None
@@ -166,6 +170,91 @@ async def get_galaxy_next_game_extended():
     except Exception as e:
         logger.error(f"Error fetching game data: {e}")
         return None
+
+
+async def get_game_logos(game_data):
+    """Get logos for both teams and venue from TheSportsDB"""
+    try:
+        logos = {}
+
+        # Get team references from the game data
+        competitions = game_data.get("competitions", [])
+        if competitions:
+            competition = competitions[0]
+            competitors = competition.get("competitors", [])
+
+            for competitor in competitors:
+                team_ref = competitor.get("team", {}).get("$ref")
+                if team_ref:
+                    # Get team name and search for logos
+                    team_name = await get_team_name_from_ref(team_ref)
+                    logger.info(f"Getting logos for team: {team_name}")
+
+                    # Search TheSportsDB for this team
+                    team_logos = await search_team_logos(team_name)
+                    if team_logos:
+                        logos[team_name] = team_logos
+                        logger.info(f"Found logos for {team_name}: {team_logos}")
+
+        # Get venue information
+        venue_info = game_data.get("venue", {})
+        if venue_info:
+            venue_name = venue_info.get("fullName", "")
+            if venue_name:
+                logger.info(f"Getting venue image for: {venue_name}")
+                venue_logos = await search_venue_logos(venue_name)
+                if venue_logos:
+                    logos["venue"] = venue_logos
+                    logger.info(f"Found venue logos: {venue_logos}")
+
+        return logos
+
+    except Exception as e:
+        logger.error(f"Error getting game logos: {e}")
+        return {}
+
+
+async def search_team_logos(team_name):
+    """Search TheSportsDB for team logos"""
+    try:
+        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
+        search_params = {"t": team_name}
+
+        response = requests.get(search_url, params=search_params, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("teams"):
+                for team in data["teams"]:
+                    # Look for exact or close match
+                    if team_name.lower() in team.get("strTeam", "").lower():
+                        return extract_logos_from_team(team)
+        return {}
+    except Exception as e:
+        logger.error(f"Error searching team logos for {team_name}: {e}")
+        return {}
+
+
+async def search_venue_logos(venue_name):
+    """Search TheSportsDB for venue logos"""
+    try:
+        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchvenues.php"
+        search_params = {"t": venue_name}
+
+        response = requests.get(search_url, params=search_params, timeout=10)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("venues"):
+                for venue in data["venues"]:
+                    if venue_name.lower() in venue.get("strVenue", "").lower():
+                        return {
+                            "venue_name": venue.get("strVenue", ""),
+                            "venue_thumb": venue.get("strVenueThumb", ""),
+                            "venue_image": venue.get("strVenueImage", ""),
+                        }
+        return {}
+    except Exception as e:
+        logger.error(f"Error searching venue logos for {venue_name}: {e}")
+        return {}
 
 
 async def get_team_logos(team_id):
@@ -233,17 +322,18 @@ def extract_logos_from_team(team):
 
     # Get stadium information
     stadium_name = team.get("strStadium", "")
-    stadium_thumb = ""
+    stadium_thumb = team.get("strStadiumThumb", "")
 
-    # Try to get stadium image - we can use the venue ID if available
-    venue_id = team.get("idVenue", "")
-    if venue_id:
-        stadium_thumb = (
-            f"https://www.thesportsdb.com/images/media/venue/thumb/{venue_id}.jpg"
-        )
-        logger.info(
-            f"Constructed stadium thumb URL using venue ID {venue_id}: {stadium_thumb}"
-        )
+    # If no stadium thumb from API, try to construct using venue ID
+    if not stadium_thumb:
+        venue_id = team.get("idVenue", "")
+        if venue_id:
+            stadium_thumb = (
+                f"https://www.thesportsdb.com/images/media/venue/thumb/{venue_id}.jpg"
+            )
+            logger.info(
+                f"Constructed stadium thumb URL using venue ID {venue_id}: {stadium_thumb}"
+            )
 
     # Create logos dictionary using actual SportsDB URLs
     # Reference: https://www.thesportsdb.com/team/134153-la-galaxy
@@ -308,19 +398,24 @@ async def create_game_embed(game_data, logos):
             timestamp=datetime.now(),
         )
 
-        # Add team logo as thumbnail if available
-        if logos.get("logo"):
-            embed.set_thumbnail(url=logos["logo"])
-            logger.info(f"Setting thumbnail to: {logos['logo']}")
+        # Add LA Galaxy logo as thumbnail if available
+        la_galaxy_logos = logos.get("LA Galaxy", {})
+        if la_galaxy_logos.get("logo"):
+            embed.set_thumbnail(url=la_galaxy_logos["logo"])
+            logger.info(f"Setting LA Galaxy thumbnail to: {la_galaxy_logos['logo']}")
         else:
-            logger.warning("No team logo available")
+            logger.warning("No LA Galaxy logo available")
 
-        # Add stadium image if available
-        if logos.get("stadium_thumb"):
-            embed.set_image(url=logos["stadium_thumb"])
-            logger.info(f"Setting image to: {logos['stadium_thumb']}")
+        # Add venue image if available
+        venue_logos = logos.get("venue", {})
+        if venue_logos.get("venue_image"):
+            embed.set_image(url=venue_logos["venue_image"])
+            logger.info(f"Setting venue image to: {venue_logos['venue_image']}")
+        elif venue_logos.get("venue_thumb"):
+            embed.set_image(url=venue_logos["venue_thumb"])
+            logger.info(f"Setting venue thumb to: {venue_logos['venue_thumb']}")
         else:
-            logger.warning("No stadium image available")
+            logger.warning("No venue image available")
 
         # Parse game date
         if game_data.get("date"):
@@ -357,8 +452,14 @@ async def create_game_embed(game_data, logos):
             embed.add_field(name="⚽ Match", value=game_data["name"], inline=False)
 
         # Add venue information
-        if logos.get("stadium"):
-            embed.add_field(name="🏟️ Venue", value=logos["stadium"], inline=True)
+        if venue_logos.get("venue_name"):
+            embed.add_field(
+                name="🏟️ Venue", value=venue_logos["venue_name"], inline=True
+            )
+        elif game_data.get("venue", {}).get("fullName"):
+            embed.add_field(
+                name="🏟️ Venue", value=game_data["venue"]["fullName"], inline=True
+            )
 
         # Add league information
         embed.add_field(name="🏆 Competition", value="Major League Soccer", inline=True)
