@@ -7,6 +7,7 @@ from api import (
     get_galaxy_next_game_extended,
     get_team_logos,
     extract_logos_from_team,
+    get_game_logos,
     create_game_embed,
 )
 
@@ -78,23 +79,22 @@ async def nextgame(interaction: discord.Interaction):
             await interaction.followup.send("❌ Could not find LA Galaxy team data")
             return
 
-        # Get next game from ESPN API with logos
+        # Get next game from ESPN API
         logger.info("Fetching next game data...")
-        game_result = await get_galaxy_next_game_extended()
-        logger.info(f"Game data result: {bool(game_result)}")
-        if game_result:
-            logger.info(f"Game data structure: {game_result}")
-        if not game_result:
+        game_data = await get_galaxy_next_game_extended()
+        logger.info(f"Game data result: {bool(game_data)}")
+        if game_data:
+            logger.info(f"Game data structure: {game_data}")
+        if not game_data:
             await interaction.followup.send(
                 "❌ Could not find LA Galaxy's next game. The season may be over or no upcoming games are scheduled."
             )
             return
 
-        # Extract game data and logos from the result
-        game_data = game_result["game"]
-        logos = game_result["logos"]
-        logger.info(f"Game data: {game_data}")
-        logger.info(f"Logos: {logos}")
+        # Get logos for the game (teams and venue)
+        logger.info("Getting game logos...")
+        logos = await get_game_logos(game_data)
+        logger.info(f"Game logos: {logos}")
 
         # If no logos found, try fallback from team data
         if not any(logos.values()):
