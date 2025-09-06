@@ -196,16 +196,29 @@ async def get_game_logos(game_data):
                         logos[team_name] = team_logos
                         logger.info(f"Found logos for {team_name}: {team_logos}")
 
-        # Get venue information
-        venue_info = game_data.get("venue", {})
-        if venue_info:
-            venue_name = venue_info.get("fullName", "")
-            if venue_name:
-                logger.info(f"Getting venue image for: {venue_name}")
-                venue_logos = await search_venue_logos(venue_name)
-                if venue_logos:
-                    logos["venue"] = venue_logos
-                    logger.info(f"Found venue logos: {venue_logos}")
+        # Get venue information from competitions (like the old code)
+        competitions = game_data.get("competitions", [])
+        if competitions:
+            competition = competitions[0]
+            venue_info = competition.get("venue", {})
+            logger.info(f"Venue info from competition: {venue_info}")
+            if venue_info:
+                venue_name = venue_info.get("fullName", "")
+                logger.info(f"Venue name: {venue_name}")
+                if venue_name:
+                    logger.info(f"Getting venue image for: {venue_name}")
+                    venue_logos = await search_venue_logos(venue_name)
+                    if venue_logos:
+                        logos["venue"] = venue_logos
+                        logger.info(f"Found venue logos: {venue_logos}")
+                    else:
+                        logger.warning(f"No venue logos found for: {venue_name}")
+                else:
+                    logger.warning("No venue name found in venue info")
+            else:
+                logger.warning("No venue info found in competition")
+        else:
+            logger.warning("No competitions found in game data")
 
         return logos
 
@@ -451,15 +464,28 @@ async def create_game_embed(game_data, logos):
         if game_data.get("name"):
             embed.add_field(name="⚽ Match", value=game_data["name"], inline=False)
 
-        # Add venue information
+        # Add venue information (check competitions first, like the old code)
+        logger.info(f"Venue logos: {venue_logos}")
+
+        # Get venue from competitions (same as old code)
+        competitions = game_data.get("competitions", [])
+        venue_name = None
+        if competitions:
+            competition = competitions[0]
+            venue_info = competition.get("venue", {})
+            venue_name = venue_info.get("fullName", "")
+            logger.info(f"Game data venue from competition: {venue_name}")
+
         if venue_logos.get("venue_name"):
             embed.add_field(
                 name="🏟️ Venue", value=venue_logos["venue_name"], inline=True
             )
-        elif game_data.get("venue", {}).get("fullName"):
-            embed.add_field(
-                name="🏟️ Venue", value=game_data["venue"]["fullName"], inline=True
-            )
+            logger.info(f"Added venue from logos: {venue_logos['venue_name']}")
+        elif venue_name:
+            embed.add_field(name="🏟️ Venue", value=venue_name, inline=True)
+            logger.info(f"Added venue from game data: {venue_name}")
+        else:
+            logger.warning("No venue information available")
 
         # Add league information
         embed.add_field(name="🏆 Competition", value="Major League Soccer", inline=True)
