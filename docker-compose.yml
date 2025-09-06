@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  goobie-bot:
+    build: .
+    container_name: goobie-bot
+    env_file: .env
+    volumes:
+      # Mount the current directory to /app for live code changes
+      - .:/app
+    restart: unless-stopped
+    # Override the default command to run in development mode
+    command: python bot.py
+    # Add labels for easier management
+    labels:
+      - "com.goobie-bot.service=discord-bot"
+      - "com.goobie-bot.environment=development"

@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  goobie-bot:
+    build: .
+    container_name: goobie-bot-prod
+    env_file: .env
+    restart: unless-stopped
+    # Production mode - no volume mounting
+    labels:
+      - "com.goobie-bot.service=discord-bot"
+      - "com.goobie-bot.environment=production"

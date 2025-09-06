@@ -16,4 +16,4 @@ alwaysApply: true
 
 - **Docker Context**: The application is intended to run inside a Docker container on a Raspberry Pi (ARM architecture). Keep this in mind for any file paths or system-level dependencies.
 
-- **Commit Style**: Whenever asked for a commit message, always make a seperate title and description of the commit message and always use the conventional commits specification https://www.conventionalcommits.org/en/v1.0.0/
+- **Commit Style**: Whenever asked for a commit message, always make a seperate title and description of the commit message and always use the conventional commits specification https://www.conventionalcommits.org/en/v1.0.0/ and make sure its profesional
