@@ -1,0 +1,71 @@
+# Git
+.git
+.gitignore
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+
+# Documentation
+docs/
+*.md
+
+# Development files
+.env
+.env.*
+dev.sh
+docker-compose.yml
+docker-compose.prod.yml
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+*.tmp
+*.temp
+diff.txt
+bot_old.py
+bot_clean.py
+
+# Test files
+tests/
+pytest.ini
+.coverage
+htmlcov/
+
+# Virtual environment
+venv/
+env/
+ENV/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
