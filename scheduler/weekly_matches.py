@@ -10,6 +10,7 @@ import pytz
 import discord
 
 from api.espn.games import get_team_games_in_date_range
+from api.espn.teams import get_team_name_from_ref
 
 logger = logging.getLogger(__name__)
 
@@ -97,9 +98,9 @@ async def create_weekly_matches_embed():
 
         # Add team sections with detailed game information
         teams_data = [
+            ("⚽ LA Galaxy", galaxy_games, 0x00245D),
             ("⚾ Los Angeles Dodgers", dodgers_games, 0x005A9C),
             ("🏀 Los Angeles Lakers", lakers_games, 0xFDB927),
-            ("⚽ LA Galaxy", galaxy_games, 0x00245D),
         ]
 
         for team_name, games, color in teams_data:
@@ -129,50 +130,58 @@ async def create_weekly_matches_embed():
                             competition = competitions[0]
                             competitors = competition.get("competitors", [])
 
-                            if len(competitors) >= 2:
-                                # Find which team is the opponent (not our team)
+                            # Define our LA team IDs
+                            la_team_ids = {
+                                "dodgers": "19",
+                                "lakers": "13",
+                                "galaxy": "9726",
+                            }
+
+                            # Get the current team ID based on team name
+                            current_team_id = None
+                            for team_key, team_id in la_team_ids.items():
+                                if team_key in team_name.lower():
+                                    current_team_id = team_id
+                                    break
+
+                            logger.info(
+                                f"Processing game for {team_name} (ID: {current_team_id}): {len(competitors)} competitors"
+                            )
+
+                            if len(competitors) >= 2 and current_team_id:
+                                # Find which team is the opponent (not our LA team)
                                 for competitor in competitors:
-                                    team_info = competitor.get("team", {})
-                                    team_display_name = team_info.get("displayName", "")
+                                    competitor_id = competitor.get("id", "")
+                                    competitor_home_away = competitor.get(
+                                        "homeAway", ""
+                                    )
 
-                                    # Check if this is NOT our team
-                                    if not any(
-                                        team_keyword in team_display_name.lower()
-                                        for team_keyword in [
-                                            "dodgers",
-                                            "lakers",
-                                            "galaxy",
-                                            "los angeles",
-                                        ]
-                                    ):
-                                        opponent = team_display_name
+                                    logger.info(
+                                        f"Competitor ID: {competitor_id} ({competitor_home_away})"
+                                    )
 
-                                        # Determine if home or away
+                                    # If this is NOT our LA team, it's the opponent
+                                    if competitor_id != current_team_id:
+                                        # Get opponent name from team reference URL
+                                        team_ref = competitor.get("team", {}).get(
+                                            "$ref", ""
+                                        )
+                                        opponent_name = await get_team_name_from_ref(
+                                            team_ref
+                                        )
+                                        opponent = opponent_name
+
+                                        # Determine if LA team is home or away
                                         home_away = (
                                             "vs"
-                                            if competitor.get("homeAway") == "home"
+                                            if competitor_home_away == "away"
                                             else "@"
                                         )
-                                        break
 
-                                # If we couldn't find opponent, use the other team
-                                if opponent == "TBD" and len(competitors) == 2:
-                                    for competitor in competitors:
-                                        team_info = competitor.get("team", {})
-                                        team_display_name = team_info.get(
-                                            "displayName", ""
+                                        logger.info(
+                                            f"Found opponent: {opponent} (ID: {competitor_id}, {competitor_home_away}) -> LA team is {home_away}"
                                         )
-                                        if (
-                                            team_display_name
-                                            and team_display_name != opponent
-                                        ):
-                                            opponent = team_display_name
-                                            home_away = (
-                                                "vs"
-                                                if competitor.get("homeAway") == "home"
-                                                else "@"
-                                            )
-                                            break
+                                        break
 
                         # Get venue
                         venue_name = "TBD"
@@ -181,7 +190,12 @@ async def create_weekly_matches_embed():
                             venue_name = venue_info.get("fullName", "TBD")
 
                         # Create game detail string
-                        game_detail = f"**{formatted_date}** at **{formatted_time}**\n{home_away} **{opponent}**\n🏟️ {venue_name}"
+                        if opponent == "TBD":
+                            # Fallback to game name if opponent not found
+                            game_name = game.get("name", "Match")
+                            game_detail = f"**{formatted_date}** at **{formatted_time}**\n{game_name}\n🏟️ {venue_name}"
+                        else:
+                            game_detail = f"**{formatted_date}** at **{formatted_time}**\n{home_away} **{opponent}**\n🏟️ {venue_name}"
                         game_details.append(game_detail)
 
                     except Exception as e:
