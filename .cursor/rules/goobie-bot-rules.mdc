@@ -24,6 +24,14 @@ alwaysApply: true
 - Use type hints where appropriate
 - Follow the existing code patterns in bot.py
 
+### Import Best Practices
+
+- **Prefer importing from main modules over relative imports**
+- Use `from api import function_name` instead of `from ..submodule import function_name`
+- Import multiple functions from the same module in a single line when possible
+- This approach is more maintainable and follows the project's module design
+- Example: `from api import get_team_name_from_ref, search_team_logos, search_venue_logos`
+
 ### Logging Best Practices
 
 - **NEVER use print() statements** - they don't show in Docker logs
