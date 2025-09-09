@@ -76,15 +76,13 @@ async def create_game_embed(game_data, logos):
         logger.info("Creating embed...")
         logger.info(f"Creating embed with logos: {logos}")
 
-        # Determine sport and team from game data
-        sport = "Soccer"  # Default
+        # Determine team from game data
         team_name = "LA Galaxy"  # Default
         color = 0x00245D  # LA Galaxy blue
         emoji = "⚽"  # Soccer emoji
 
         # Check if this is a baseball game
         if "baseball" in game_data.get("$ref", "").lower():
-            sport = "Baseball"
             emoji = "⚾"
             color = 0x005A9C  # Dodgers blue
 
@@ -213,7 +211,7 @@ async def create_game_embed(game_data, logos):
         # Competition field removed - users already know what competition teams play in
 
         # Add footer
-        footer_text = f"{team_name} Bot • Data from ESPN & TheSportsDB"
+        footer_text = "Data from ESPN & TheSportsDB"
         # Truncate footer if too long for Discord embed
         if len(footer_text) > 2048:  # Footer has higher limit
             footer_text = footer_text[:2045] + "..."
