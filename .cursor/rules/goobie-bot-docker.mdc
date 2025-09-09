@@ -1,0 +1,56 @@
+---
+description: Docker and deployment rules for goobie-bot
+globs:
+  - "Dockerfile"
+  - "docker-compose*.yml"
+  - "dev.sh"
+  - "requirements.txt"
+alwaysApply: false
+---
+
+# Goobie-Bot Docker & Deployment Rules
+
+## Docker & Deployment
+
+### Development
+
+- **ALL development work MUST be done inside Docker containers**
+- Use docker-compose.yml for development with volume mounting
+- Use dev.sh script for common operations
+- Enable live reloading for efficient development
+- **NEVER run Python commands directly on the host system**
+- All testing, debugging, and development should happen in the container
+- Use `./dev.sh logs` to view container logs
+- Use `./dev.sh restart` to restart the container after changes
+
+### Production
+
+- Use docker-compose.prod.yml for Raspberry Pi deployment
+- No volume mounting in production
+- Use restart: unless-stopped for reliability
+
+### Architecture Considerations
+
+- Target ARM architecture for Raspberry Pi
+- Use python:3.9-slim-bullseye base image
+- Optimize for low resource usage
+
+## Development Workflow (Docker-specific)
+
+### Testing
+
+- Test all new features before committing
+- Use the dev.sh script for testing
+- Check logs for errors: `./dev.sh logs`
+- Verify bot responds correctly in Discord
+
+### Development Errors
+
+- Check Docker logs for container issues
+- Verify environment variables are set
+- Test Discord permissions and intents
+- Use proper debugging techniques
+
+---
+
+_These rules apply to Docker and deployment-related files._

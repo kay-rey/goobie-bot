@@ -1,0 +1,82 @@
+---
+description: Development workflow and best practices for goobie-bot
+globs:
+  - "**/*.py"
+  - "tests/**"
+  - "commands/**"
+  - "events/**"
+  - "api/**"
+alwaysApply: false
+---
+
+# Goobie-Bot Development Workflow Rules
+
+## Development Workflow
+
+### Bot Development
+
+- Test commands in development server first
+- Use proper Discord permissions
+- Handle edge cases and errors
+- Log important events for debugging
+
+### Documentation
+
+- Comment complex code sections
+- Use docstrings for functions and classes
+- Keep README.md updated with setup instructions
+- Document any new features or commands
+
+## Error Handling
+
+### Bot Errors
+
+- Log all errors with appropriate levels
+- Don't crash the bot for non-critical errors
+- Provide user-friendly error messages
+- Use try/except blocks for external API calls
+
+## Performance Considerations
+
+### Resource Usage
+
+- Optimize for Raspberry Pi's limited resources
+- Use efficient data structures
+- Minimize memory usage
+- Consider connection pooling for external APIs
+
+### Discord API
+
+- Respect rate limits
+- Use proper caching strategies
+- Batch operations when possible
+- Monitor API usage
+
+## Future Features
+
+### Sports Statistics (Planned)
+
+- Use requests library for API calls
+- Implement proper error handling for external APIs
+- Cache data appropriately for performance
+- Consider rate limiting for API calls
+
+### Bot Commands
+
+- Use slash commands when possible
+- Implement proper command validation
+- Add help commands and documentation
+- Consider command permissions and roles
+
+## Communication
+
+### Code Comments
+
+- Explain complex logic
+- Document API integrations
+- Note any workarounds or hacks
+- Keep comments up to date
+
+---
+
+_These rules apply to Python code files and development workflow._

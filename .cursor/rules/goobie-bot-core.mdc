@@ -1,0 +1,101 @@
+---
+description: Core development rules for goobie-bot Discord bot project
+globs:
+alwaysApply: true
+---
+
+# Goobie-Bot Core Rules
+
+## Project Overview
+
+- **Project Name**: goobie-bot
+- **Purpose**: Discord bot for sports statistics (future feature)
+- **Language**: Python 3.9
+- **Deployment**: Docker on Raspberry Pi (ARM architecture)
+- **Primary Library**: discord.py
+
+## Code Standards
+
+### Python Style
+
+- Follow PEP 8 style guide
+- Use f-strings for string formatting: `f"Hello, {name}"`
+- Use double quotes for strings: `"string"` not `'string'`
+- Use type hints where appropriate
+- Follow the existing code patterns in bot.py
+
+### Import Best Practices
+
+- **Prefer importing from main modules over relative imports**
+- Use `from api import function_name` instead of `from ..submodule import function_name`
+- Import multiple functions from the same module in a single line when possible
+- This approach is more maintainable and follows the project's module design
+- Example: `from api import get_team_name_from_ref, search_team_logos, search_venue_logos`
+
+### Logging Best Practices
+
+- **NEVER use print() statements** - they don't show in Docker logs
+- Use proper logging with `logger.info()`, `logger.error()`, etc.
+- Set up logging configuration for Docker container visibility
+- Use structured logging with timestamps and log levels
+- Log important events, errors, and debugging information
+- Example logging setup:
+
+  ```python
+  import logging
+  import sys
+
+  logging.basicConfig(
+      level=logging.INFO,
+      format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+      handlers=[logging.StreamHandler(sys.stdout)],
+  )
+  logger = logging.getLogger(__name__)
+  ```
+
+### Discord.py Best Practices
+
+- Always use the official discord.py library
+- Reference documentation: https://discordpy.readthedocs.io/en/stable/
+- Use proper intents (message_content, etc.)
+- Handle errors gracefully with try/except blocks
+- Use async/await properly for Discord API calls
+
+## Security & Environment
+
+### Secrets Management
+
+- NEVER hardcode API keys, tokens, or secrets
+- Always use environment variables with python-dotenv
+- Keep .env file in .gitignore
+- Use descriptive variable names for environment variables
+
+### Token Security
+
+- Discord bot tokens must be in .env file
+- Never commit real tokens to version control
+- Regenerate tokens if accidentally exposed
+
+## Git & Version Control
+
+### Commit Messages
+
+- Use conventional commits specification
+- Format: `type(scope): description`
+- Types: feat, fix, chore, docs, style, refactor, test
+- Always provide both title and description and make them seperate
+- Be descriptive, clear and professional
+- Reference issues or features when relevant
+- Use present tense: "Add feature" not "Added feature"
+- Keep title under 60 characters
+- Use the docs for reference: https://www.conventionalcommits.org/en/v1.0.0/
+
+### File Management
+
+- Keep .gitignore comprehensive for Python, Discord bot, and Raspberry Pi
+- Don't commit temporary files (diff.txt, logs, etc.)
+- Use meaningful file and directory names
+
+---
+
+_These core rules always apply to the entire project._

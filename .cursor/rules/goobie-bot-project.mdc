@@ -1,0 +1,52 @@
+---
+description: Project structure and maintenance guidelines for goobie-bot
+globs:
+  - "README.md"
+  - "LICENSE"
+  - ".gitignore"
+  - ".gitattributes"
+alwaysApply: false
+---
+
+# Goobie-Bot Project Structure & Maintenance
+
+## Project Structure
+
+### Core Files
+
+- `bot.py` - Main bot application
+- `requirements.txt` - Python dependencies
+- `Dockerfile` - Container configuration
+- `.env` - Environment variables (not committed)
+
+### Development Files
+
+- `docker-compose.yml` - Development configuration
+- `docker-compose.prod.yml` - Production configuration
+- `dev.sh` - Development helper script
+- `.gitignore` - Git ignore rules
+
+### Configuration Files
+
+- `.gitattributes` - Git line ending normalization
+- `.cursor/rules/` - Development rules and guidelines
+
+## Maintenance
+
+### Regular Tasks
+
+- Update dependencies regularly
+- Monitor bot uptime and performance
+- Review and update security practices
+- Keep documentation current
+
+### Monitoring
+
+- Use proper logging levels
+- Monitor error rates
+- Track bot performance metrics
+- Set up alerts for critical issues
+
+---
+
+_These rules apply to project structure and maintenance files._
