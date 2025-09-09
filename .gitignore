@@ -264,12 +264,6 @@ arm64/
 aarch64/
 armv7l/
 
-# Raspberry Pi camera files
-*.h264
-*.mjpeg
-*.jpg
-*.png
-camera/
 
 # Temperature and sensor logs
 temperature.log
