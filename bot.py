@@ -1,6 +1,7 @@
 import os
 import discord
 from discord.ext import commands
+from discord import app_commands
 from dotenv import load_dotenv
 from api import (
     get_galaxy_team_data,
@@ -67,24 +68,28 @@ async def ping(interaction: discord.Interaction):
 
 
 @bot.tree.command(name="nextgame", description="Get the next game for a team")
-async def nextgame(interaction: discord.Interaction, team: str = "galaxy"):
-    """Get the next game for a specified team (defaults to LA Galaxy)"""
-    logger.info(f"Nextgame command triggered by {interaction.user} for team: {team}")
+@app_commands.choices(
+    team=[
+        app_commands.Choice(name="LA Galaxy", value="galaxy"),
+        app_commands.Choice(name="Los Angeles Dodgers", value="dodgers"),
+    ]
+)
+async def nextgame(interaction: discord.Interaction, team: app_commands.Choice[str]):
+    """Get the next game for a specified team"""
+    logger.info(
+        f"Nextgame command triggered by {interaction.user} for team: {team.value}"
+    )
     await interaction.response.defer()
 
     try:
-        # Normalize team input
-        team_lower = team.lower()
-
-        # Determine which team function to use
-        if "dodger" in team_lower:
+        # Determine which team function to use based on choice value
+        if team.value == "dodgers":
             team_name = "Los Angeles Dodgers"
             team_data_func = get_dodgers_team_data
             game_data_func = get_dodgers_next_game
             default_logo = "https://a.espncdn.com/i/teamlogos/mlb/500/19.png"
             default_stadium = "Dodger Stadium"
-        else:
-            # Default to LA Galaxy
+        else:  # galaxy
             team_name = "LA Galaxy"
             team_data_func = get_galaxy_team_data
             game_data_func = get_galaxy_next_game_extended
