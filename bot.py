@@ -66,30 +66,48 @@ async def ping(interaction: discord.Interaction):
     await interaction.response.send_message("Pong!", ephemeral=True)
 
 
-@bot.tree.command(name="nextgame", description="Get LA Galaxy's next match")
-async def nextgame(interaction: discord.Interaction):
-    """Get LA Galaxy's next match with team logos"""
-    logger.info(f"Nextgame command triggered by {interaction.user}")
+@bot.tree.command(name="nextgame", description="Get the next game for a team")
+async def nextgame(interaction: discord.Interaction, team: str = "galaxy"):
+    """Get the next game for a specified team (defaults to LA Galaxy)"""
+    logger.info(f"Nextgame command triggered by {interaction.user} for team: {team}")
     await interaction.response.defer()
 
     try:
-        # Get LA Galaxy team data from TheSportsDB
-        logger.info("Fetching LA Galaxy team data...")
-        team_data = await get_galaxy_team_data()
+        # Normalize team input
+        team_lower = team.lower()
+
+        # Determine which team function to use
+        if "dodger" in team_lower:
+            team_name = "Los Angeles Dodgers"
+            team_data_func = get_dodgers_team_data
+            game_data_func = get_dodgers_next_game
+            default_logo = "https://a.espncdn.com/i/teamlogos/mlb/500/19.png"
+            default_stadium = "Dodger Stadium"
+        else:
+            # Default to LA Galaxy
+            team_name = "LA Galaxy"
+            team_data_func = get_galaxy_team_data
+            game_data_func = get_galaxy_next_game_extended
+            default_logo = "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png"
+            default_stadium = "Dignity Health Sports Park"
+
+        # Get team data from TheSportsDB
+        logger.info(f"Fetching {team_name} team data...")
+        team_data = await team_data_func()
         logger.info(f"Team data result: {bool(team_data)}")
         if not team_data:
-            await interaction.followup.send("❌ Could not find LA Galaxy team data")
+            await interaction.followup.send(f"❌ Could not find {team_name} team data")
             return
 
         # Get next game from ESPN API
-        logger.info("Fetching next game data...")
-        game_data = await get_galaxy_next_game_extended()
+        logger.info(f"Fetching next {team_name} game data...")
+        game_data = await game_data_func()
         logger.info(f"Game data result: {bool(game_data)}")
         if game_data:
             logger.info(f"Game data structure: {game_data}")
         if not game_data:
             await interaction.followup.send(
-                "❌ Could not find LA Galaxy's next game. The season may be over or no upcoming games are scheduled."
+                f"❌ Could not find {team_name}'s next game. The season may be over or no upcoming games are scheduled."
             )
             return
 
@@ -107,35 +125,31 @@ async def nextgame(interaction: discord.Interaction):
                 if not any(fallback_logos.values()):
                     fallback_logos = extract_logos_from_team(team_data)
                 # Convert to new format
-                logos = {"LA Galaxy": fallback_logos}
+                logos = {team_name: fallback_logos}
                 logger.info(f"Using fallback logos: {logos}")
 
-        # If still no logos, try alternative sources or use default
+        # If still no logos, use default
         if not any(logos.values()):
             logger.warning(
-                "No logos found from any source, using default LA Galaxy logo"
+                f"No logos found from any source, using default {team_name} logo"
             )
-            # Use the actual working LA Galaxy logo URL from the team page
-            # Reference: https://www.thesportsdb.com/team/134153-la-galaxy
             logos = {
-                "LA Galaxy": {
-                    "logo": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png",
-                    "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png/small",
+                team_name: {
+                    "logo": default_logo,
+                    "logo_small": default_logo,
                     "jersey": "",
-                    "stadium": team_data.get(
-                        "strStadium", "Dignity Health Sports Park"
-                    ),
+                    "stadium": team_data.get("strStadium", default_stadium),
                     "stadium_thumb": "",
                     "stadium_thumb_small": "",
                 }
             }
-            logger.info(f"Using fallback logos from LA Galaxy team page: {logos}")
+            logger.info(f"Using fallback logos for {team_name}: {logos}")
 
         # Create rich embed
         logger.info("Creating embed...")
         embed = await create_game_embed(game_data, logos)
         await interaction.followup.send(embed=embed)
-        logger.info("Nextgame command completed successfully")
+        logger.info(f"{team_name} nextgame command completed successfully")
 
     except Exception as e:
         logger.error(f"Error in nextgame command: {e}")
@@ -143,88 +157,6 @@ async def nextgame(interaction: discord.Interaction):
 
         traceback.print_exc()
         await interaction.followup.send("❌ An error occurred while fetching game data")
-
-
-@bot.tree.command(
-    name="dodgers-nextgame", description="Get Los Angeles Dodgers' next game"
-)
-async def dodgers_nextgame(interaction: discord.Interaction):
-    """Get Los Angeles Dodgers' next game with team logos"""
-    logger.info(f"Dodgers nextgame command triggered by {interaction.user}")
-    await interaction.response.defer()
-
-    try:
-        # Get Los Angeles Dodgers team data from TheSportsDB
-        logger.info("Fetching Los Angeles Dodgers team data...")
-        team_data = await get_dodgers_team_data()
-        logger.info(f"Team data result: {bool(team_data)}")
-        if not team_data:
-            await interaction.followup.send(
-                "❌ Could not find Los Angeles Dodgers team data"
-            )
-            return
-
-        # Get next game from ESPN API
-        logger.info("Fetching next Dodgers game data...")
-        game_data = await get_dodgers_next_game()
-        logger.info(f"Game data result: {bool(game_data)}")
-        if game_data:
-            logger.info(f"Game data structure: {game_data}")
-        if not game_data:
-            await interaction.followup.send(
-                "❌ Could not find Los Angeles Dodgers' next game. The season may be over or no upcoming games are scheduled."
-            )
-            return
-
-        # Get logos for the game (teams and venue)
-        logger.info("Getting game logos...")
-        logos = await get_game_logos(game_data)
-        logger.info(f"Game logos: {logos}")
-
-        # If no logos found, try fallback from team data
-        if not any(logos.values()):
-            logger.info("No logos from game search, trying fallback...")
-            team_id = team_data.get("idTeam")
-            if team_id:
-                fallback_logos = await get_team_logos(team_id)
-                if not any(fallback_logos.values()):
-                    fallback_logos = extract_logos_from_team(team_data)
-                # Convert to new format
-                logos = {"Los Angeles Dodgers": fallback_logos}
-                logger.info(f"Using fallback logos: {logos}")
-
-        # If still no logos, try alternative sources or use default
-        if not any(logos.values()):
-            logger.warning(
-                "No logos found from any source, using default Los Angeles Dodgers logo"
-            )
-            # Use a default Dodgers logo URL
-            logos = {
-                "Los Angeles Dodgers": {
-                    "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/119.png",
-                    "logo_small": "https://a.espncdn.com/i/teamlogos/mlb/500/119.png",
-                    "jersey": "",
-                    "stadium": team_data.get("strStadium", "Dodger Stadium"),
-                    "stadium_thumb": "",
-                    "stadium_thumb_small": "",
-                }
-            }
-            logger.info(f"Using fallback logos for Los Angeles Dodgers: {logos}")
-
-        # Create rich embed
-        logger.info("Creating embed...")
-        embed = await create_game_embed(game_data, logos)
-        await interaction.followup.send(embed=embed)
-        logger.info("Dodgers nextgame command completed successfully")
-
-    except Exception as e:
-        logger.error(f"Error in dodgers nextgame command: {e}")
-        import traceback
-
-        traceback.print_exc()
-        await interaction.followup.send(
-            "❌ An error occurred while fetching Dodgers game data"
-        )
 
 
 @bot.event
