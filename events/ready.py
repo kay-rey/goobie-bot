@@ -2,7 +2,6 @@
 Bot ready event handler
 """
 
-import discord
 import logging
 
 logger = logging.getLogger(__name__)

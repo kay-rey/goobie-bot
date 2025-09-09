@@ -2,7 +2,6 @@
 Error event handlers
 """
 
-import discord
 import logging
 
 logger = logging.getLogger(__name__)
