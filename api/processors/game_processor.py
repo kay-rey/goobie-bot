@@ -79,14 +79,12 @@ async def create_game_embed(game_data, logos):
         # Determine sport and team from game data
         sport = "Soccer"  # Default
         team_name = "LA Galaxy"  # Default
-        competition = "Major League Soccer"  # Default
         color = 0x00245D  # LA Galaxy blue
         emoji = "⚽"  # Soccer emoji
 
         # Check if this is a baseball game
         if "baseball" in game_data.get("$ref", "").lower():
             sport = "Baseball"
-            competition = "Major League Baseball"
             emoji = "⚾"
             color = 0x005A9C  # Dodgers blue
 
@@ -212,15 +210,7 @@ async def create_game_embed(game_data, logos):
         else:
             logger.warning("No venue information available")
 
-        # Add league information
-        # Truncate competition if too long for Discord embed
-        logger.info(f"Competition value length: {len(competition)}")
-        if len(competition) > 1024:
-            logger.warning(
-                f"Competition value too long ({len(competition)} chars), truncating"
-            )
-            competition = competition[:1021] + "..."
-        embed.add_field(name="🏆 Competition", value=competition, inline=True)
+        # Competition field removed - users already know what competition teams play in
 
         # Add footer
         footer_text = f"{team_name} Bot • Data from ESPN & TheSportsDB"
