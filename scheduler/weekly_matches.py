@@ -98,7 +98,7 @@ async def create_weekly_matches_embed():
 
         # Add a thumbnail or image if available
         embed.set_thumbnail(
-            url="https://raw.githubusercontent.com/kayrey/goobie-bot/main/assets/images/goobiebotla.png"
+            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
         )
 
         # Calculate total games for summary
