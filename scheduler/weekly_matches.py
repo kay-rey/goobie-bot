@@ -134,7 +134,7 @@ async def create_weekly_matches_embed():
                             la_team_ids = {
                                 "dodgers": "19",
                                 "lakers": "13",
-                                "galaxy": "9726",
+                                "galaxy": "187",  # LA Galaxy's actual ESPN team ID
                             }
 
                             # Get the current team ID based on team name
