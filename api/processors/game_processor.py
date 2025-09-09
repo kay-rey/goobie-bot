@@ -76,20 +76,44 @@ async def create_game_embed(game_data, logos):
         logger.info("Creating embed...")
         logger.info(f"Creating embed with logos: {logos}")
 
+        # Determine sport and team from game data
+        sport = "Soccer"  # Default
+        team_name = "LA Galaxy"  # Default
+        competition = "Major League Soccer"  # Default
+        color = 0x00245D  # LA Galaxy blue
+        emoji = "⚽"  # Soccer emoji
+
+        # Check if this is a baseball game
+        if "baseball" in game_data.get("$ref", "").lower():
+            sport = "Baseball"
+            competition = "Major League Baseball"
+            emoji = "⚾"
+            color = 0x005A9C  # Dodgers blue
+
+            # Try to find Dodgers team name from logos
+            for team, team_logos in logos.items():
+                if "dodgers" in team.lower():
+                    team_name = team
+                    break
+            else:
+                # Fallback: look for any team with logos
+                if logos:
+                    team_name = list(logos.keys())[0]
+
         # Create embed
         embed = discord.Embed(
-            title="LA Galaxy Next Game",
-            color=0x00245D,  # LA Galaxy blue
+            title=f"{team_name} Next Game",
+            color=color,
             timestamp=datetime.now(),
         )
 
-        # Add LA Galaxy logo as thumbnail if available
-        la_galaxy_logos = logos.get("LA Galaxy", {})
-        if la_galaxy_logos.get("logo"):
-            embed.set_thumbnail(url=la_galaxy_logos["logo"])
-            logger.info(f"Setting LA Galaxy thumbnail to: {la_galaxy_logos['logo']}")
+        # Add team logo as thumbnail if available
+        team_logos = logos.get(team_name, {})
+        if team_logos.get("logo"):
+            embed.set_thumbnail(url=team_logos["logo"])
+            logger.info(f"Setting {team_name} thumbnail to: {team_logos['logo']}")
         else:
-            logger.warning("No LA Galaxy logo available")
+            logger.warning(f"No {team_name} logo available")
 
         # Add venue image if available
         venue_logos = logos.get("venue", {})
@@ -121,6 +145,14 @@ async def create_game_embed(game_data, logos):
                     f"Game date: {game_date} (UTC) -> {game_date_pacific} (PDT) -> {formatted_date}"
                 )
 
+                # Truncate date if too long for Discord embed
+                logger.info(f"Date value length: {len(formatted_date)}")
+                if len(formatted_date) > 1024:
+                    logger.warning(
+                        f"Date value too long ({len(formatted_date)} chars), truncating"
+                    )
+                    formatted_date = formatted_date[:1021] + "..."
+
                 embed.add_field(
                     name="📅 Date & Time", value=formatted_date, inline=False
                 )
@@ -134,7 +166,15 @@ async def create_game_embed(game_data, logos):
 
         # Add game name
         if game_data.get("name"):
-            embed.add_field(name="⚽ Match", value=game_data["name"], inline=False)
+            # Truncate game name if too long for Discord embed
+            game_name = game_data["name"]
+            logger.info(f"Game name value length: {len(game_name)}")
+            if len(game_name) > 1024:
+                logger.warning(
+                    f"Game name value too long ({len(game_name)} chars), truncating"
+                )
+                game_name = game_name[:1021] + "..."
+            embed.add_field(name=f"{emoji} Match", value=game_name, inline=False)
 
         # Add venue information (check competitions first, like the old code)
         logger.info(f"Venue logos: {venue_logos}")
@@ -149,21 +189,45 @@ async def create_game_embed(game_data, logos):
             logger.info(f"Game data venue from competition: {venue_name}")
 
         if venue_logos.get("venue_name"):
-            embed.add_field(
-                name="🏟️ Venue", value=venue_logos["venue_name"], inline=True
-            )
+            # Truncate venue name if too long for Discord embed
+            venue_display = venue_logos["venue_name"]
+            logger.info(f"Venue (logos) value length: {len(venue_display)}")
+            if len(venue_display) > 1024:
+                logger.warning(
+                    f"Venue (logos) value too long ({len(venue_display)} chars), truncating"
+                )
+                venue_display = venue_display[:1021] + "..."
+            embed.add_field(name="🏟️ Venue", value=venue_display, inline=True)
             logger.info(f"Added venue from logos: {venue_logos['venue_name']}")
         elif venue_name:
+            # Truncate venue name if too long for Discord embed
+            logger.info(f"Venue (game data) value length: {len(venue_name)}")
+            if len(venue_name) > 1024:
+                logger.warning(
+                    f"Venue (game data) value too long ({len(venue_name)} chars), truncating"
+                )
+                venue_name = venue_name[:1021] + "..."
             embed.add_field(name="🏟️ Venue", value=venue_name, inline=True)
             logger.info(f"Added venue from game data: {venue_name}")
         else:
             logger.warning("No venue information available")
 
         # Add league information
-        embed.add_field(name="🏆 Competition", value="Major League Soccer", inline=True)
+        # Truncate competition if too long for Discord embed
+        logger.info(f"Competition value length: {len(competition)}")
+        if len(competition) > 1024:
+            logger.warning(
+                f"Competition value too long ({len(competition)} chars), truncating"
+            )
+            competition = competition[:1021] + "..."
+        embed.add_field(name="🏆 Competition", value=competition, inline=True)
 
         # Add footer
-        embed.set_footer(text="LA Galaxy Bot • Data from ESPN & TheSportsDB")
+        footer_text = f"{team_name} Bot • Data from ESPN & TheSportsDB"
+        # Truncate footer if too long for Discord embed
+        if len(footer_text) > 2048:  # Footer has higher limit
+            footer_text = footer_text[:2045] + "..."
+        embed.set_footer(text=footer_text)
 
         return embed
 
@@ -171,7 +235,7 @@ async def create_game_embed(game_data, logos):
         logger.error(f"Error creating embed: {e}")
         # Return a basic embed if there's an error
         embed = discord.Embed(
-            title="LA Galaxy Next Game",
+            title="Next Game",
             description="Error loading game information",
             color=0xFF0000,
         )
