@@ -1,6 +1,10 @@
 """
 Main bot application for goobie-bot
 A Discord bot for sports statistics
+
+Version: 0.1.0-alpha
+Author: kay-rey
+License: MIT
 """
 
 import asyncio
