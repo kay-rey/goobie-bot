@@ -10,6 +10,8 @@ from api import (
     get_galaxy_next_game_extended,
     get_dodgers_team_data,
     get_dodgers_next_game,
+    get_lakers_team_data,
+    get_lakers_next_game,
     get_team_logos,
     extract_logos_from_team,
     get_game_logos,
@@ -22,8 +24,9 @@ logger = logging.getLogger(__name__)
 @app_commands.command(name="nextgame", description="Get the next game for a team")
 @app_commands.choices(
     team=[
-        app_commands.Choice(name="LA Galaxy", value="galaxy"),
-        app_commands.Choice(name="LA Dodgers", value="dodgers"),
+        app_commands.Choice(name="Galaxy", value="galaxy"),
+        app_commands.Choice(name="Dodgers", value="dodgers"),
+        app_commands.Choice(name="Lakers", value="lakers"),
     ]
 )
 async def nextgame_command(
@@ -43,6 +46,12 @@ async def nextgame_command(
             game_data_func = get_dodgers_next_game
             default_logo = "https://a.espncdn.com/i/teamlogos/mlb/500/19.png"
             default_stadium = "Dodger Stadium"
+        elif team.value == "lakers":
+            team_name = "Los Angeles Lakers"
+            team_data_func = get_lakers_team_data
+            game_data_func = get_lakers_next_game
+            default_logo = "https://a.espncdn.com/i/teamlogos/nba/500/13.png"
+            default_stadium = "Crypto.com Arena"
         else:  # galaxy
             team_name = "LA Galaxy"
             team_data_func = get_galaxy_team_data

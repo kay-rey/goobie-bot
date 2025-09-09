@@ -208,3 +208,39 @@ async def get_dodgers_team_data():
     except Exception as e:
         logger.error(f"Error fetching Dodgers team data: {e}")
         return None
+
+
+async def get_lakers_team_data():
+    """Get Los Angeles Lakers team data from TheSportsDB"""
+    try:
+        logger.info("Fetching Los Angeles Lakers team data...")
+
+        # Search for Los Angeles Lakers team
+        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
+        search_params = {"t": "Los Angeles Lakers"}
+
+        response = requests.get(search_url, params=search_params, timeout=10)
+        logger.info(f"TheSportsDB search response status: {response.status_code}")
+
+        if response.status_code == 200:
+            data = response.json()
+            logger.info(f"Search results: {data}")
+
+            if data.get("teams"):
+                for team in data["teams"]:
+                    # Look for Los Angeles Lakers specifically in NBA
+                    if (
+                        "Los Angeles Lakers" in team.get("strTeam", "")
+                        or "Lakers" in team.get("strTeam", "")
+                    ) and "Basketball" in team.get("strSport", ""):
+                        logger.info(
+                            f"Found Los Angeles Lakers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                        )
+                        return team
+
+        logger.warning("Could not find Los Angeles Lakers team data")
+        return None
+
+    except Exception as e:
+        logger.error(f"Error fetching Lakers team data: {e}")
+        return None

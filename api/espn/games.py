@@ -205,3 +205,81 @@ async def get_dodgers_next_game():
     except Exception as e:
         logger.error(f"Error fetching Dodgers game data: {e}")
         return None
+
+
+async def get_lakers_next_game():
+    """Get Los Angeles Lakers' next game from ESPN API"""
+    try:
+        logger.info("Fetching Lakers next game data...")
+
+        # Get current date and 2 months from now to catch October games
+        today = datetime.now()
+        future_date = today + timedelta(days=60)
+
+        # Format dates for ESPN API
+        start_date = today.strftime("%Y%m%d")
+        end_date = future_date.strftime("%Y%m%d")
+
+        logger.info(f"Date range: {start_date} to {end_date}")
+
+        # ESPN API endpoint for Lakers events (NBA team ID: 13)
+        url = "http://sports.core.api.espn.com/v2/sports/basketball/leagues/nba/teams/13/events"
+        params = {"dates": f"{start_date}-{end_date}", "limit": 10}
+
+        response = requests.get(url, params=params, timeout=10)
+        logger.info(f"ESPN NBA API response status: {response.status_code}")
+
+        if response.status_code == 200:
+            data = response.json()
+            logger.info(f"ESPN NBA API data keys: {list(data.keys())}")
+            logger.info(f"ESPN NBA API items count: {len(data.get('items', []))}")
+            logger.info(f"Full ESPN NBA API response: {data}")
+
+            if data.get("items") and len(data["items"]) > 0:
+                # Find the closest upcoming game by following $ref URLs
+                upcoming_games = []
+
+                for item in data["items"]:
+                    event_ref = item.get("$ref")
+                    if event_ref:
+                        logger.info(f"Fetching Lakers event details from: {event_ref}")
+                        event_response = requests.get(event_ref, timeout=10)
+                        if event_response.status_code == 200:
+                            event_data = event_response.json()
+                            event_date_str = event_data.get("date", "")
+
+                            if event_date_str:
+                                try:
+                                    # Parse the event date (make both timezone-aware)
+                                    event_date = datetime.fromisoformat(
+                                        event_date_str.replace("Z", "+00:00")
+                                    )
+                                    # Make today timezone-aware for comparison
+                                    today_aware = today.replace(
+                                        tzinfo=event_date.tzinfo
+                                    )
+
+                                    if event_date > today_aware:
+                                        logger.info(
+                                            f"Found upcoming Lakers game on {event_date}"
+                                        )
+                                        upcoming_games.append(event_data)
+                                except ValueError as e:
+                                    logger.warning(
+                                        f"Could not parse date {event_date_str}: {e}"
+                                    )
+                                    continue
+
+                if upcoming_games:
+                    # Sort by date and return the earliest
+                    upcoming_games.sort(key=lambda x: x.get("date", ""))
+                    next_game = upcoming_games[0]
+                    logger.info(f"Found next Lakers game: {next_game}")
+                    return next_game
+
+        logger.warning("No upcoming Lakers games found")
+        return None
+
+    except Exception as e:
+        logger.error(f"Error fetching Lakers game data: {e}")
+        return None
