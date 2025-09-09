@@ -172,3 +172,39 @@ async def test_logo_url(url):
     except Exception as e:
         logger.error(f"Error testing logo URL {url}: {e}")
         return False
+
+
+async def get_dodgers_team_data():
+    """Get Los Angeles Dodgers team data from TheSportsDB"""
+    try:
+        logger.info("Fetching Los Angeles Dodgers team data...")
+
+        # Search for Los Angeles Dodgers team
+        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
+        search_params = {"t": "Los Angeles Dodgers"}
+
+        response = requests.get(search_url, params=search_params, timeout=10)
+        logger.info(f"TheSportsDB search response status: {response.status_code}")
+
+        if response.status_code == 200:
+            data = response.json()
+            logger.info(f"Search results: {data}")
+
+            if data.get("teams"):
+                for team in data["teams"]:
+                    # Look for Los Angeles Dodgers specifically in MLB
+                    if (
+                        "Los Angeles Dodgers" in team.get("strTeam", "")
+                        or "Dodgers" in team.get("strTeam", "")
+                    ) and "Baseball" in team.get("strSport", ""):
+                        logger.info(
+                            f"Found Los Angeles Dodgers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                        )
+                        return team
+
+        logger.warning("Could not find Los Angeles Dodgers team data")
+        return None
+
+    except Exception as e:
+        logger.error(f"Error fetching Dodgers team data: {e}")
+        return None
