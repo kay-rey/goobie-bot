@@ -95,7 +95,7 @@ async def create_weekly_matches_embed():
             timestamp=datetime.now(),
         )
 
-        # Add team sections
+        # Add team sections with detailed game information
         teams_data = [
             ("⚾ Los Angeles Dodgers", dodgers_games, 0x005A9C),
             ("🏀 Los Angeles Lakers", lakers_games, 0xFDB927),
@@ -104,14 +104,10 @@ async def create_weekly_matches_embed():
 
         for team_name, games, color in teams_data:
             if games:
-                # Create team-specific embed for detailed info
-                team_embed = discord.Embed(
-                    title=team_name,
-                    color=color,
-                    timestamp=datetime.now(),
-                )
+                # Create detailed game information for each team
+                game_details = []
 
-                for i, game in enumerate(games[:3]):  # Limit to 3 games per team
+                for i, game in enumerate(games[:5]):  # Show up to 5 games per team
                     try:
                         # Parse game date
                         if game.get("date"):
@@ -119,24 +115,74 @@ async def create_weekly_matches_embed():
                                 game["date"].replace("Z", "+00:00")
                             )
                             game_date_pacific = game_date.astimezone(pacific_tz)
-                            formatted_date = game_date_pacific.strftime(
-                                "%a, %b %d at %I:%M %p PT"
-                            )
+                            formatted_date = game_date_pacific.strftime("%a, %b %d")
+                            formatted_time = game_date_pacific.strftime("%I:%M %p PT")
                         else:
                             formatted_date = "TBD"
+                            formatted_time = "TBD"
+
+                        # Get opponent information
+                        opponent = "TBD"
+                        home_away = ""
+                        competitions = game.get("competitions", [])
+                        if competitions:
+                            competition = competitions[0]
+                            competitors = competition.get("competitors", [])
+
+                            if len(competitors) >= 2:
+                                # Find which team is the opponent (not our team)
+                                for competitor in competitors:
+                                    team_info = competitor.get("team", {})
+                                    team_display_name = team_info.get("displayName", "")
+
+                                    # Check if this is NOT our team
+                                    if not any(
+                                        team_keyword in team_display_name.lower()
+                                        for team_keyword in [
+                                            "dodgers",
+                                            "lakers",
+                                            "galaxy",
+                                            "los angeles",
+                                        ]
+                                    ):
+                                        opponent = team_display_name
+
+                                        # Determine if home or away
+                                        home_away = (
+                                            "vs"
+                                            if competitor.get("homeAway") == "home"
+                                            else "@"
+                                        )
+                                        break
+
+                                # If we couldn't find opponent, use the other team
+                                if opponent == "TBD" and len(competitors) == 2:
+                                    for competitor in competitors:
+                                        team_info = competitor.get("team", {})
+                                        team_display_name = team_info.get(
+                                            "displayName", ""
+                                        )
+                                        if (
+                                            team_display_name
+                                            and team_display_name != opponent
+                                        ):
+                                            opponent = team_display_name
+                                            home_away = (
+                                                "vs"
+                                                if competitor.get("homeAway") == "home"
+                                                else "@"
+                                            )
+                                            break
 
                         # Get venue
                         venue_name = "TBD"
-                        competitions = game.get("competitions", [])
                         if competitions:
-                            venue_info = competitions[0].get("venue", {})
+                            venue_info = competition.get("venue", {})
                             venue_name = venue_info.get("fullName", "TBD")
 
-                        # Add field to team embed
-                        field_value = f"**{formatted_date}**\n🏟️ {venue_name}"
-                        team_embed.add_field(
-                            name=f"Game {i + 1}", value=field_value, inline=True
-                        )
+                        # Create game detail string
+                        game_detail = f"**{formatted_date}** at **{formatted_time}**\n{home_away} **{opponent}**\n🏟️ {venue_name}"
+                        game_details.append(game_detail)
 
                     except Exception as e:
                         logger.warning(
@@ -144,16 +190,24 @@ async def create_weekly_matches_embed():
                         )
                         continue
 
-                # Add team embed as a field to main embed
-                if team_embed.fields:
-                    # Create a summary for the main embed
-                    game_count = len(games)
-                    summary = (
-                        f"{game_count} game{'s' if game_count != 1 else ''} this week"
+                # Add team section to main embed
+                if game_details:
+                    # Join all game details for this team
+                    team_summary = "\n\n".join(game_details)
+
+                    # Truncate if too long for Discord embed field
+                    if len(team_summary) > 1024:
+                        team_summary = team_summary[:1021] + "..."
+
+                    embed.add_field(name=team_name, value=team_summary, inline=False)
+                else:
+                    embed.add_field(
+                        name=team_name, value="No games this week", inline=False
                     )
-                    embed.add_field(name=team_name, value=summary, inline=True)
             else:
-                embed.add_field(name=team_name, value="No games this week", inline=True)
+                embed.add_field(
+                    name=team_name, value="No games this week", inline=False
+                )
 
         # Add footer
         embed.set_footer(
