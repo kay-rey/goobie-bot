@@ -8,6 +8,10 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ed.svg)](https://docker.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
+<div align="center">
+  <img src="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png" alt="Goobie-Bot LA Skyline Logo" width="200" height="200">
+</div>
+
 ## 🌟 What is Goobie-Bot?
 
 Goobie-Bot is a powerful Discord bot that brings real-time sports statistics and game information directly to your Discord server! Currently focused on **LA Galaxy** soccer matches, with plans to expand to other LA-based teams like the **Lakers**, **Dodgers**, **Rams**, and **Kings**. Designed to scale for any team or sport.
