@@ -71,7 +71,7 @@ async def ping(interaction: discord.Interaction):
 @app_commands.choices(
     team=[
         app_commands.Choice(name="LA Galaxy", value="galaxy"),
-        app_commands.Choice(name="Los Angeles Dodgers", value="dodgers"),
+        app_commands.Choice(name="LA Dodgers", value="dodgers"),
     ]
 )
 async def nextgame(interaction: discord.Interaction, team: app_commands.Choice[str]):
@@ -188,11 +188,12 @@ async def test_command(ctx):
 async def sync_commands(ctx):
     """Force sync slash commands"""
     try:
+        await ctx.send("Syncing commands...")
         synced = await bot.tree.sync()
         await ctx.send(f"Synced {len(synced)} commands: {[cmd.name for cmd in synced]}")
         logger.info(f"Manual sync: {len(synced)} commands")
     except Exception as e:
-        await ctx.send(f"Sync failed: {e}")
+        await ctx.send(f"❌ Sync failed: {e}")
         logger.error(f"Manual sync failed: {e}")
 
 
