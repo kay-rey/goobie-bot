@@ -5,6 +5,7 @@ Handles all TheSportsDB API calls for team data, logos, and venue information
 
 from .teams import (
     get_galaxy_team_data,
+    get_dodgers_team_data,
     get_team_logos,
     extract_logos_from_team,
     search_team_logos,
@@ -14,6 +15,7 @@ from .venues import search_venue_logos
 
 __all__ = [
     "get_galaxy_team_data",
+    "get_dodgers_team_data",
     "get_team_logos",
     "extract_logos_from_team",
     "search_team_logos",

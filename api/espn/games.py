@@ -153,6 +153,7 @@ async def get_dodgers_next_game():
             data = response.json()
             logger.info(f"ESPN MLB API data keys: {list(data.keys())}")
             logger.info(f"ESPN MLB API items count: {len(data.get('items', []))}")
+            logger.info(f"Full ESPN MLB API response: {data}")
 
             if data.get("items") and len(data["items"]) > 0:
                 # Find the closest upcoming game by following $ref URLs
@@ -184,7 +185,9 @@ async def get_dodgers_next_game():
                                         )
                                         upcoming_games.append((event_date, event_data))
                                 except Exception as e:
-                                    logger.warning(f"Error parsing Dodgers event date: {e}")
+                                    logger.warning(
+                                        f"Error parsing Dodgers event date: {e}"
+                                    )
                                     continue
 
                 if upcoming_games:
