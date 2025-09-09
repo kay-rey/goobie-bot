@@ -106,11 +106,14 @@ async def create_weekly_matches_embed():
 
         # Add summary field
         if total_games > 0:
-            summary_text = f"**📈 Total Games This Week: {total_games}**\n"
-            summary_text += f"⚽ Galaxy: {len(galaxy_games)} games\n"
+            summary_text = f"⚽ Galaxy: {len(galaxy_games)} games\n"
             summary_text += f"⚾ Dodgers: {len(dodgers_games)} games\n"
             summary_text += f"🏀 Lakers: {len(lakers_games)} games"
-            embed.add_field(name="📊 Weekly Summary", value=summary_text, inline=False)
+            embed.add_field(
+                name=f"**📈 Total Games This Week: {total_games}**\n",
+                value=summary_text,
+                inline=False,
+            )
 
         # Add team sections with detailed game information
         teams_data = [
@@ -228,14 +231,14 @@ async def create_weekly_matches_embed():
                     team_summary = "\n\n".join(game_details)
 
                     # Add a header for the team section
-                    team_header = f"**{len(game_details)} game{'s' if len(game_details) != 1 else ''} this week**\n\n"
-                    team_summary = team_header + team_summary
+                    team_header = f"{team_name}: *{len(game_details)} game{'s' if len(game_details) != 1 else ''} this week*\n"
+                    team_summary = team_summary + "\n\n"
 
                     # Truncate if too long for Discord embed field
                     if len(team_summary) > 1024:
                         team_summary = team_summary[:1021] + "..."
 
-                    embed.add_field(name=team_name, value=team_summary, inline=False)
+                    embed.add_field(name=team_header, value=team_summary, inline=False)
                 else:
                     embed.add_field(
                         name=f"{team_name} - No Games",
