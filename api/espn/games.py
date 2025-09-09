@@ -142,8 +142,8 @@ async def get_dodgers_next_game():
 
         logger.info(f"Date range: {start_date} to {end_date}")
 
-        # ESPN API endpoint for Dodgers events (MLB team ID: 119)
-        url = "http://sports.core.api.espn.com/v2/sports/baseball/leagues/mlb/teams/119/events"
+        # ESPN API endpoint for Dodgers events (MLB team ID: 19)
+        url = "http://sports.core.api.espn.com/v2/sports/baseball/leagues/mlb/teams/19/events"
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         response = requests.get(url, params=params, timeout=10)
