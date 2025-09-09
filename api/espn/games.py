@@ -283,3 +283,44 @@ async def get_lakers_next_game():
     except Exception as e:
         logger.error(f"Error fetching Lakers game data: {e}")
         return None
+
+
+async def get_team_games_in_date_range(team_id, sport, league, start_date, end_date):
+    """Get all games for a team within a specific date range"""
+    try:
+        logger.info(
+            f"Fetching {sport} games for team {team_id} from {start_date} to {end_date}"
+        )
+
+        # Format dates for ESPN API
+        start_str = start_date.strftime("%Y%m%d")
+        end_str = end_date.strftime("%Y%m%d")
+
+        # ESPN API endpoint
+        url = f"http://sports.core.api.espn.com/v2/sports/{sport}/leagues/{league}/teams/{team_id}/events"
+        params = {"dates": f"{start_str}-{end_str}", "limit": 50}
+
+        response = requests.get(url, params=params, timeout=10)
+        logger.info(f"ESPN API response status: {response.status_code}")
+
+        if response.status_code == 200:
+            data = response.json()
+            games = []
+
+            if data.get("items"):
+                for item in data["items"]:
+                    event_ref = item.get("$ref")
+                    if event_ref:
+                        event_response = requests.get(event_ref, timeout=10)
+                        if event_response.status_code == 200:
+                            event_data = event_response.json()
+                            games.append(event_data)
+
+            logger.info(f"Found {len(games)} games for team {team_id}")
+            return games
+
+        return []
+
+    except Exception as e:
+        logger.error(f"Error fetching games for team {team_id}: {e}")
+        return []

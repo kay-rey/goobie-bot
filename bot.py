@@ -3,7 +3,13 @@ Main bot application for goobie-bot
 A Discord bot for sports statistics
 """
 
-from config import DISCORD_TOKEN, setup_logging, create_bot
+import asyncio
+from config import (
+    DISCORD_TOKEN,
+    WEEKLY_NOTIFICATIONS_CHANNEL_ID,
+    setup_logging,
+    create_bot,
+)
 from events import (
     on_ready as ready_handler,
     on_message as message_handler,
@@ -11,6 +17,8 @@ from events import (
     on_app_command_error as app_command_error_handler,
 )
 from commands import ping_command, nextgame_command, test_command, sync_command
+from commands.weekly import weekly_command
+from scheduler.weekly_matches import schedule_weekly_matches
 
 # Set up logging
 logger = setup_logging()
@@ -23,6 +31,10 @@ bot = create_bot()
 @bot.event
 async def on_ready():
     await ready_handler(bot)
+
+    # Start the weekly matches scheduler
+    logger.info("Starting weekly matches scheduler...")
+    asyncio.create_task(schedule_weekly_matches(bot, WEEKLY_NOTIFICATIONS_CHANNEL_ID))
 
 
 @bot.event
@@ -43,6 +55,7 @@ async def on_app_command_error(interaction, error):
 # Register slash commands
 bot.tree.add_command(ping_command)
 bot.tree.add_command(nextgame_command)
+bot.tree.add_command(weekly_command)
 
 # Register text commands
 bot.add_command(test_command)

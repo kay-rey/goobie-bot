@@ -15,6 +15,14 @@ load_dotenv()
 # Get the Discord token from environment variables
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
+# Get the channel ID for weekly notifications (optional)
+WEEKLY_NOTIFICATIONS_CHANNEL_ID = os.getenv("WEEKLY_NOTIFICATIONS_CHANNEL_ID")
+if WEEKLY_NOTIFICATIONS_CHANNEL_ID:
+    try:
+        WEEKLY_NOTIFICATIONS_CHANNEL_ID = int(WEEKLY_NOTIFICATIONS_CHANNEL_ID)
+    except ValueError:
+        WEEKLY_NOTIFICATIONS_CHANNEL_ID = None
+
 # Create a new Discord bot with necessary intents
 intents = discord.Intents.default()
 intents.message_content = True

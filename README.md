@@ -78,6 +78,15 @@ Get LA Galaxy's next upcoming match with:
 - 🏆 Team logos and match details
 - 📊 Competition information
 
+### `/weekly`
+
+Get a comprehensive weekly schedule for all LA teams (Dodgers, Lakers, Galaxy) with:
+
+- 📅 All matches for the current week (Monday to Sunday)
+- 🏟️ Venue information for each match
+- ⚾🏀⚽ Team-specific colors and emojis
+- 🕐 Automatic weekly notifications every Monday at 1pm PT
+
 ## 🏗️ Architecture
 
 Goobie-Bot is built with a modular, scalable architecture:
@@ -174,9 +183,10 @@ docker-compose -f docker-compose.prod.yml up -d
 
 ### Environment Variables
 
-| Variable        | Description       | Required |
-| --------------- | ----------------- | -------- |
-| `DISCORD_TOKEN` | Discord bot token | ✅ Yes   |
+| Variable                          | Description                                         | Required |
+| --------------------------------- | --------------------------------------------------- | -------- |
+| `DISCORD_TOKEN`                   | Discord bot token                                   | ✅ Yes   |
+| `WEEKLY_NOTIFICATIONS_CHANNEL_ID` | Channel ID for weekly notifications (Monday 1pm PT) | ❌ No    |
 
 ### Bot Permissions
 
@@ -199,11 +209,12 @@ docker-compose exec goobie-bot python -m pytest tests/
 
 ## 🚀 Future Roadmap
 
-- [ ] **LA Sports Expansion** - Add support for other LA-based teams:
-  - 🏀 **Los Angeles Lakers** (NBA)
-  - ⚾ **Los Angeles Dodgers** (MLB)
+- [x] **LA Sports Expansion** - Add support for other LA-based teams:
+  - 🏀 **Los Angeles Lakers** (NBA) ✅
+  - ⚾ **Los Angeles Dodgers** (MLB) ✅
   - 🏈 **Los Angeles Rams** (NFL)
   - 🏒 **Los Angeles Kings** (NHL)
+- [x] **Weekly Notifications** - Automatic weekly match notifications ✅
 - [ ] **Multi-Team Support** - Add support for other MLS teams
 - [ ] **Live Scores** - Real-time score updates during matches
 - [ ] **Player Statistics** - Individual player stats and information
