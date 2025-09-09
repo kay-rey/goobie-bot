@@ -88,13 +88,29 @@ async def create_weekly_matches_embed():
         week_start = now_pacific - timedelta(days=days_since_monday)
         week_end = week_start + timedelta(days=6)
 
-        # Create main embed
+        # Create main embed with better formatting
         embed = discord.Embed(
             title="🏆 LA Teams Weekly Schedule",
-            description=f"Week of {week_start.strftime('%B %d')} - {week_end.strftime('%B %d, %Y')}",
+            description=f"**📅 Week of {week_start.strftime('%B %d')} - {week_end.strftime('%B %d, %Y')}**\n\n",
             color=0x1E90FF,  # Dodger blue
             timestamp=datetime.now(),
         )
+
+        # Add a thumbnail or image if available
+        embed.set_thumbnail(
+            url="https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/Los_Angeles_skyline_montage.jpg/800px-Los_Angeles_skyline_montage.jpg"
+        )
+
+        # Calculate total games for summary
+        total_games = len(dodgers_games) + len(lakers_games) + len(galaxy_games)
+
+        # Add summary field
+        if total_games > 0:
+            summary_text = f"**📈 Total Games This Week: {total_games}**\n"
+            summary_text += f"⚽ Galaxy: {len(galaxy_games)} games\n"
+            summary_text += f"⚾ Dodgers: {len(dodgers_games)} games\n"
+            summary_text += f"🏀 Lakers: {len(lakers_games)} games"
+            embed.add_field(name="📊 Weekly Summary", value=summary_text, inline=False)
 
         # Add team sections with detailed game information
         teams_data = [
@@ -189,13 +205,15 @@ async def create_weekly_matches_embed():
                             venue_info = competition.get("venue", {})
                             venue_name = venue_info.get("fullName", "TBD")
 
-                        # Create game detail string
+                        # Create game detail string with better formatting
                         if opponent == "TBD":
                             # Fallback to game name if opponent not found
                             game_name = game.get("name", "Match")
-                            game_detail = f"**{formatted_date}** at **{formatted_time}**\n{game_name}\n🏟️ {venue_name}"
+                            game_detail = f"**{formatted_date}** at **{formatted_time}**\n🎯 {game_name}\n🏟️ {venue_name}"
                         else:
-                            game_detail = f"**{formatted_date}** at **{formatted_time}**\n{home_away} **{opponent}**\n🏟️ {venue_name}"
+                            # Format with better visual hierarchy
+                            home_away_emoji = "🏠" if home_away == "vs" else "✈️"
+                            game_detail = f"**{formatted_date}** at **{formatted_time}**\n{home_away_emoji} {home_away} **{opponent}**\n🏟️ {venue_name}"
                         game_details.append(game_detail)
 
                     except Exception as e:
@@ -204,10 +222,14 @@ async def create_weekly_matches_embed():
                         )
                         continue
 
-                # Add team section to main embed
+                # Add team section to main embed with better formatting
                 if game_details:
-                    # Join all game details for this team
+                    # Join all game details for this team with separators
                     team_summary = "\n\n".join(game_details)
+
+                    # Add a header for the team section
+                    team_header = f"**{len(game_details)} game{'s' if len(game_details) != 1 else ''} this week**\n\n"
+                    team_summary = team_header + team_summary
 
                     # Truncate if too long for Discord embed field
                     if len(team_summary) > 1024:
@@ -216,16 +238,20 @@ async def create_weekly_matches_embed():
                     embed.add_field(name=team_name, value=team_summary, inline=False)
                 else:
                     embed.add_field(
-                        name=team_name, value="No games this week", inline=False
+                        name=f"{team_name} - No Games",
+                        value="*No games scheduled this week*",
+                        inline=False,
                     )
             else:
                 embed.add_field(
-                    name=team_name, value="No games this week", inline=False
+                    name=f"{team_name} - No Games",
+                    value="*No games scheduled this week*",
+                    inline=False,
                 )
 
-        # Add footer
+        # Add footer with better formatting
         embed.set_footer(
-            text="Data from ESPN & TheSportsDB • Updates every Monday at 1pm PT"
+            text="📊 Data from ESPN & TheSportsDB • 🔄 Updates every Monday at 1pm PT • 🏆 Go LA Teams!"
         )
 
         return embed
