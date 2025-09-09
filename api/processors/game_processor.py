@@ -96,6 +96,21 @@ async def create_game_embed(game_data, logos):
                 if logos:
                     team_name = list(logos.keys())[0]
 
+        # Check if this is a basketball game
+        elif "basketball" in game_data.get("$ref", "").lower():
+            emoji = "🏀"
+            color = 0xFDB927  # Lakers gold
+
+            # Try to find Lakers team name from logos
+            for team, team_logos in logos.items():
+                if "lakers" in team.lower():
+                    team_name = team
+                    break
+            else:
+                # Fallback: look for any team with logos
+                if logos:
+                    team_name = list(logos.keys())[0]
+
         # Create embed
         embed = discord.Embed(
             title=f"{team_name} Next Game",
