@@ -68,46 +68,76 @@ async def get_game_logos(game_data):
         return {}
 
 
-async def create_game_embed(game_data, logos):
+async def create_game_embed(game_data, logos, team_name=None):
     """Create a Discord embed for the game data"""
     try:
         logger.info("Creating embed...")
         logger.info(f"Creating embed with logos: {logos}")
 
-        # Determine team from game data
-        team_name = "LA Galaxy"  # Default
-        color = 0x00245D  # LA Galaxy blue
-        emoji = "⚽"  # Soccer emoji
+        # Determine team from game data or use provided team name
+        if not team_name:
+            team_name = "LA Galaxy"  # Default
+            color = 0x00245D  # LA Galaxy blue
+            emoji = "⚽"  # Soccer emoji
 
-        # Check if this is a baseball game
-        if "baseball" in game_data.get("$ref", "").lower():
-            emoji = "⚾"
-            color = 0x005A9C  # Dodgers blue
+            # Check if this is a baseball game
+            if "baseball" in game_data.get("$ref", "").lower():
+                emoji = "⚾"
+                color = 0x005A9C  # Dodgers blue
 
-            # Try to find Dodgers team name from logos
-            for team, team_logos in logos.items():
-                if "dodgers" in team.lower():
-                    team_name = team
-                    break
-            else:
-                # Fallback: look for any team with logos
-                if logos:
-                    team_name = list(logos.keys())[0]
+                # Try to find Dodgers team name from logos
+                for team, team_logos in logos.items():
+                    if "dodgers" in team.lower():
+                        team_name = team
+                        break
+                else:
+                    # Fallback: look for any team with logos
+                    if logos:
+                        team_name = list(logos.keys())[0]
 
-        # Check if this is a basketball game
-        elif "basketball" in game_data.get("$ref", "").lower():
-            emoji = "🏀"
-            color = 0xFDB927  # Lakers gold
+            # Check if this is a basketball game
+            elif "basketball" in game_data.get("$ref", "").lower():
+                emoji = "🏀"
+                color = 0xFDB927  # Lakers gold
 
-            # Try to find Lakers team name from logos
-            for team, team_logos in logos.items():
-                if "lakers" in team.lower():
-                    team_name = team
-                    break
-            else:
-                # Fallback: look for any team with logos
-                if logos:
-                    team_name = list(logos.keys())[0]
+                # Try to find Lakers team name from logos
+                for team, team_logos in logos.items():
+                    if "lakers" in team.lower():
+                        team_name = team
+                        break
+                else:
+                    # Fallback: look for any team with logos
+                    if logos:
+                        team_name = list(logos.keys())[0]
+
+            # Check if this is a football game
+            elif "football" in game_data.get("$ref", "").lower():
+                emoji = "🏈"
+                color = 0xFFD700  # Rams yellow/gold
+
+                # Try to find Rams team name from logos
+                for team, team_logos in logos.items():
+                    if "rams" in team.lower():
+                        team_name = team
+                        break
+                else:
+                    # Fallback: look for any team with logos
+                    if logos:
+                        team_name = list(logos.keys())[0]
+        else:
+            # Use provided team name and determine sport/color/emoji
+            if "dodgers" in team_name.lower():
+                emoji = "⚾"
+                color = 0x005A9C  # Dodgers blue
+            elif "lakers" in team_name.lower():
+                emoji = "🏀"
+                color = 0xFDB927  # Lakers gold
+            elif "rams" in team_name.lower():
+                emoji = "🏈"
+                color = 0xFFD700  # Rams yellow/gold
+            else:  # Galaxy
+                emoji = "⚽"
+                color = 0x00245D  # LA Galaxy blue
 
         # Create embed
         embed = discord.Embed(

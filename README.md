@@ -75,7 +75,7 @@ Test the bot's responsiveness and connection status.
 
 ### `/nextgame`
 
-Get LA Galaxy's next upcoming match with:
+Get the next upcoming game for any LA team (Galaxy, Dodgers, Lakers, Rams) with:
 
 - 📅 Match date and time (converted to Pacific Time)
 - 🏟️ Venue information and stadium image

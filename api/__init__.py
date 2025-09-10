@@ -8,12 +8,14 @@ from .espn import (
     get_galaxy_next_game_extended,
     get_dodgers_next_game,
     get_lakers_next_game,
+    get_rams_next_game,
     get_team_name_from_ref,
 )
 from .sportsdb import (
     get_galaxy_team_data,
     get_dodgers_team_data,
     get_lakers_team_data,
+    get_rams_team_data,
     get_team_logos,
     extract_logos_from_team,
     search_team_logos,
@@ -28,11 +30,13 @@ __all__ = [
     "get_galaxy_next_game_extended",
     "get_dodgers_next_game",
     "get_lakers_next_game",
+    "get_rams_next_game",
     "get_team_name_from_ref",
     # TheSportsDB API functions
     "get_galaxy_team_data",
     "get_dodgers_team_data",
     "get_lakers_team_data",
+    "get_rams_team_data",
     "get_team_logos",
     "extract_logos_from_team",
     "search_team_logos",

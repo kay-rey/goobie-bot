@@ -12,6 +12,8 @@ from api import (
     get_dodgers_next_game,
     get_lakers_team_data,
     get_lakers_next_game,
+    get_rams_team_data,
+    get_rams_next_game,
     get_team_logos,
     extract_logos_from_team,
     get_game_logos,
@@ -27,6 +29,7 @@ logger = logging.getLogger(__name__)
         app_commands.Choice(name="Galaxy", value="galaxy"),
         app_commands.Choice(name="Dodgers", value="dodgers"),
         app_commands.Choice(name="Lakers", value="lakers"),
+        app_commands.Choice(name="Rams", value="rams"),
     ]
 )
 async def nextgame_command(
@@ -52,6 +55,12 @@ async def nextgame_command(
             game_data_func = get_lakers_next_game
             default_logo = "https://a.espncdn.com/i/teamlogos/nba/500/13.png"
             default_stadium = "Crypto.com Arena"
+        elif team.value == "rams":
+            team_name = "Los Angeles Rams"
+            team_data_func = get_rams_team_data
+            game_data_func = get_rams_next_game
+            default_logo = "https://a.espncdn.com/i/teamlogos/nfl/500/14.png"
+            default_stadium = "SoFi Stadium"
         else:  # galaxy
             team_name = "LA Galaxy"
             team_data_func = get_galaxy_team_data
@@ -115,7 +124,7 @@ async def nextgame_command(
 
         # Create rich embed
         logger.info("Creating embed...")
-        embed = await create_game_embed(game_data, logos)
+        embed = await create_game_embed(game_data, logos, team_name)
         await interaction.followup.send(embed=embed)
         logger.info(f"{team_name} nextgame command completed successfully")
 
