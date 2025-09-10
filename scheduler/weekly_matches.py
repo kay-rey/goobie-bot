@@ -65,12 +65,12 @@ async def get_weekly_matches_for_team(team_name, team_id, sport, league):
 
 
 async def create_weekly_matches_embed():
-    """Create a Discord embed with all weekly matches for Dodgers, Lakers, and Galaxy"""
+    """Create a Discord embed with all weekly matches for Dodgers, Lakers, Galaxy, and Rams"""
     try:
         logger.info("Creating weekly matches embed...")
 
         # Get weekly matches for each team
-        # Team IDs: Dodgers (19), Lakers (13), Galaxy (187)
+        # Team IDs: Dodgers (19), Lakers (13), Galaxy (187), Rams (14)
         dodgers_games = await get_weekly_matches_for_team(
             "Dodgers", 19, "baseball", "mlb"
         )
@@ -80,6 +80,7 @@ async def create_weekly_matches_embed():
         galaxy_games = await get_weekly_matches_for_team(
             "Galaxy", 187, "soccer", "usa.1"
         )
+        rams_games = await get_weekly_matches_for_team("Rams", 14, "football", "nfl")
 
         # Calculate week boundaries for display
         pacific_tz = pytz.timezone("America/Los_Angeles")
@@ -102,13 +103,16 @@ async def create_weekly_matches_embed():
         )
 
         # Calculate total games for summary
-        total_games = len(dodgers_games) + len(lakers_games) + len(galaxy_games)
+        total_games = (
+            len(dodgers_games) + len(lakers_games) + len(galaxy_games) + len(rams_games)
+        )
 
         # Add summary field
         if total_games > 0:
             summary_text = f"⚽ Galaxy: {len(galaxy_games)} games\n"
             summary_text += f"⚾ Dodgers: {len(dodgers_games)} games\n"
-            summary_text += f"🏀 Lakers: {len(lakers_games)} games"
+            summary_text += f"🏀 Lakers: {len(lakers_games)} games\n"
+            summary_text += f"🏈 Rams: {len(rams_games)} games"
             embed.add_field(
                 name=f"**📈 Total Games This Week: {total_games}**\n",
                 value=summary_text,
@@ -120,6 +124,7 @@ async def create_weekly_matches_embed():
             ("⚽ LA Galaxy", galaxy_games, 0x00245D),
             ("⚾ Los Angeles Dodgers", dodgers_games, 0x005A9C),
             ("🏀 Los Angeles Lakers", lakers_games, 0xFDB927),
+            ("🏈 Los Angeles Rams", rams_games, 0x003594),
         ]
 
         for team_name, games, color in teams_data:

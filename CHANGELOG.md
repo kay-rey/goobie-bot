@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 🤖 Discord bot with slash command support
 - ⚽ LA Galaxy next game command (`/nextgame`)
 - 📅 Weekly schedule command (`/weekly`) for LA teams
-- 🏆 Support for LA Galaxy, Lakers, and Dodgers
+- 🏆 Support for LA Galaxy, Lakers, Dodgers, and Rams
 - 🎨 Rich Discord embeds with team logos and venue images
 - 🏗️ Modular architecture with clean API integrations
 - 🐳 Docker containerization for easy deployment
@@ -29,7 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Features
 
 - **Real-time Game Data**: Get upcoming matches with detailed information
-- **Multi-Team Support**: LA Galaxy, Lakers, and Dodgers
+- **Multi-Team Support**: LA Galaxy, Lakers, Dodgers, and Rams
 - **Rich Embeds**: Beautiful Discord embeds with team logos and stadium images
 - **Weekly Notifications**: Automatic weekly match notifications
 - **Docker Ready**: Containerized for easy deployment on any platform
@@ -59,7 +59,6 @@ This is an **alpha release** of Goobie-Bot. The core functionality is working, b
 
 **Planned for v1.0.0:**
 
-- 🏈 Los Angeles Rams (NFL) support
 - 🏒 Los Angeles Kings (NHL) support
 - 📊 Live score updates during matches
 - 👤 Player statistics and information

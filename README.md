@@ -14,11 +14,11 @@
 
 ## 🌟 What is Goobie-Bot?
 
-Goobie-Bot is a powerful Discord bot that brings real-time sports statistics and game information directly to your Discord server! Currently focused on **LA Galaxy** soccer matches, with plans to expand to other LA-based teams like the **Lakers**, **Dodgers**, **Rams**, and **Kings**. Designed to scale for any team or sport.
+Goobie-Bot is a powerful Discord bot that brings real-time sports statistics and game information directly to your Discord server! Currently supporting **LA Galaxy** soccer, **Lakers** basketball, **Dodgers** baseball, and **Rams** football, with plans to expand to other LA-based teams like the **Kings**. Designed to scale for any team or sport.
 
 ### ✨ Features
 
-- 🏆 **Real-time Game Data** - Get upcoming LA Galaxy matches with detailed information
+- 🏆 **Real-time Game Data** - Get upcoming matches for LA Galaxy, Lakers, Dodgers, and Rams
 - 🎨 **Rich Embeds** - Beautiful Discord embeds with team logos, stadium images, and match details
 - ⚡ **Lightning Fast** - Optimized API calls and caching for instant responses
 - 🐳 **Docker Ready** - Containerized for easy deployment on any platform
@@ -84,11 +84,11 @@ Get LA Galaxy's next upcoming match with:
 
 ### `/weekly`
 
-Get a comprehensive weekly schedule for all LA teams (Dodgers, Lakers, Galaxy) with:
+Get a comprehensive weekly schedule for all LA teams (Dodgers, Lakers, Galaxy, Rams) with:
 
 - 📅 All matches for the current week (Monday to Sunday)
 - 🏟️ Venue information for each match
-- ⚾🏀⚽ Team-specific colors and emojis
+- ⚾🏀⚽🏈 Team-specific colors and emojis
 - 🕐 Automatic weekly notifications every Monday at 1pm PT
 
 ## 🏗️ Architecture
@@ -216,7 +216,7 @@ docker-compose exec goobie-bot python -m pytest tests/
 - [x] **LA Sports Expansion** - Add support for other LA-based teams:
   - 🏀 **Los Angeles Lakers** (NBA) ✅
   - ⚾ **Los Angeles Dodgers** (MLB) ✅
-  - 🏈 **Los Angeles Rams** (NFL)
+  - 🏈 **Los Angeles Rams** (NFL) ✅
   - 🏒 **Los Angeles Kings** (NHL)
 - [x] **Weekly Notifications** - Automatic weekly match notifications ✅
 - [ ] **Multi-Team Support** - Add support for other MLS teams
