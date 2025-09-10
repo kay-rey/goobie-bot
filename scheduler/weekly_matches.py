@@ -121,13 +121,13 @@ async def create_weekly_matches_embed():
 
         # Add team sections with detailed game information
         teams_data = [
-            ("⚽ LA Galaxy", galaxy_games, 0x00245D),
-            ("⚾ Los Angeles Dodgers", dodgers_games, 0x005A9C),
-            ("🏀 Los Angeles Lakers", lakers_games, 0xFDB927),
-            ("🏈 Los Angeles Rams", rams_games, 0x003594),
+            ("⚽ LA Galaxy", galaxy_games),
+            ("⚾ Los Angeles Dodgers", dodgers_games),
+            ("🏀 Los Angeles Lakers", lakers_games),
+            ("🏈 Los Angeles Rams", rams_games),
         ]
 
-        for team_name, games, color in teams_data:
+        for team_name, games in teams_data:
             if games:
                 # Create detailed game information for each team
                 game_details = []
