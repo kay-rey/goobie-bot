@@ -254,7 +254,7 @@ async def create_game_embed(game_data, logos, team_name=None):
         # Competition field removed - users already know what competition teams play in
 
         # Add footer
-        footer_text = "Data from ESPN & TheSportsDB"
+        footer_text = "Go LA!"
         # Truncate footer if too long for Discord embed
         if len(footer_text) > 2048:  # Footer has higher limit
             footer_text = footer_text[:2045] + "..."

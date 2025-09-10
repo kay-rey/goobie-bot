@@ -159,6 +159,7 @@ async def create_weekly_matches_embed():
                                 "dodgers": "19",
                                 "lakers": "13",
                                 "galaxy": "187",  # LA Galaxy's actual ESPN team ID
+                                "rams": "14",  # Los Angeles Rams ESPN team ID
                             }
 
                             # Get the current team ID based on team name
@@ -259,7 +260,7 @@ async def create_weekly_matches_embed():
 
         # Add footer with better formatting
         embed.set_footer(
-            text="📊 Data from ESPN & TheSportsDB • 🔄 Updates every Monday at 1pm PT • 🏆 Go LA!"
+            text="🔄 Updates every Monday at 1pm PT • 🏆 Go LA!"
         )
 
         return embed
