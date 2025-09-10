@@ -131,7 +131,7 @@ async def create_game_embed(game_data, logos, team_name=None):
                 color = 0x005A9C  # Dodgers blue
             elif "lakers" in team_name.lower():
                 emoji = "🏀"
-                color = 0xFDB927  # Lakers gold
+                color = 0x552583  # Lakers purple
             elif "rams" in team_name.lower():
                 emoji = "🏈"
                 color = 0xFFD700  # Rams yellow/gold

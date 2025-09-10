@@ -93,7 +93,7 @@ async def create_weekly_matches_embed():
         embed = discord.Embed(
             title="🏆 LA Teams Weekly Schedule",
             description=f"**📅 Week of {week_start.strftime('%B %d')} - {week_end.strftime('%B %d, %Y')}**\n\n",
-            color=0x1E90FF,  # Dodger blue
+            color=0x00923F,  # LA City green
             timestamp=datetime.now(),
         )
 
@@ -259,7 +259,7 @@ async def create_weekly_matches_embed():
 
         # Add footer with better formatting
         embed.set_footer(
-            text="📊 Data from ESPN & TheSportsDB • 🔄 Updates every Monday at 1pm PT • 🏆 Go LA Teams!"
+            text="📊 Data from ESPN & TheSportsDB • 🔄 Updates every Monday at 1pm PT • 🏆 Go LA!"
         )
 
         return embed
