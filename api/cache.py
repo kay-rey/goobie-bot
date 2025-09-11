@@ -83,6 +83,17 @@ class CacheManager:
             "clears": 0,
         }
         self._lock = asyncio.Lock()
+        logger.info("Cache manager initialized with TTL durations:")
+        for cache_type, duration in CACHE_DURATIONS.items():
+            if duration:
+                hours = duration // 3600
+                days = hours // 24
+                if days > 0:
+                    logger.info(f"  - {cache_type}: {days} days ({duration}s)")
+                else:
+                    logger.info(f"  - {cache_type}: {hours} hours ({duration}s)")
+            else:
+                logger.info(f"  - {cache_type}: No TTL (permanent)")
 
     async def get(self, key: str) -> Optional[Any]:
         """Get a value from cache"""
@@ -98,13 +109,15 @@ class CacheManager:
             if entry.is_expired():
                 del self._cache[key]
                 self._stats["misses"] += 1
-                logger.debug(f"Cache expired for key: {key}")
+                logger.info(f"Cache expired and removed for key: {key}")
                 return None
 
             # Update access statistics
             value = entry.access()
             self._stats["hits"] += 1
-            logger.debug(f"Cache hit for key: {key}")
+            logger.info(
+                f"Cache hit for key: {key} (access count: {entry.access_count})"
+            )
             return value
 
     async def set(self, key: str, value: Any, cache_type: str = "default") -> None:
@@ -115,7 +128,7 @@ class CacheManager:
         async with self._lock:
             self._cache[key] = entry
             self._stats["sets"] += 1
-            logger.debug(f"Cache set for key: {key} (TTL: {ttl}s)")
+            logger.info(f"Cache set for key: {key} (type: {cache_type}, TTL: {ttl}s)")
 
     async def delete(self, key: str) -> bool:
         """Delete a value from cache"""
@@ -123,8 +136,9 @@ class CacheManager:
             if key in self._cache:
                 del self._cache[key]
                 self._stats["deletes"] += 1
-                logger.debug(f"Cache deleted for key: {key}")
+                logger.info(f"Cache deleted for key: {key}")
                 return True
+            logger.debug(f"Cache delete attempted for non-existent key: {key}")
             return False
 
     async def clear(self, cache_type: Optional[str] = None) -> int:
@@ -148,6 +162,8 @@ class CacheManager:
                 logger.info(
                     f"Cleared {len(keys_to_delete)} entries for type: {cache_type}"
                 )
+                if keys_to_delete:
+                    logger.debug(f"Cleared keys: {keys_to_delete}")
                 return len(keys_to_delete)
 
     async def cleanup_expired(self) -> int:
@@ -163,6 +179,9 @@ class CacheManager:
 
             if expired_keys:
                 logger.info(f"Cleaned up {len(expired_keys)} expired cache entries")
+                logger.debug(f"Expired keys: {expired_keys}")
+            else:
+                logger.debug("No expired cache entries found during cleanup")
 
             return len(expired_keys)
 
@@ -253,74 +272,103 @@ def cache_result(cache_type: str, key_func: Optional[callable] = None):
 # Convenience functions for common cache operations
 async def get_cached(key: str) -> Optional[Any]:
     """Get a value from cache"""
+    logger.debug(f"Getting cached value for key: {key}")
     return await cache_manager.get(key)
 
 
 async def set_cached(key: str, value: Any, cache_type: str = "default") -> None:
     """Set a value in cache"""
+    logger.debug(f"Setting cached value for key: {key} (type: {cache_type})")
     await cache_manager.set(key, value, cache_type)
 
 
 async def delete_cached(key: str) -> bool:
     """Delete a value from cache"""
+    logger.debug(f"Deleting cached value for key: {key}")
     return await cache_manager.delete(key)
 
 
 async def clear_cache(cache_type: Optional[str] = None) -> int:
     """Clear cache entries"""
+    if cache_type:
+        logger.info(f"Clearing cache entries for type: {cache_type}")
+    else:
+        logger.info("Clearing all cache entries")
     return await cache_manager.clear(cache_type)
 
 
 async def get_cache_stats() -> Dict[str, Any]:
     """Get cache statistics"""
+    logger.debug("Retrieving cache statistics")
     return await cache_manager.get_stats()
 
 
 async def cleanup_expired_cache() -> int:
     """Clean up expired cache entries"""
+    logger.debug("Cleaning up expired cache entries")
     return await cache_manager.cleanup_expired()
 
 
 # Cache key generators for common patterns
 def game_data_key(team: str, sport: str, start_date: str, end_date: str) -> str:
     """Generate cache key for game data"""
-    return f"game_data_{team}_{sport}_{start_date}_{end_date}"
+    key = f"game_data_{team}_{sport}_{start_date}_{end_date}"
+    logger.debug(f"Generated game data cache key: {key}")
+    return key
 
 
 def team_logos_key(team_id: str) -> str:
     """Generate cache key for team logos"""
-    return f"team_logos_{team_id}"
+    key = f"team_logos_{team_id}"
+    logger.debug(f"Generated team logos cache key: {key}")
+    return key
 
 
 def team_logos_by_name_key(team_name: str) -> str:
     """Generate cache key for team logos by name"""
-    return f"team_logos_name_{team_name.lower().replace(' ', '_')}"
+    key = f"team_logos_name_{team_name.lower().replace(' ', '_')}"
+    logger.debug(f"Generated team logos by name cache key: {key}")
+    return key
 
 
 def venue_data_key(venue_name: str) -> str:
     """Generate cache key for venue data"""
-    return f"venue_data_{venue_name.lower().replace(' ', '_')}"
+    key = f"venue_data_{venue_name.lower().replace(' ', '_')}"
+    logger.debug(f"Generated venue data cache key: {key}")
+    return key
 
 
 def team_metadata_key(team_name: str) -> str:
     """Generate cache key for team metadata"""
-    return f"team_metadata_{team_name.lower().replace(' ', '_')}"
+    key = f"team_metadata_{team_name.lower().replace(' ', '_')}"
+    logger.debug(f"Generated team metadata cache key: {key}")
+    return key
 
 
 def team_name_key(team_ref: str) -> str:
     """Generate cache key for team name"""
-    return f"team_name_{team_ref}"
+    key = f"team_name_{team_ref}"
+    logger.debug(f"Generated team name cache key: {key}")
+    return key
 
 
 # Background task for cache cleanup
 async def cache_cleanup_task():
     """Background task to clean up expired cache entries"""
+    logger.info("Starting cache cleanup background task (runs every 5 minutes)")
     while True:
         try:
             await asyncio.sleep(300)  # Run every 5 minutes
-            await cleanup_expired_cache()
+            logger.debug("Running scheduled cache cleanup...")
+            cleaned_count = await cleanup_expired_cache()
+            if cleaned_count > 0:
+                logger.info(
+                    f"Scheduled cleanup removed {cleaned_count} expired entries"
+                )
         except Exception as e:
             logger.error(f"Error in cache cleanup task: {e}")
+            # Continue running even if there's an error
+            await asyncio.sleep(60)  # Wait 1 minute before retrying
 
 
 # Export main functions
