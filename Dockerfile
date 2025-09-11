@@ -11,5 +11,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy the rest of the application code
 COPY . .
 
+# Create assets directory for logos
+RUN mkdir -p /app/assets/logos
+
+# Download and store all team logos during build
+RUN python scripts/download_logos.py
+
 # Set the default command to run the bot
 CMD ["python", "bot.py"]

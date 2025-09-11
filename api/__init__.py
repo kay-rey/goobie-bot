@@ -25,6 +25,12 @@ from .sportsdb import (
     test_logo_url,
 )
 from .processors import get_game_logos, create_game_embed
+from .local_logos import (
+    get_local_team_logos,
+    get_local_opponent_logo,
+    get_local_team_logos_by_name,
+    get_team_key_from_choice,
+)
 
 __all__ = [
     # ESPN API functions
@@ -49,4 +55,9 @@ __all__ = [
     # Game processing functions
     "get_game_logos",
     "create_game_embed",
+    # Local logo functions
+    "get_local_team_logos",
+    "get_local_opponent_logo",
+    "get_local_team_logos_by_name",
+    "get_team_key_from_choice",
 ]

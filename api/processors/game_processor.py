@@ -37,29 +37,7 @@ async def get_game_logos(game_data):
                         logos[team_name] = team_logos
                         logger.info(f"Found logos for {team_name}: {team_logos}")
 
-        # Get venue information from competitions (like the old code)
-        competitions = game_data.get("competitions", [])
-        if competitions:
-            competition = competitions[0]
-            venue_info = competition.get("venue", {})
-            logger.info(f"Venue info from competition: {venue_info}")
-            if venue_info:
-                venue_name = venue_info.get("fullName", "")
-                logger.info(f"Venue name: {venue_name}")
-                if venue_name:
-                    logger.info(f"Getting venue image for: {venue_name}")
-                    venue_logos = await search_venue_logos(venue_name)
-                    if venue_logos:
-                        logos["venue"] = venue_logos
-                        logger.info(f"Found venue logos: {venue_logos}")
-                    else:
-                        logger.warning(f"No venue logos found for: {venue_name}")
-                else:
-                    logger.warning("No venue name found in venue info")
-            else:
-                logger.warning("No venue info found in competition")
-        else:
-            logger.warning("No competitions found in game data")
+        # Note: Venue/stadium image fetching removed for now
 
         return logos
 
@@ -172,16 +150,7 @@ async def create_game_embed(game_data, logos, team_name=None):
         else:
             logger.warning(f"No {team_name} logo available")
 
-        # Add venue image if available
-        venue_logos = logos.get("venue", {})
-        if venue_logos.get("venue_image"):
-            embed.set_image(url=venue_logos["venue_image"])
-            logger.info(f"Setting venue image to: {venue_logos['venue_image']}")
-        elif venue_logos.get("venue_thumb"):
-            embed.set_image(url=venue_logos["venue_thumb"])
-            logger.info(f"Setting venue thumb to: {venue_logos['venue_thumb']}")
-        else:
-            logger.warning("No venue image available")
+        # Note: Stadium/venue images removed for now
 
         # Parse game date
         if game_data.get("date"):

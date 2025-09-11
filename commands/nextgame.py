@@ -21,6 +21,7 @@ from api import (
     get_game_logos,
     create_game_embed,
 )
+from api.local_logos import get_local_team_logos, get_team_key_from_choice
 
 logger = logging.getLogger(__name__)
 
@@ -97,39 +98,46 @@ async def nextgame_command(
             )
             return
 
-        # Get logos for the game (teams and venue)
-        logger.info("Getting game logos...")
-        logos = await get_game_logos(game_data)
-        logger.debug(f"Game logos: {logos}")
+        # Get logos from local storage (much faster!)
+        logger.info("Getting local team logos...")
+        team_key = get_team_key_from_choice(team.value)
+        local_logos = get_local_team_logos(team_key)
 
-        # If no logos found, try fallback from team data
-        if not any(logos.values()):
-            logger.info("No logos from game search, trying fallback...")
-            team_id = team_data.get("idTeam")
-            if team_id:
-                fallback_logos = await get_team_logos(team_id)
-                if not any(fallback_logos.values()):
-                    fallback_logos = extract_logos_from_team(team_data)
-                # Convert to new format
-                logos = {team_name: fallback_logos}
-                logger.info(f"Using fallback logos: {logos}")
-
-        # If still no logos, use default
-        if not any(logos.values()):
+        if local_logos:
+            logos = {team_name: local_logos}
+            logger.info(f"Using local logos for {team_name}: {local_logos}")
+        else:
+            # Fallback to API-based logo fetching if local logos not available
             logger.warning(
-                f"No logos found from any source, using default {team_name} logo"
+                f"No local logos found for {team_name}, falling back to API..."
             )
-            logos = {
-                team_name: {
-                    "logo": default_logo,
-                    "logo_small": default_logo,
-                    "jersey": "",
-                    "stadium": team_data.get("strStadium", default_stadium),
-                    "stadium_thumb": "",
-                    "stadium_thumb_small": "",
+            logos = await get_game_logos(game_data)
+
+            # If no logos found, try fallback from team data
+            if not any(logos.values()):
+                logger.info("No logos from game search, trying fallback...")
+                team_id = team_data.get("idTeam")
+                if team_id:
+                    fallback_logos = await get_team_logos(team_id)
+                    if not any(fallback_logos.values()):
+                        fallback_logos = extract_logos_from_team(team_data)
+                    # Convert to new format
+                    logos = {team_name: fallback_logos}
+                    logger.info(f"Using fallback logos: {logos}")
+
+            # If still no logos, use default
+            if not any(logos.values()):
+                logger.warning(
+                    f"No logos found from any source, using default {team_name} logo"
+                )
+                logos = {
+                    team_name: {
+                        "logo": default_logo,
+                        "logo_small": default_logo,
+                        "jersey": "",
+                    }
                 }
-            }
-            logger.info(f"Using fallback logos for {team_name}: {logos}")
+                logger.info(f"Using fallback logos for {team_name}: {logos}")
 
         # Create rich embed
         logger.info("Creating embed...")
