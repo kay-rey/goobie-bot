@@ -124,6 +124,21 @@ async def create_game_embed(game_data, logos, team_name=None):
                     # Fallback: look for any team with logos
                     if logos:
                         team_name = list(logos.keys())[0]
+
+            # Check if this is a hockey game
+            elif "hockey" in game_data.get("$ref", "").lower():
+                emoji = "🏒"
+                color = 0xA2AAAD  # Kings black
+
+                # Try to find Kings team name from logos
+                for team, team_logos in logos.items():
+                    if "kings" in team.lower():
+                        team_name = team
+                        break
+                else:
+                    # Fallback: look for any team with logos
+                    if logos:
+                        team_name = list(logos.keys())[0]
         else:
             # Use provided team name and determine sport/color/emoji
             if "dodgers" in team_name.lower():
@@ -135,6 +150,9 @@ async def create_game_embed(game_data, logos, team_name=None):
             elif "rams" in team_name.lower():
                 emoji = "🏈"
                 color = 0xFFD700  # Rams yellow/gold
+            elif "kings" in team_name.lower():
+                emoji = "🏒"
+                color = 0xA2AAAD  # Kings black
             else:  # Galaxy
                 emoji = "⚽"
                 color = 0x00245D  # LA Galaxy blue

@@ -14,32 +14,23 @@ async def get_galaxy_team_data():
     try:
         logger.info("Fetching LA Galaxy team data...")
 
-        # Search for LA Galaxy team
-        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
-        search_params = {"t": "LA Galaxy"}
+        # Use direct lookup with team ID
+        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
+        lookup_params = {"id": "134153"}
 
-        response = requests.get(search_url, params=search_params, timeout=10)
-        logger.info(f"TheSportsDB search response status: {response.status_code}")
+        response = requests.get(lookup_url, params=lookup_params, timeout=10)
+        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
 
         if response.status_code == 200:
             data = response.json()
-            logger.info(f"Search results: {data}")
+            logger.info(f"Lookup results: {data}")
 
-            if data.get("teams"):
-                for team in data["teams"]:
-                    # Look for LA Galaxy specifically in MLS
-                    if (
-                        (
-                            "LA Galaxy" in team.get("strTeam", "")
-                            or "Los Angeles Galaxy" in team.get("strTeam", "")
-                        )
-                        and "Soccer" in team.get("strSport", "")
-                        and "American Major League Soccer" in team.get("strLeague", "")
-                    ):
-                        logger.info(
-                            f"Found LA Galaxy team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                        )
-                        return team
+            if data.get("teams") and len(data["teams"]) > 0:
+                team = data["teams"][0]
+                logger.info(
+                    f"Found LA Galaxy team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                )
+                return team
 
         logger.warning("Could not find LA Galaxy team data")
         return None
@@ -54,43 +45,30 @@ async def get_team_logos(team_id):
     try:
         logger.info(f"Attempting to get logos for team ID: {team_id}")
 
-        # Skip the problematic lookup API and go straight to search
-        # The lookup API seems to have issues with LA Galaxy's ID
-        logger.info("Using search approach for LA Galaxy logos...")
-        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
-        search_params = {"t": "LA Galaxy"}
+        # Use direct lookup with team ID
+        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
+        lookup_params = {"id": team_id}
 
-        search_response = requests.get(search_url, params=search_params, timeout=10)
-        logger.info(
-            f"TheSportsDB search response status: {search_response.status_code}"
-        )
+        response = requests.get(lookup_url, params=lookup_params, timeout=10)
+        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
 
         # Handle rate limiting as per TheSportsDB docs
-        if search_response.status_code == 429:
+        if response.status_code == 429:
             logger.warning(
                 "Rate limited by TheSportsDB API (429). Free tier allows 30 requests per minute."
             )
             return {}
 
-        if search_response.status_code == 200:
-            search_data = search_response.json()
-            if search_data.get("teams"):
-                for team in search_data["teams"]:
-                    # Look for LA Galaxy specifically in MLS
-                    if (
-                        (
-                            "LA Galaxy" in team.get("strTeam", "")
-                            or "Los Angeles Galaxy" in team.get("strTeam", "")
-                        )
-                        and "Soccer" in team.get("strSport", "")
-                        and "American Major League Soccer" in team.get("strLeague", "")
-                    ):
-                        logger.info(
-                            f"Search found correct team: {team.get('strTeam')} (ID: {team.get('idTeam')})"
-                        )
-                        return extract_logos_from_team(team)
+        if response.status_code == 200:
+            data = response.json()
+            if data.get("teams") and len(data["teams"]) > 0:
+                team = data["teams"][0]
+                logger.info(
+                    f"Lookup found team: {team.get('strTeam')} (ID: {team.get('idTeam')})"
+                )
+                return extract_logos_from_team(team)
 
-        logger.warning("Could not find LA Galaxy team data for logos")
+        logger.warning(f"Could not find team data for logos with ID: {team_id}")
         return {}
 
     except Exception as e:
@@ -179,28 +157,23 @@ async def get_dodgers_team_data():
     try:
         logger.info("Fetching Los Angeles Dodgers team data...")
 
-        # Search for Los Angeles Dodgers team
-        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
-        search_params = {"t": "Los Angeles Dodgers"}
+        # Use direct lookup with team ID
+        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
+        lookup_params = {"id": "1416"}
 
-        response = requests.get(search_url, params=search_params, timeout=10)
-        logger.info(f"TheSportsDB search response status: {response.status_code}")
+        response = requests.get(lookup_url, params=lookup_params, timeout=10)
+        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
 
         if response.status_code == 200:
             data = response.json()
-            logger.info(f"Search results: {data}")
+            logger.info(f"Lookup results: {data}")
 
-            if data.get("teams"):
-                for team in data["teams"]:
-                    # Look for Los Angeles Dodgers specifically in MLB
-                    if (
-                        "Los Angeles Dodgers" in team.get("strTeam", "")
-                        or "Dodgers" in team.get("strTeam", "")
-                    ) and "Baseball" in team.get("strSport", ""):
-                        logger.info(
-                            f"Found Los Angeles Dodgers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                        )
-                        return team
+            if data.get("teams") and len(data["teams"]) > 0:
+                team = data["teams"][0]
+                logger.info(
+                    f"Found Los Angeles Dodgers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                )
+                return team
 
         logger.warning("Could not find Los Angeles Dodgers team data")
         return None
@@ -215,28 +188,23 @@ async def get_lakers_team_data():
     try:
         logger.info("Fetching Los Angeles Lakers team data...")
 
-        # Search for Los Angeles Lakers team
-        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
-        search_params = {"t": "Los Angeles Lakers"}
+        # Use direct lookup with team ID
+        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
+        lookup_params = {"id": "134154"}
 
-        response = requests.get(search_url, params=search_params, timeout=10)
-        logger.info(f"TheSportsDB search response status: {response.status_code}")
+        response = requests.get(lookup_url, params=lookup_params, timeout=10)
+        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
 
         if response.status_code == 200:
             data = response.json()
-            logger.info(f"Search results: {data}")
+            logger.info(f"Lookup results: {data}")
 
-            if data.get("teams"):
-                for team in data["teams"]:
-                    # Look for Los Angeles Lakers specifically in NBA
-                    if (
-                        "Los Angeles Lakers" in team.get("strTeam", "")
-                        or "Lakers" in team.get("strTeam", "")
-                    ) and "Basketball" in team.get("strSport", ""):
-                        logger.info(
-                            f"Found Los Angeles Lakers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                        )
-                        return team
+            if data.get("teams") and len(data["teams"]) > 0:
+                team = data["teams"][0]
+                logger.info(
+                    f"Found Los Angeles Lakers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                )
+                return team
 
         logger.warning("Could not find Los Angeles Lakers team data")
         return None
@@ -251,32 +219,58 @@ async def get_rams_team_data():
     try:
         logger.info("Fetching Los Angeles Rams team data...")
 
-        # Search for Los Angeles Rams team
-        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
-        search_params = {"t": "Los Angeles Rams"}
+        # Use direct lookup with team ID
+        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
+        lookup_params = {"id": "135907"}
 
-        response = requests.get(search_url, params=search_params, timeout=10)
-        logger.info(f"TheSportsDB search response status: {response.status_code}")
+        response = requests.get(lookup_url, params=lookup_params, timeout=10)
+        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
 
         if response.status_code == 200:
             data = response.json()
-            logger.info(f"Search results: {data}")
+            logger.info(f"Lookup results: {data}")
 
-            if data.get("teams"):
-                for team in data["teams"]:
-                    # Look for Los Angeles Rams specifically in NFL
-                    if (
-                        "Los Angeles Rams" in team.get("strTeam", "")
-                        or "Rams" in team.get("strTeam", "")
-                    ) and "American Football" in team.get("strSport", ""):
-                        logger.info(
-                            f"Found Los Angeles Rams team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                        )
-                        return team
+            if data.get("teams") and len(data["teams"]) > 0:
+                team = data["teams"][0]
+                logger.info(
+                    f"Found Los Angeles Rams team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                )
+                return team
 
         logger.warning("Could not find Los Angeles Rams team data")
         return None
 
     except Exception as e:
         logger.error(f"Error fetching Rams team data: {e}")
+        return None
+
+
+async def get_kings_team_data():
+    """Get Los Angeles Kings team data from TheSportsDB"""
+    try:
+        logger.info("Fetching Los Angeles Kings team data...")
+
+        # Use direct lookup with team ID
+        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
+        lookup_params = {"id": "134852"}
+
+        response = requests.get(lookup_url, params=lookup_params, timeout=10)
+        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+
+        if response.status_code == 200:
+            data = response.json()
+            logger.info(f"Lookup results: {data}")
+
+            if data.get("teams") and len(data["teams"]) > 0:
+                team = data["teams"][0]
+                logger.info(
+                    f"Found Los Angeles Kings team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                )
+                return team
+
+        logger.warning("Could not find Los Angeles Kings team data")
+        return None
+
+    except Exception as e:
+        logger.error(f"Error fetching Kings team data: {e}")
         return None
