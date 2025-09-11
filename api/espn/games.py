@@ -415,8 +415,8 @@ async def get_kings_next_game():
 
         logger.info(f"Date range: {start_date} to {end_date}")
 
-        # ESPN API endpoint for Kings events (NHL team ID: 26)
-        url = "http://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl/teams/26/events"
+        # ESPN API endpoint for Kings events (NHL team ID: 8)
+        url = "http://sports.core.api.espn.com/v2/sports/hockey/leagues/nhl/teams/8/events"
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         response = requests.get(url, params=params, timeout=10)

@@ -68,7 +68,7 @@ async def nextgame_command(
             team_name = "Los Angeles Kings"
             team_data_func = get_kings_team_data
             game_data_func = get_kings_next_game
-            default_logo = "https://a.espncdn.com/i/teamlogos/nhl/500/26.png"
+            default_logo = "https://a.espncdn.com/i/teamlogos/nhl/500/8.png"
             default_stadium = "Crypto.com Arena"
         else:  # galaxy
             team_name = "LA Galaxy"
