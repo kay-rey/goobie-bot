@@ -56,146 +56,6 @@ TEAM_LOGOS = {
     },
 }
 
-# Common opponent teams we might encounter
-COMMON_OPPONENTS = {
-    "atlanta_falcons": {
-        "team_name": "Atlanta Falcons",
-        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/1.png",
-    },
-    "san_francisco_49ers": {
-        "team_name": "San Francisco 49ers",
-        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/25.png",
-    },
-    "seattle_seahawks": {
-        "team_name": "Seattle Seahawks",
-        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/26.png",
-    },
-    "arizona_cardinals": {
-        "team_name": "Arizona Cardinals",
-        "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/22.png",
-    },
-    "golden_state_warriors": {
-        "team_name": "Golden State Warriors",
-        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/9.png",
-    },
-    "phoenix_suns": {
-        "team_name": "Phoenix Suns",
-        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/21.png",
-    },
-    "sacramento_kings": {
-        "team_name": "Sacramento Kings",
-        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/23.png",
-    },
-    "clippers": {
-        "team_name": "Los Angeles Clippers",
-        "logo": "https://a.espncdn.com/i/teamlogos/nba/500/12.png",
-    },
-    "san_diego_padres": {
-        "team_name": "San Diego Padres",
-        "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/25.png",
-    },
-    "san_francisco_giants": {
-        "team_name": "San Francisco Giants",
-        "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/26.png",
-    },
-    "anaheim_ducks": {
-        "team_name": "Anaheim Ducks",
-        "logo": "https://a.espncdn.com/i/teamlogos/nhl/500/24.png",
-    },
-    "san_jose_sharks": {
-        "team_name": "San Jose Sharks",
-        "logo": "https://a.espncdn.com/i/teamlogos/nhl/500/28.png",
-    },
-    "vegas_golden_knights": {
-        "team_name": "Vegas Golden Knights",
-        "logo": "https://a.espncdn.com/i/teamlogos/nhl/500/142.png",
-    },
-    "seattle_sounders": {
-        "team_name": "Seattle Sounders FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/977.png",
-    },
-    "portland_timbers": {
-        "team_name": "Portland Timbers",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/978.png",
-    },
-    "vancouver_whitecaps": {
-        "team_name": "Vancouver Whitecaps FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/979.png",
-    },
-    "real_salt_lake": {
-        "team_name": "Real Salt Lake",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/980.png",
-    },
-    "colorado_rapids": {
-        "team_name": "Colorado Rapids",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/981.png",
-    },
-    "fc_dallas": {
-        "team_name": "FC Dallas",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/982.png",
-    },
-    "houston_dynamo": {
-        "team_name": "Houston Dynamo FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/984.png",
-    },
-    "sporting_kc": {
-        "team_name": "Sporting Kansas City",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/985.png",
-    },
-    "minnesota_united": {
-        "team_name": "Minnesota United FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/986.png",
-    },
-    "chicago_fire": {
-        "team_name": "Chicago Fire FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/987.png",
-    },
-    "columbus_crew": {
-        "team_name": "Columbus Crew",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/988.png",
-    },
-    "dc_united": {
-        "team_name": "D.C. United",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/989.png",
-    },
-    "inter_miami": {
-        "team_name": "Inter Miami CF",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/990.png",
-    },
-    "atlanta_united": {
-        "team_name": "Atlanta United FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/991.png",
-    },
-    "orlando_city": {
-        "team_name": "Orlando City SC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/992.png",
-    },
-    "new_york_city": {
-        "team_name": "New York City FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/993.png",
-    },
-    "new_york_red_bulls": {
-        "team_name": "New York Red Bulls",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/994.png",
-    },
-    "philadelphia_union": {
-        "team_name": "Philadelphia Union",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/995.png",
-    },
-    "toronto_fc": {
-        "team_name": "Toronto FC",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/996.png",
-    },
-    "montreal_cf": {
-        "team_name": "CF Montréal",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/997.png",
-    },
-    "new_england_revolution": {
-        "team_name": "New England Revolution",
-        "logo": "https://a.espncdn.com/i/teamlogos/soccer/500/998.png",
-    },
-}
-
 
 async def download_image(session, url, filepath):
     """Download an image from URL and save to filepath"""
@@ -247,23 +107,11 @@ async def download_team_logos():
                     filepath = team_dir / filename
                     await download_image(session, url, filepath)
 
-        # Download common opponent logos
-        opponents_dir = assets_dir / "opponents"
-        opponents_dir.mkdir(parents=True, exist_ok=True)
-
-        for opponent_key, opponent_data in COMMON_OPPONENTS.items():
-            logger.info(f"Downloading logo for {opponent_data['team_name']}")
-            url = opponent_data["logo"]
-            filename = f"{opponent_key}.png"
-            filepath = opponents_dir / filename
-            await download_image(session, url, filepath)
-
 
 def create_logo_manifest():
     """Create a manifest file with all logo mappings"""
     manifest = {
         "teams": TEAM_LOGOS,
-        "opponents": COMMON_OPPONENTS,
         "version": "1.0.0",
         "generated_at": "2024-01-01T00:00:00Z",
     }

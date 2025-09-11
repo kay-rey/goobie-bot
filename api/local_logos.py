@@ -36,10 +36,10 @@ class LocalLogoManager:
                 return manifest
             else:
                 logger.warning("Logo manifest not found, using empty manifest")
-                return {"teams": {}, "opponents": {}}
+                return {"teams": {}}
         except Exception as e:
             logger.error(f"Error loading logo manifest: {e}")
-            return {"teams": {}, "opponents": {}}
+            return {"teams": {}}
 
     def get_team_logos(self, team_key: str) -> Optional[Dict[str, str]]:
         """Get logos for a team by key (galaxy, dodgers, lakers, rams, kings)"""
@@ -67,38 +67,12 @@ class LocalLogoManager:
 
         return logos
 
-    def get_opponent_logo(self, opponent_name: str) -> Optional[str]:
-        """Get logo for a common opponent team"""
-        # Try to find by team name
-        for opponent_key, opponent_data in self.manifest.get("opponents", {}).items():
-            if opponent_name.lower() in opponent_data.get("team_name", "").lower():
-                local_path = f"/app/assets/logos/opponents/{opponent_key}.png"
-                if Path(local_path).exists():
-                    return local_path
-                else:
-                    # Fallback to original URL
-                    return opponent_data.get("logo")
-
-        logger.warning(f"No logo found for opponent: {opponent_name}")
-        return None
-
     def get_team_logos_by_name(self, team_name: str) -> Optional[Dict[str, str]]:
         """Get logos for a team by name (fallback for unknown teams)"""
         # Try to match against known teams
         for team_key, team_data in self.manifest.get("teams", {}).items():
             if team_name.lower() in team_data.get("team_name", "").lower():
                 return self.get_team_logos(team_key)
-
-        # Try opponents
-        for opponent_key, opponent_data in self.manifest.get("opponents", {}).items():
-            if team_name.lower() in opponent_data.get("team_name", "").lower():
-                logo_url = self.get_opponent_logo(opponent_data["team_name"])
-                if logo_url:
-                    return {
-                        "logo": logo_url,
-                        "logo_small": logo_url,
-                        "jersey": "",
-                    }
 
         logger.warning(f"No logo found for team name: {team_name}")
         return None

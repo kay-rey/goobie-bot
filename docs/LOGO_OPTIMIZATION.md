@@ -67,10 +67,9 @@ This document describes the optimization implemented to improve the efficiency o
 ├── lakers/                      # Los Angeles Lakers logos
 ├── rams/                        # Los Angeles Rams logos
 ├── kings/                       # Los Angeles Kings logos
-└── opponents/                   # Common opponent team logos
-    ├── atlanta_falcons.png
-    ├── san_francisco_49ers.png
-    └── ...
+    ├── logo.png
+    ├── logo_small.png
+    └── jersey.png
 ```
 
 ## Usage
