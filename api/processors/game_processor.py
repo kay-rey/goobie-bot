@@ -8,7 +8,7 @@ from datetime import datetime
 import pytz
 import discord
 
-from api import get_team_name_from_ref, search_team_logos, search_venue_logos
+from api import get_team_name_from_ref, search_team_logos
 
 logger = logging.getLogger(__name__)
 

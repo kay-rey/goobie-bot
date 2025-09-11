@@ -52,31 +52,26 @@ async def nextgame_command(
             team_data_func = get_dodgers_team_data
             game_data_func = get_dodgers_next_game
             default_logo = "https://a.espncdn.com/i/teamlogos/mlb/500/19.png"
-            default_stadium = "Dodger Stadium"
         elif team.value == "lakers":
             team_name = "Los Angeles Lakers"
             team_data_func = get_lakers_team_data
             game_data_func = get_lakers_next_game
             default_logo = "https://a.espncdn.com/i/teamlogos/nba/500/13.png"
-            default_stadium = "Crypto.com Arena"
         elif team.value == "rams":
             team_name = "Los Angeles Rams"
             team_data_func = get_rams_team_data
             game_data_func = get_rams_next_game
             default_logo = "https://a.espncdn.com/i/teamlogos/nfl/500/14.png"
-            default_stadium = "SoFi Stadium"
         elif team.value == "kings":
             team_name = "Los Angeles Kings"
             team_data_func = get_kings_team_data
             game_data_func = get_kings_next_game
             default_logo = "https://a.espncdn.com/i/teamlogos/nhl/500/8.png"
-            default_stadium = "Crypto.com Arena"
         else:  # galaxy
             team_name = "LA Galaxy"
             team_data_func = get_galaxy_team_data
             game_data_func = get_galaxy_next_game_extended
             default_logo = "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png"
-            default_stadium = "Dignity Health Sports Park"
 
         # Get team data from TheSportsDB
         logger.info(f"Fetching {team_name} team data...")
