@@ -295,3 +295,13 @@ dhcpcd.conf
 # Discord Bot specific files
 # Keep these in gitignore for development
 diff.txt
+
+# Temporary development files
+*.diff
+*.patch
+test_*.py.bak
+*_backup.py
+
+# Documentation temporary files
+docs/*.tmp
+docs/*.temp
