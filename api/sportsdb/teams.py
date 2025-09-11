@@ -9,7 +9,6 @@ from api.cache import (
     get_cached,
     set_cached,
     team_logos_key,
-    team_logos_by_name_key,
     team_metadata_key,
 )
 
@@ -28,26 +27,49 @@ async def get_galaxy_team_data():
             logger.info("Returning cached Galaxy team data")
             return cached_result
 
-        # Use direct lookup with team ID
-        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
-        lookup_params = {"id": "134153"}
+        # Use search API instead of direct lookup due to TheSportsDB API issue
+        # The direct lookup with ID 134153 returns Arsenal instead of LA Galaxy
+        search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
+        search_params = {"t": "LA Galaxy"}
 
-        data = await get_json(lookup_url, params=lookup_params)
-        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
+        data = await get_json(search_url, params=search_params)
+        logger.info(f"TheSportsDB search response status: {200 if data else 'Failed'}")
         if data:
-            logger.debug(f"Lookup results: {data}")
+            logger.debug(f"Search results: {data}")
 
         if data and data.get("teams") and len(data["teams"]) > 0:
-            team = data["teams"][0]
-            logger.info(
-                f"Found LA Galaxy team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-            )
-            # Cache the result
-            await set_cached(cache_key, team, "team_metadata")
-            return team
+            # Find the correct LA Galaxy team
+            for team in data["teams"]:
+                if (
+                    team.get("strTeam", "").lower() == "la galaxy"
+                    and "mls" in team.get("strLeague", "").lower()
+                ):
+                    logger.info(
+                        f"Found LA Galaxy team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+                    )
+                    # Cache the result
+                    await set_cached(cache_key, team, "team_metadata")
+                    return team
 
-        logger.warning("Could not find LA Galaxy team data")
-        return None
+        # Fallback: Create LA Galaxy data with correct logo URL
+        logger.warning(
+            "Could not find LA Galaxy team data from API, using fallback data"
+        )
+        fallback_team = {
+            "idTeam": "134153",
+            "strTeam": "LA Galaxy",
+            "strLeague": "American Major League Soccer",
+            "strSport": "Soccer",
+            "strBadge": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png",
+            "strLogo": "https://r2.thesportsdb.com/images/media/team/logo/ysyysr1420227188.png",
+            "strStadium": "Dignity Health Sports Park",
+            "strStadiumThumb": "https://www.thesportsdb.com/images/media/venue/thumb/15529.jpg",
+            "strEquipment": "https://www.thesportsdb.com/images/media/team/equipment/ysyysr1420227188.png",
+        }
+
+        # Cache the fallback result
+        await set_cached(cache_key, fallback_team, "team_metadata")
+        return fallback_team
 
     except Exception as e:
         logger.error(f"Error fetching team data: {e}")
@@ -66,7 +88,66 @@ async def get_team_logos(team_id):
             logger.info(f"Returning cached logos for team ID: {team_id}")
             return cached_result
 
-        # Use direct lookup with team ID
+        # Special handling for LA teams with hardcoded logos for reliability
+        la_team_logos = {
+            "134153": {  # LA Galaxy
+                "logo": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png",
+                "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png/small",
+                "jersey": "https://www.thesportsdb.com/images/media/team/equipment/ysyysr1420227188.png",
+                "stadium": "Dignity Health Sports Park",
+                "stadium_thumb": "https://www.thesportsdb.com/images/media/venue/thumb/15529.jpg",
+                "stadium_thumb_small": "https://www.thesportsdb.com/images/media/venue/thumb/15529.jpg/small",
+            },
+            "1416": {  # Los Angeles Dodgers
+                "logo": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+                "logo_small": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+                "jersey": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+                "stadium": "Dodger Stadium",
+                "stadium_thumb": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+                "stadium_thumb_small": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+            },
+            "134154": {  # Los Angeles Lakers
+                "logo": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+                "logo_small": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+                "jersey": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+                "stadium": "Crypto.com Arena",
+                "stadium_thumb": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+                "stadium_thumb_small": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+            },
+            "135907": {  # Los Angeles Rams
+                "logo": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+                "logo_small": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+                "jersey": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+                "stadium": "SoFi Stadium",
+                "stadium_thumb": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+                "stadium_thumb_small": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+            },
+            "134852": {  # Los Angeles Kings
+                "logo": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+                "logo_small": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+                "jersey": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+                "stadium": "Crypto.com Arena",
+                "stadium_thumb": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+                "stadium_thumb_small": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+            },
+        }
+
+        if team_id in la_team_logos:
+            team_name = {
+                "134153": "LA Galaxy",
+                "1416": "Los Angeles Dodgers",
+                "134154": "Los Angeles Lakers",
+                "135907": "Los Angeles Rams",
+                "134852": "Los Angeles Kings",
+            }[team_id]
+
+            logger.info(f"Using hardcoded logos for {team_name} (ID: {team_id})")
+            logos = la_team_logos[team_id]
+            # Cache the result
+            await set_cached(cache_key, logos, "team_logos")
+            return logos
+
+        # Use direct lookup with team ID for other teams
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
         lookup_params = {"id": team_id}
 
@@ -178,24 +259,30 @@ async def get_dodgers_team_data():
     try:
         logger.info("Fetching Los Angeles Dodgers team data...")
 
-        # Use direct lookup with team ID
-        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
-        lookup_params = {"id": "1416"}
+        # Check cache first
+        cache_key = team_metadata_key("dodgers")
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Dodgers team data")
+            return cached_result
 
-        data = await get_json(lookup_url, params=lookup_params)
-        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        if data:
-            logger.debug(f"Lookup results: {data}")
+        # Use hardcoded data for reliability
+        logger.info("Using hardcoded Dodgers team data")
+        dodgers_data = {
+            "idTeam": "1416",
+            "strTeam": "Los Angeles Dodgers",
+            "strLeague": "Major League Baseball",
+            "strSport": "Baseball",
+            "strBadge": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+            "strLogo": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+            "strStadium": "Dodger Stadium",
+            "strStadiumThumb": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+            "strEquipment": "https://a.espncdn.com/i/teamlogos/mlb/500/19.png",
+        }
 
-        if data and data.get("teams") and len(data["teams"]) > 0:
-            team = data["teams"][0]
-            logger.info(
-                f"Found Los Angeles Dodgers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-            )
-            return team
-
-        logger.warning("Could not find Los Angeles Dodgers team data")
-        return None
+        # Cache the result
+        await set_cached(cache_key, dodgers_data, "team_metadata")
+        return dodgers_data
 
     except Exception as e:
         logger.error(f"Error fetching Dodgers team data: {e}")
@@ -207,24 +294,30 @@ async def get_lakers_team_data():
     try:
         logger.info("Fetching Los Angeles Lakers team data...")
 
-        # Use direct lookup with team ID
-        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
-        lookup_params = {"id": "134154"}
+        # Check cache first
+        cache_key = team_metadata_key("lakers")
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Lakers team data")
+            return cached_result
 
-        data = await get_json(lookup_url, params=lookup_params)
-        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        if data:
-            logger.debug(f"Lookup results: {data}")
+        # Use hardcoded data for reliability
+        logger.info("Using hardcoded Lakers team data")
+        lakers_data = {
+            "idTeam": "134154",
+            "strTeam": "Los Angeles Lakers",
+            "strLeague": "National Basketball Association",
+            "strSport": "Basketball",
+            "strBadge": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+            "strLogo": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+            "strStadium": "Crypto.com Arena",
+            "strStadiumThumb": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+            "strEquipment": "https://a.espncdn.com/i/teamlogos/nba/500/13.png",
+        }
 
-        if data and data.get("teams") and len(data["teams"]) > 0:
-            team = data["teams"][0]
-            logger.info(
-                f"Found Los Angeles Lakers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-            )
-            return team
-
-        logger.warning("Could not find Los Angeles Lakers team data")
-        return None
+        # Cache the result
+        await set_cached(cache_key, lakers_data, "team_metadata")
+        return lakers_data
 
     except Exception as e:
         logger.error(f"Error fetching Lakers team data: {e}")
@@ -236,24 +329,30 @@ async def get_rams_team_data():
     try:
         logger.info("Fetching Los Angeles Rams team data...")
 
-        # Use direct lookup with team ID
-        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
-        lookup_params = {"id": "135907"}
+        # Check cache first
+        cache_key = team_metadata_key("rams")
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Rams team data")
+            return cached_result
 
-        data = await get_json(lookup_url, params=lookup_params)
-        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        if data:
-            logger.debug(f"Lookup results: {data}")
+        # Use hardcoded data for reliability
+        logger.info("Using hardcoded Rams team data")
+        rams_data = {
+            "idTeam": "135907",
+            "strTeam": "Los Angeles Rams",
+            "strLeague": "National Football League",
+            "strSport": "American Football",
+            "strBadge": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+            "strLogo": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+            "strStadium": "SoFi Stadium",
+            "strStadiumThumb": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+            "strEquipment": "https://a.espncdn.com/i/teamlogos/nfl/500/14.png",
+        }
 
-        if data and data.get("teams") and len(data["teams"]) > 0:
-            team = data["teams"][0]
-            logger.info(
-                f"Found Los Angeles Rams team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-            )
-            return team
-
-        logger.warning("Could not find Los Angeles Rams team data")
-        return None
+        # Cache the result
+        await set_cached(cache_key, rams_data, "team_metadata")
+        return rams_data
 
     except Exception as e:
         logger.error(f"Error fetching Rams team data: {e}")
@@ -265,24 +364,30 @@ async def get_kings_team_data():
     try:
         logger.info("Fetching Los Angeles Kings team data...")
 
-        # Use direct lookup with team ID
-        lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
-        lookup_params = {"id": "134852"}
+        # Check cache first
+        cache_key = team_metadata_key("kings")
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Kings team data")
+            return cached_result
 
-        data = await get_json(lookup_url, params=lookup_params)
-        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        if data:
-            logger.debug(f"Lookup results: {data}")
+        # Use hardcoded data for reliability
+        logger.info("Using hardcoded Kings team data")
+        kings_data = {
+            "idTeam": "134852",
+            "strTeam": "Los Angeles Kings",
+            "strLeague": "National Hockey League",
+            "strSport": "Ice Hockey",
+            "strBadge": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+            "strLogo": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+            "strStadium": "Crypto.com Arena",
+            "strStadiumThumb": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+            "strEquipment": "https://a.espncdn.com/i/teamlogos/nhl/500/8.png",
+        }
 
-        if data and data.get("teams") and len(data["teams"]) > 0:
-            team = data["teams"][0]
-            logger.info(
-                f"Found Los Angeles Kings team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-            )
-            return team
-
-        logger.warning("Could not find Los Angeles Kings team data")
-        return None
+        # Cache the result
+        await set_cached(cache_key, kings_data, "team_metadata")
+        return kings_data
 
     except Exception as e:
         logger.error(f"Error fetching Kings team data: {e}")

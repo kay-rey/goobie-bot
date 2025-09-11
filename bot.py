@@ -23,9 +23,10 @@ from events import (
 from commands import ping_command, nextgame_command, test_command, sync_command
 from commands.weekly import weekly_command
 from commands.cache import cache_command
+from commands.cache_test import cache_test_command
 from scheduler.weekly_matches import schedule_weekly_matches
 from api.http_client import cleanup_http_client
-from api.cache import cache_cleanup_task, cache_manager
+from api.cache import cache_cleanup_task
 
 # Set up logging
 logger = setup_logging()
@@ -68,6 +69,7 @@ bot.tree.add_command(ping_command)
 bot.tree.add_command(nextgame_command)
 bot.tree.add_command(weekly_command)
 bot.tree.add_command(cache_command)
+bot.tree.add_command(cache_test_command)
 
 # Register text commands
 bot.add_command(test_command)

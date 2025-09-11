@@ -203,6 +203,21 @@ The bot requires the following Discord permissions:
 
 ## 🧪 Testing
 
+### Cache Testing
+
+```bash
+# Run all Docker cache tests
+./test-docker-cache.sh
+
+# Run simple cache tests
+python tests/test_cache_simple.py
+
+# Run cache tests in Docker
+docker run --rm -v "$(pwd):/app" -w /app goobie-bot:latest python tests/test_cache_docker.py
+```
+
+### API Testing
+
 ```bash
 # Run tests inside Docker container
 docker-compose exec goobie-bot python -m pytest tests/
@@ -210,6 +225,18 @@ docker-compose exec goobie-bot python -m pytest tests/
 # Or use the test script
 ./tests/run_tests.sh
 ```
+
+### Discord Commands for Testing
+
+- `/cache stats` - View cache performance statistics
+- `/cache clear` - Clear all cache entries
+- `/cache cleanup` - Remove expired cache entries
+- `/cachetest basic` - Run basic cache functionality tests
+- `/cachetest performance` - Run cache performance tests
+- `/cachetest stress` - Run cache stress tests
+- `/cachetest integration` - Run cache integration tests
+
+For detailed Docker testing information, see [DOCKER_TESTING.md](DOCKER_TESTING.md).
 
 ## 🚀 Future Roadmap
 

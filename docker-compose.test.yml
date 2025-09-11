@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  goobie-bot-test:
+    build: .
+    container_name: goobie-bot-test
+    env_file: .env
+    volumes:
+      # Mount the current directory to /app for live code changes
+      - .:/app
+    # Override command to run tests instead of the bot
+    command: python tests/test_cache_docker.py
+    # Add labels for easier management
+    labels:
+      - "com.goobie-bot.service=discord-bot-test"
+      - "com.goobie-bot.environment=testing"
+    # Don't restart on failure for testing
+    restart: "no"
+    # Add environment variables for testing
+    environment:
+      - PYTHONPATH=/app
+      - LOG_LEVEL=INFO
