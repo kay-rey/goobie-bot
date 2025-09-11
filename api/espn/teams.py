@@ -4,7 +4,7 @@ Handles all ESPN API calls related to team information
 """
 
 import logging
-import aiohttp
+from api.http_client import get_json
 
 logger = logging.getLogger(__name__)
 
@@ -22,25 +22,21 @@ async def get_team_name_from_ref(team_ref):
         return _team_name_cache[team_ref]
 
     try:
-        async with aiohttp.ClientSession() as session:
-            async with session.get(
-                team_ref, timeout=aiohttp.ClientTimeout(total=10)
-            ) as response:
-                if response.status == 200:
-                    team_data = await response.json()
-                    # Try different name fields in order of preference
-                    team_name = (
-                        team_data.get("displayName")
-                        or team_data.get("name")
-                        or team_data.get("shortDisplayName")
-                        or team_data.get("abbreviation")
-                        or "TBD"
-                    )
-                    # Cache the result
-                    _team_name_cache[team_ref] = team_name
-                    return team_name
-                else:
-                    logger.warning(f"Failed to fetch team data: {response.status}")
+        team_data = await get_json(team_ref)
+        if team_data:
+            # Try different name fields in order of preference
+            team_name = (
+                team_data.get("displayName")
+                or team_data.get("name")
+                or team_data.get("shortDisplayName")
+                or team_data.get("abbreviation")
+                or "TBD"
+            )
+            # Cache the result
+            _team_name_cache[team_ref] = team_name
+            return team_name
+        else:
+            logger.warning(f"Failed to fetch team data from {team_ref}")
     except Exception as e:
         logger.error(f"Error fetching team name from {team_ref}: {e}")
 

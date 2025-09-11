@@ -4,7 +4,7 @@ Handles all TheSportsDB API calls related to team data and logos
 """
 
 import logging
-import requests
+from api.http_client import get_json
 
 logger = logging.getLogger(__name__)
 
@@ -18,19 +18,16 @@ async def get_galaxy_team_data():
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
         lookup_params = {"id": "134153"}
 
-        response = requests.get(lookup_url, params=lookup_params, timeout=10)
-        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+        data = await get_json(lookup_url, params=lookup_params)
+        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
+        logger.info(f"Lookup results: {data}")
 
-        if response.status_code == 200:
-            data = response.json()
-            logger.info(f"Lookup results: {data}")
-
-            if data.get("teams") and len(data["teams"]) > 0:
-                team = data["teams"][0]
-                logger.info(
-                    f"Found LA Galaxy team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                )
-                return team
+        if data and data.get("teams") and len(data["teams"]) > 0:
+            team = data["teams"][0]
+            logger.info(
+                f"Found LA Galaxy team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+            )
+            return team
 
         logger.warning("Could not find LA Galaxy team data")
         return None
@@ -49,24 +46,22 @@ async def get_team_logos(team_id):
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
         lookup_params = {"id": team_id}
 
-        response = requests.get(lookup_url, params=lookup_params, timeout=10)
-        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+        data = await get_json(lookup_url, params=lookup_params)
+        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
 
-        # Handle rate limiting as per TheSportsDB docs
-        if response.status_code == 429:
+        # Handle rate limiting - aiohttp wrapper handles this
+        if not data:
             logger.warning(
                 "Rate limited by TheSportsDB API (429). Free tier allows 30 requests per minute."
             )
             return {}
 
-        if response.status_code == 200:
-            data = response.json()
-            if data.get("teams") and len(data["teams"]) > 0:
-                team = data["teams"][0]
-                logger.info(
-                    f"Lookup found team: {team.get('strTeam')} (ID: {team.get('idTeam')})"
-                )
-                return extract_logos_from_team(team)
+        if data and data.get("teams") and len(data["teams"]) > 0:
+            team = data["teams"][0]
+            logger.info(
+                f"Lookup found team: {team.get('strTeam')} (ID: {team.get('idTeam')})"
+            )
+            return extract_logos_from_team(team)
 
         logger.warning(f"Could not find team data for logos with ID: {team_id}")
         return {}
@@ -128,14 +123,12 @@ async def search_team_logos(team_name):
         search_url = "https://www.thesportsdb.com/api/v1/json/123/searchteams.php"
         search_params = {"t": team_name}
 
-        response = requests.get(search_url, params=search_params, timeout=10)
-        if response.status_code == 200:
-            data = response.json()
-            if data.get("teams"):
-                for team in data["teams"]:
-                    # Look for exact or close match
-                    if team_name.lower() in team.get("strTeam", "").lower():
-                        return extract_logos_from_team(team)
+        data = await get_json(search_url, params=search_params)
+        if data and data.get("teams"):
+            for team in data["teams"]:
+                # Look for exact or close match
+                if team_name.lower() in team.get("strTeam", "").lower():
+                    return extract_logos_from_team(team)
         return {}
     except Exception as e:
         logger.error(f"Error searching team logos for {team_name}: {e}")
@@ -145,8 +138,9 @@ async def search_team_logos(team_name):
 async def test_logo_url(url):
     """Test if a logo URL is accessible"""
     try:
-        response = requests.head(url, timeout=5)
-        return response.status_code == 200
+        from api.http_client import check_url_exists
+
+        return await check_url_exists(url)
     except Exception as e:
         logger.error(f"Error testing logo URL {url}: {e}")
         return False
@@ -161,19 +155,16 @@ async def get_dodgers_team_data():
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
         lookup_params = {"id": "1416"}
 
-        response = requests.get(lookup_url, params=lookup_params, timeout=10)
-        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+        data = await get_json(lookup_url, params=lookup_params)
+        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
+        logger.info(f"Lookup results: {data}")
 
-        if response.status_code == 200:
-            data = response.json()
-            logger.info(f"Lookup results: {data}")
-
-            if data.get("teams") and len(data["teams"]) > 0:
-                team = data["teams"][0]
-                logger.info(
-                    f"Found Los Angeles Dodgers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                )
-                return team
+        if data and data.get("teams") and len(data["teams"]) > 0:
+            team = data["teams"][0]
+            logger.info(
+                f"Found Los Angeles Dodgers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+            )
+            return team
 
         logger.warning("Could not find Los Angeles Dodgers team data")
         return None
@@ -192,19 +183,16 @@ async def get_lakers_team_data():
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
         lookup_params = {"id": "134154"}
 
-        response = requests.get(lookup_url, params=lookup_params, timeout=10)
-        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+        data = await get_json(lookup_url, params=lookup_params)
+        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
+        logger.info(f"Lookup results: {data}")
 
-        if response.status_code == 200:
-            data = response.json()
-            logger.info(f"Lookup results: {data}")
-
-            if data.get("teams") and len(data["teams"]) > 0:
-                team = data["teams"][0]
-                logger.info(
-                    f"Found Los Angeles Lakers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                )
-                return team
+        if data and data.get("teams") and len(data["teams"]) > 0:
+            team = data["teams"][0]
+            logger.info(
+                f"Found Los Angeles Lakers team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+            )
+            return team
 
         logger.warning("Could not find Los Angeles Lakers team data")
         return None
@@ -223,19 +211,16 @@ async def get_rams_team_data():
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
         lookup_params = {"id": "135907"}
 
-        response = requests.get(lookup_url, params=lookup_params, timeout=10)
-        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+        data = await get_json(lookup_url, params=lookup_params)
+        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
+        logger.info(f"Lookup results: {data}")
 
-        if response.status_code == 200:
-            data = response.json()
-            logger.info(f"Lookup results: {data}")
-
-            if data.get("teams") and len(data["teams"]) > 0:
-                team = data["teams"][0]
-                logger.info(
-                    f"Found Los Angeles Rams team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                )
-                return team
+        if data and data.get("teams") and len(data["teams"]) > 0:
+            team = data["teams"][0]
+            logger.info(
+                f"Found Los Angeles Rams team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+            )
+            return team
 
         logger.warning("Could not find Los Angeles Rams team data")
         return None
@@ -254,19 +239,16 @@ async def get_kings_team_data():
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
         lookup_params = {"id": "134852"}
 
-        response = requests.get(lookup_url, params=lookup_params, timeout=10)
-        logger.info(f"TheSportsDB lookup response status: {response.status_code}")
+        data = await get_json(lookup_url, params=lookup_params)
+        logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
+        logger.info(f"Lookup results: {data}")
 
-        if response.status_code == 200:
-            data = response.json()
-            logger.info(f"Lookup results: {data}")
-
-            if data.get("teams") and len(data["teams"]) > 0:
-                team = data["teams"][0]
-                logger.info(
-                    f"Found Los Angeles Kings team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
-                )
-                return team
+        if data and data.get("teams") and len(data["teams"]) > 0:
+            team = data["teams"][0]
+            logger.info(
+                f"Found Los Angeles Kings team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
+            )
+            return team
 
         logger.warning("Could not find Los Angeles Kings team data")
         return None

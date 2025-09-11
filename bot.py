@@ -23,6 +23,7 @@ from events import (
 from commands import ping_command, nextgame_command, test_command, sync_command
 from commands.weekly import weekly_command
 from scheduler.weekly_matches import schedule_weekly_matches
+from api.http_client import cleanup_http_client
 
 # Set up logging
 logger = setup_logging()
@@ -73,10 +74,16 @@ if __name__ == "__main__":
         logger.info("🔑 Discord Token found")
         try:
             bot.run(DISCORD_TOKEN)
+        except KeyboardInterrupt:
+            logger.info("🛑 Bot stopped by user")
         except Exception as e:
             logger.error(f"❌ Bot crashed: {e}")
             import traceback
 
             traceback.print_exc()
+        finally:
+            # Cleanup HTTP client
+            logger.info("🧹 Cleaning up HTTP client...")
+            asyncio.run(cleanup_http_client())
     else:
         logger.error("❌ No Discord token found! Please check your .env file")
