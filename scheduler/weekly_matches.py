@@ -259,9 +259,7 @@ async def create_weekly_matches_embed():
                 )
 
         # Add footer with better formatting
-        embed.set_footer(
-            text="🔄 Updates every Monday at 1pm PT • 🏆 Go LA!"
-        )
+        embed.set_footer(text="🔄 Updates every Monday at 1pm PT • 🏆 Go LA!")
 
         return embed
 
