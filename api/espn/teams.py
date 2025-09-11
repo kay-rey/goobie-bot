@@ -5,11 +5,9 @@ Handles all ESPN API calls related to team information
 
 import logging
 from api.http_client import get_json
+from api.cache import get_cached, set_cached, team_name_key
 
 logger = logging.getLogger(__name__)
-
-# Simple cache to avoid repeated API calls
-_team_name_cache = {}
 
 
 async def get_team_name_from_ref(team_ref):
@@ -18,8 +16,11 @@ async def get_team_name_from_ref(team_ref):
         return "TBD"
 
     # Check cache first
-    if team_ref in _team_name_cache:
-        return _team_name_cache[team_ref]
+    cache_key = team_name_key(team_ref)
+    cached_result = await get_cached(cache_key)
+    if cached_result is not None:
+        logger.debug(f"Returning cached team name for {team_ref}")
+        return cached_result
 
     try:
         team_data = await get_json(team_ref)
@@ -33,7 +34,7 @@ async def get_team_name_from_ref(team_ref):
                 or "TBD"
             )
             # Cache the result
-            _team_name_cache[team_ref] = team_name
+            await set_cached(cache_key, team_name, "team_names")
             return team_name
         else:
             logger.warning(f"Failed to fetch team data from {team_ref}")

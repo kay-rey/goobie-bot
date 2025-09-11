@@ -5,6 +5,13 @@ Handles all TheSportsDB API calls related to team data and logos
 
 import logging
 from api.http_client import get_json
+from api.cache import (
+    get_cached,
+    set_cached,
+    team_logos_key,
+    team_logos_by_name_key,
+    team_metadata_key,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -13,6 +20,13 @@ async def get_galaxy_team_data():
     """Get LA Galaxy team data from TheSportsDB"""
     try:
         logger.info("Fetching LA Galaxy team data...")
+
+        # Check cache first
+        cache_key = team_metadata_key("galaxy")
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Galaxy team data")
+            return cached_result
 
         # Use direct lookup with team ID
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
@@ -27,6 +41,8 @@ async def get_galaxy_team_data():
             logger.info(
                 f"Found LA Galaxy team: {team.get('strTeam')} with ID: {team.get('idTeam')}"
             )
+            # Cache the result
+            await set_cached(cache_key, team, "team_metadata")
             return team
 
         logger.warning("Could not find LA Galaxy team data")
@@ -41,6 +57,13 @@ async def get_team_logos(team_id):
     """Get team logos from TheSportsDB"""
     try:
         logger.info(f"Attempting to get logos for team ID: {team_id}")
+
+        # Check cache first
+        cache_key = team_logos_key(team_id)
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info(f"Returning cached logos for team ID: {team_id}")
+            return cached_result
 
         # Use direct lookup with team ID
         lookup_url = "https://www.thesportsdb.com/api/v1/json/123/lookupteam.php"
@@ -61,7 +84,10 @@ async def get_team_logos(team_id):
             logger.info(
                 f"Lookup found team: {team.get('strTeam')} (ID: {team.get('idTeam')})"
             )
-            return extract_logos_from_team(team)
+            logos = extract_logos_from_team(team)
+            # Cache the result
+            await set_cached(cache_key, logos, "team_logos")
+            return logos
 
         logger.warning(f"Could not find team data for logos with ID: {team_id}")
         return {}

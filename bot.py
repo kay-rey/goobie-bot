@@ -22,8 +22,10 @@ from events import (
 )
 from commands import ping_command, nextgame_command, test_command, sync_command
 from commands.weekly import weekly_command
+from commands.cache import cache_command
 from scheduler.weekly_matches import schedule_weekly_matches
 from api.http_client import cleanup_http_client
+from api.cache import cache_cleanup_task, cache_manager
 
 # Set up logging
 logger = setup_logging()
@@ -40,6 +42,10 @@ async def on_ready():
     # Start the weekly matches scheduler
     logger.info("Starting weekly matches scheduler...")
     asyncio.create_task(schedule_weekly_matches(bot, WEEKLY_NOTIFICATIONS_CHANNEL_ID))
+
+    # Start cache cleanup task
+    logger.info("Starting cache cleanup task...")
+    asyncio.create_task(cache_cleanup_task())
 
 
 @bot.event
@@ -61,6 +67,7 @@ async def on_app_command_error(interaction, error):
 bot.tree.add_command(ping_command)
 bot.tree.add_command(nextgame_command)
 bot.tree.add_command(weekly_command)
+bot.tree.add_command(cache_command)
 
 # Register text commands
 bot.add_command(test_command)

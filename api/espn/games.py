@@ -6,6 +6,7 @@ Handles all ESPN API calls related to games and events
 import logging
 from datetime import datetime, timedelta
 from api.http_client import get_json
+from api.cache import cache_result, game_data_key, team_name_key
 
 logger = logging.getLogger(__name__)
 
@@ -23,6 +24,15 @@ async def get_galaxy_next_game():
         start_date = today.strftime("%Y%m%d")
         end_date = future_date.strftime("%Y%m%d")
 
+        # Check cache first
+        from api.cache import get_cached, set_cached
+
+        cache_key = game_data_key("galaxy", "soccer", start_date, end_date)
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Galaxy game data")
+            return cached_result
+
         logger.info(f"Date range: {start_date} to {end_date}")
 
         # ESPN API endpoint for LA Galaxy events
@@ -34,7 +44,10 @@ async def get_galaxy_next_game():
 
         if data and data.get("items"):
             # Get the first upcoming game
-            return data["items"][0]
+            result = data["items"][0]
+            # Cache the result
+            await set_cached(cache_key, result, "game_data")
+            return result
 
         logger.warning("No upcoming games found")
         return None
@@ -129,6 +142,15 @@ async def get_dodgers_next_game():
         start_date = today.strftime("%Y%m%d")
         end_date = future_date.strftime("%Y%m%d")
 
+        # Check cache first
+        from api.cache import get_cached, set_cached
+
+        cache_key = game_data_key("dodgers", "baseball", start_date, end_date)
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Dodgers game data")
+            return cached_result
+
         logger.info(f"Date range: {start_date} to {end_date}")
 
         # ESPN API endpoint for Dodgers events (MLB team ID: 19)
@@ -177,7 +199,8 @@ async def get_dodgers_next_game():
                 closest_date, closest_game = upcoming_games[0]
                 logger.info(f"Found next Dodgers game: {closest_game}")
 
-                # Return game data (logos will be fetched separately)
+                # Cache the result
+                await set_cached(cache_key, closest_game, "game_data")
                 return closest_game
 
         logger.warning("No upcoming Dodgers games found")

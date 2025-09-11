@@ -6,7 +6,7 @@ Provides async HTTP functionality using aiohttp
 import aiohttp
 import asyncio
 import logging
-from typing import Optional, Dict, Any, Union
+from typing import Optional, Dict, Any
 from contextlib import asynccontextmanager
 
 logger = logging.getLogger(__name__)
