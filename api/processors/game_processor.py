@@ -72,7 +72,7 @@ async def create_game_embed(game_data, logos, team_name=None):
     """Create a Discord embed for the game data"""
     try:
         logger.info("Creating embed...")
-        logger.info(f"Creating embed with logos: {logos}")
+        logger.debug(f"Creating embed with logos: {logos}")
 
         # Determine team from game data or use provided team name
         if not team_name:
@@ -243,29 +243,29 @@ async def create_game_embed(game_data, logos, team_name=None):
             competition = competitions[0]
             venue_info = competition.get("venue", {})
             venue_name = venue_info.get("fullName", "")
-            logger.info(f"Game data venue from competition: {venue_name}")
+            logger.debug(f"Game data venue from competition: {venue_name}")
 
         if venue_logos.get("venue_name"):
             # Truncate venue name if too long for Discord embed
             venue_display = venue_logos["venue_name"]
-            logger.info(f"Venue (logos) value length: {len(venue_display)}")
+            logger.debug(f"Venue (logos) value length: {len(venue_display)}")
             if len(venue_display) > 1024:
                 logger.warning(
                     f"Venue (logos) value too long ({len(venue_display)} chars), truncating"
                 )
                 venue_display = venue_display[:1021] + "..."
             embed.add_field(name="🏟️ Venue", value=venue_display, inline=True)
-            logger.info(f"Added venue from logos: {venue_logos['venue_name']}")
+            logger.debug(f"Added venue from logos: {venue_logos['venue_name']}")
         elif venue_name:
             # Truncate venue name if too long for Discord embed
-            logger.info(f"Venue (game data) value length: {len(venue_name)}")
+            logger.debug(f"Venue (game data) value length: {len(venue_name)}")
             if len(venue_name) > 1024:
                 logger.warning(
                     f"Venue (game data) value too long ({len(venue_name)} chars), truncating"
                 )
                 venue_name = venue_name[:1021] + "..."
             embed.add_field(name="🏟️ Venue", value=venue_name, inline=True)
-            logger.info(f"Added venue from game data: {venue_name}")
+            logger.debug(f"Added venue from game data: {venue_name}")
         else:
             logger.warning("No venue information available")
 

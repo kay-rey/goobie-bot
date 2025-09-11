@@ -90,7 +90,7 @@ async def nextgame_command(
         game_data = await game_data_func()
         logger.info(f"Game data result: {bool(game_data)}")
         if game_data:
-            logger.info(f"Game data structure: {game_data}")
+            logger.debug(f"Game data structure: {game_data}")
         if not game_data:
             await interaction.followup.send(
                 f"❌ Could not find {team_name}'s next game. The season may be over or no upcoming games are scheduled."
@@ -100,7 +100,7 @@ async def nextgame_command(
         # Get logos for the game (teams and venue)
         logger.info("Getting game logos...")
         logos = await get_game_logos(game_data)
-        logger.info(f"Game logos: {logos}")
+        logger.debug(f"Game logos: {logos}")
 
         # If no logos found, try fallback from team data
         if not any(logos.values()):

@@ -34,7 +34,8 @@ async def get_galaxy_team_data():
 
         data = await get_json(lookup_url, params=lookup_params)
         logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        logger.info(f"Lookup results: {data}")
+        if data:
+            logger.debug(f"Lookup results: {data}")
 
         if data and data.get("teams") and len(data["teams"]) > 0:
             team = data["teams"][0]
@@ -99,9 +100,9 @@ async def get_team_logos(team_id):
 
 def extract_logos_from_team(team):
     """Extract logos from team data using actual SportsDB URLs"""
-    # Log all available fields for debugging
-    logger.info(f"Team data keys: {list(team.keys())}")
-    logger.info(f"Full team data: {team}")
+    # Log team data structure for debugging
+    logger.debug(f"Team data keys: {list(team.keys())}")
+    logger.debug(f"Team data sample: {dict(list(team.items())[:3])}...")
 
     # Get the actual logo URLs from the team data
     # The search API actually returns the logo URLs in strBadge and strLogo fields
@@ -183,7 +184,8 @@ async def get_dodgers_team_data():
 
         data = await get_json(lookup_url, params=lookup_params)
         logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        logger.info(f"Lookup results: {data}")
+        if data:
+            logger.debug(f"Lookup results: {data}")
 
         if data and data.get("teams") and len(data["teams"]) > 0:
             team = data["teams"][0]
@@ -211,7 +213,8 @@ async def get_lakers_team_data():
 
         data = await get_json(lookup_url, params=lookup_params)
         logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        logger.info(f"Lookup results: {data}")
+        if data:
+            logger.debug(f"Lookup results: {data}")
 
         if data and data.get("teams") and len(data["teams"]) > 0:
             team = data["teams"][0]
@@ -239,7 +242,8 @@ async def get_rams_team_data():
 
         data = await get_json(lookup_url, params=lookup_params)
         logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        logger.info(f"Lookup results: {data}")
+        if data:
+            logger.debug(f"Lookup results: {data}")
 
         if data and data.get("teams") and len(data["teams"]) > 0:
             team = data["teams"][0]
@@ -267,7 +271,8 @@ async def get_kings_team_data():
 
         data = await get_json(lookup_url, params=lookup_params)
         logger.info(f"TheSportsDB lookup response status: {200 if data else 'Failed'}")
-        logger.info(f"Lookup results: {data}")
+        if data:
+            logger.debug(f"Lookup results: {data}")
 
         if data and data.get("teams") and len(data["teams"]) > 0:
             team = data["teams"][0]

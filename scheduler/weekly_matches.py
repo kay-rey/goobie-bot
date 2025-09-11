@@ -52,7 +52,7 @@ async def get_weekly_matches_for_team(team_name, team_id, sport, league):
                     # Check if game is within our week
                     if week_start <= game_date_pacific <= week_end:
                         filtered_games.append(game)
-                        logger.info(f"Added {team_name} game on {game_date_pacific}")
+                        logger.debug(f"Added {team_name} game on {game_date_pacific}")
                 except Exception as e:
                     logger.warning(f"Error parsing game date for {team_name}: {e}")
 
@@ -169,7 +169,7 @@ async def create_weekly_matches_embed():
                                     current_team_id = team_id
                                     break
 
-                            logger.info(
+                            logger.debug(
                                 f"Processing game for {team_name} (ID: {current_team_id}): {len(competitors)} competitors"
                             )
 
@@ -181,7 +181,7 @@ async def create_weekly_matches_embed():
                                         "homeAway", ""
                                     )
 
-                                    logger.info(
+                                    logger.debug(
                                         f"Competitor ID: {competitor_id} ({competitor_home_away})"
                                     )
 
@@ -203,7 +203,7 @@ async def create_weekly_matches_embed():
                                             else "@"
                                         )
 
-                                        logger.info(
+                                        logger.debug(
                                             f"Found opponent: {opponent} (ID: {competitor_id}, {competitor_home_away}) -> LA team is {home_away}"
                                         )
                                         break

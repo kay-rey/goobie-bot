@@ -40,7 +40,7 @@ async def get_galaxy_next_game():
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         data = await get_json(url, params=params)
-        logger.info(f"ESPN API data keys: {list(data.keys()) if data else 'None'}")
+        logger.debug(f"ESPN API data keys: {list(data.keys()) if data else 'None'}")
 
         if data and data.get("items"):
             # Get the first upcoming game
@@ -77,8 +77,8 @@ async def get_galaxy_next_game_extended():
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         data = await get_json(url, params=params)
-        logger.info(f"ESPN API data keys: {list(data.keys()) if data else 'None'}")
-        logger.info(
+        logger.debug(f"ESPN API data keys: {list(data.keys()) if data else 'None'}")
+        logger.debug(
             f"ESPN API items count: {len(data.get('items', [])) if data else 0}"
         )
 
@@ -299,7 +299,7 @@ async def get_team_games_in_date_range(team_id, sport, league, start_date, end_d
         params = {"dates": f"{start_str}-{end_str}", "limit": 50}
 
         data = await get_json(url, params=params)
-        logger.info(f"ESPN API response status: {200 if data else 'Failed'}")
+        logger.debug(f"ESPN API response status: {200 if data else 'Failed'}")
 
         if data:
             games = []
