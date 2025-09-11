@@ -21,7 +21,7 @@ from pathlib import Path
 project_root = Path(__file__).parent.parent
 sys.path.insert(0, str(project_root))
 
-from api.cache import (
+from api.cache import (  # noqa: E402
     get_cached,
     set_cached,
     delete_cached,
