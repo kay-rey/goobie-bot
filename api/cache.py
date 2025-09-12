@@ -12,13 +12,18 @@ from functools import wraps
 logger = logging.getLogger(__name__)
 
 # Cache duration constants (in seconds)
+# Pi-optimized durations (shorter for memory efficiency)
 CACHE_DURATIONS = {
-    "game_data": 3600,  # 1 hour
-    "team_logos": 15768000,  # 6 months (182.5 days)
-    "venue_data": 15768000,  # 6 months
-    "team_metadata": 43200,  # 12 hours
-    "team_names": 15768000,  # 6 months
+    "game_data": 1800,  # 30 minutes (reduced from 1 hour for Pi)
+    "team_logos": 86400,  # 1 day (reduced from 6 months for Pi)
+    "venue_data": 86400,  # 1 day (reduced from 6 months for Pi)
+    "team_metadata": 7200,  # 2 hours (reduced from 12 hours for Pi)
+    "team_names": 86400,  # 1 day (reduced from 6 months for Pi)
 }
+
+# Pi-specific cache limits (can be overridden by environment variables)
+DEFAULT_CACHE_SIZE_LIMIT = 100
+DEFAULT_MEMORY_LIMIT_MB = 512
 
 # Cache statistics
 _cache_stats = {
@@ -73,14 +78,21 @@ class CacheEntry:
 class CacheManager:
     """Centralized cache manager with TTL support and statistics"""
 
-    def __init__(self):
+    def __init__(self, max_entries: int = None, memory_limit_mb: int = None):
         self._cache = {}
+        self._max_entries = max_entries or DEFAULT_CACHE_SIZE_LIMIT
+        self._memory_limit_bytes = (
+            (memory_limit_mb or DEFAULT_MEMORY_LIMIT_MB) * 1024 * 1024
+        )
+        self._current_memory_bytes = 0
         self._stats = {
             "hits": 0,
             "misses": 0,
             "sets": 0,
             "deletes": 0,
             "clears": 0,
+            "evictions": 0,
+            "memory_warnings": 0,
         }
         self._lock = asyncio.Lock()
         logger.info("Cache manager initialized with TTL durations:")
@@ -94,6 +106,10 @@ class CacheManager:
                     logger.info(f"  - {cache_type}: {hours} hours ({duration}s)")
             else:
                 logger.info(f"  - {cache_type}: No TTL (permanent)")
+
+        logger.info(
+            f"Cache limits - Max entries: {self._max_entries}, Memory limit: {self._memory_limit_bytes // 1024 // 1024}MB"
+        )
 
     async def get(self, key: str) -> Optional[Any]:
         """Get a value from cache"""

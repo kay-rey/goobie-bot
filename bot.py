@@ -15,6 +15,10 @@ from config import (
     FACTS_CHANNEL_ID,
     setup_logging,
     create_bot,
+    monitor_resources_periodically,
+    PI_MODE,
+    MEMORY_LIMIT_MB,
+    CACHE_SIZE_LIMIT,
 )
 from events import (
     on_ready as ready_handler,
@@ -64,6 +68,14 @@ async def on_ready():
     # Start cache cleanup task
     logger.info("Starting cache cleanup task...")
     asyncio.create_task(cache_cleanup_task())
+
+    # Start resource monitoring if in Pi mode
+    if PI_MODE:
+        logger.info("Starting Pi resource monitoring...")
+        asyncio.create_task(monitor_resources_periodically(bot))
+        logger.info(
+            f"🤖 Pi mode enabled - Memory limit: {MEMORY_LIMIT_MB}MB, Cache limit: {CACHE_SIZE_LIMIT} entries"
+        )
 
 
 @bot.event

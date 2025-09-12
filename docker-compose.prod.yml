@@ -1,10 +1,59 @@
 services:
   goobie-bot:
-    build: .
+    build:
+      context: .
+      platforms:
+        - linux/arm/v6
     container_name: goobie-bot-prod
     env_file: .env
     restart: unless-stopped
-    # Production mode - no volume mounting
+    # Pi-specific environment variables (optimized for Pi Model B v1.1 + single server)
+    environment:
+      - PI_MODE=true
+      - MEMORY_LIMIT_MB=256
+      - CACHE_SIZE_LIMIT=50
+      - LOG_LEVEL=WARNING
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+    # Resource limits for Pi Model B v1.1 + single server (512MB RAM, single-core)
+    # Pi 4 (4GB+): memory: 1G, cpus: "1.5"
+    # Pi 4 (2GB): memory: 768M, cpus: "1.0"
+    # Pi 3 (1GB): memory: 512M, cpus: "0.8"
+    # Pi Model B v1.1 + single server: memory: 384M, cpus: "0.7"
+    deploy:
+      resources:
+        limits:
+          memory: 384M # 75% of 512MB RAM (needed for multiple channels)
+          cpus: "0.7" # 70% of single core (needed for multiple channels)
+        reservations:
+          memory: 128M # Minimum guaranteed memory
+          cpus: "0.3" # Minimum guaranteed CPU
+    # Health check for Pi monitoring
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import psutil; exit(0 if psutil.virtual_memory().percent < 90 else 1)",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    # Logging configuration
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    # Labels for management
     labels:
       - "com.goobie-bot.service=discord-bot"
-      - "com.goobie-bot.environment=production"
+      - "com.goobie-bot.environment=pi-production"
+      - "com.goobie-bot.architecture=arm64"
+    # Security options
+    security_opt:
+      - no-new-privileges:true
+    # Use default bridge network (more secure for Discord bot)
+    # network_mode: "host"  # Not needed for Discord bot

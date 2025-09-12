@@ -366,6 +366,27 @@ docker-compose -f docker-compose.prod.yml up -d
 docker-compose -f docker-compose.prod.yml logs -f
 ```
 
+### Raspberry Pi Deployment
+
+The bot is optimized for Raspberry Pi deployment with automatic resource management:
+
+```bash
+# Deploy on Raspberry Pi
+docker-compose -f docker-compose.prod.yml up -d
+
+# Monitor resource usage
+docker stats goobie-bot-prod
+```
+
+**Pi-Specific Features:**
+
+- **Memory monitoring** with automatic limits
+- **Resource health checks** and warnings
+- **Optimized cache TTL** for limited memory
+- **ARM64/ARMv6 support** for all Pi models
+
+For detailed Pi deployment instructions, see [docs/PI_DEPLOYMENT.md](docs/PI_DEPLOYMENT.md).
+
 ### Docker Commands
 
 ```bash
