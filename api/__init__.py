@@ -24,12 +24,18 @@ from .sportsdb import (
     search_venue_logos,
     test_logo_url,
 )
-from .processors import get_game_logos, create_game_embed
+from .processors import create_game_embed
 from .local_logos import (
     get_local_team_logos,
     get_local_opponent_logo,
     get_local_team_logos_by_name,
     get_team_key_from_choice,
+)
+from .team_config import (
+    get_team_data,
+    get_team_config,
+    get_team_display_name,
+    get_game_function,
 )
 
 __all__ = [
@@ -53,11 +59,15 @@ __all__ = [
     "search_venue_logos",
     "test_logo_url",
     # Game processing functions
-    "get_game_logos",
     "create_game_embed",
     # Local logo functions
     "get_local_team_logos",
     "get_local_opponent_logo",
     "get_local_team_logos_by_name",
     "get_team_key_from_choice",
+    # Team configuration functions
+    "get_team_data",
+    "get_team_config",
+    "get_team_display_name",
+    "get_game_function",
 ]

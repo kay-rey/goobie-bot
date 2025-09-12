@@ -5,23 +5,14 @@ Next game command implementation
 import discord
 from discord import app_commands
 import logging
-from api import (
-    get_galaxy_team_data,
-    get_galaxy_next_game_extended,
-    get_dodgers_team_data,
-    get_dodgers_next_game,
-    get_lakers_team_data,
-    get_lakers_next_game,
-    get_rams_team_data,
-    get_rams_next_game,
-    get_kings_team_data,
-    get_kings_next_game,
-    get_team_logos,
-    extract_logos_from_team,
-    get_game_logos,
-    create_game_embed,
-)
+from api import create_game_embed
 from api.local_logos import get_local_team_logos, get_team_key_from_choice
+from api.team_config import (
+    get_team_data,
+    get_team_config,
+    get_team_display_name,
+    get_game_function,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -46,96 +37,54 @@ async def nextgame_command(
     await interaction.response.defer()
 
     try:
-        # Determine which team function to use based on choice value
-        if team.value == "dodgers":
-            team_name = "Los Angeles Dodgers"
-            team_data_func = get_dodgers_team_data
-            game_data_func = get_dodgers_next_game
-            default_logo = "https://a.espncdn.com/i/teamlogos/mlb/500/19.png"
-        elif team.value == "lakers":
-            team_name = "Los Angeles Lakers"
-            team_data_func = get_lakers_team_data
-            game_data_func = get_lakers_next_game
-            default_logo = "https://a.espncdn.com/i/teamlogos/nba/500/13.png"
-        elif team.value == "rams":
-            team_name = "Los Angeles Rams"
-            team_data_func = get_rams_team_data
-            game_data_func = get_rams_next_game
-            default_logo = "https://a.espncdn.com/i/teamlogos/nfl/500/14.png"
-        elif team.value == "kings":
-            team_name = "Los Angeles Kings"
-            team_data_func = get_kings_team_data
-            game_data_func = get_kings_next_game
-            default_logo = "https://a.espncdn.com/i/teamlogos/nhl/500/8.png"
-        else:  # galaxy
-            team_name = "LA Galaxy"
-            team_data_func = get_galaxy_team_data
-            game_data_func = get_galaxy_next_game_extended
-            default_logo = "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png"
+        # Get team configuration (no API call required)
+        team_key = get_team_key_from_choice(team.value)
+        team_config = get_team_config(team_key)
+        team_name = get_team_display_name(team_key)
+        game_data_func = get_game_function(team_key)
 
-        # Get team data from TheSportsDB
-        logger.info(f"Fetching {team_name} team data...")
-        team_data = await team_data_func()
-        logger.info(f"Team data result: {bool(team_data)}")
-        if not team_data:
-            await interaction.followup.send(f"❌ Could not find {team_name} team data")
+        if not team_config:
+            await interaction.followup.send(f"❌ Unknown team: {team.value}")
             return
+
+        # Get team data (no API call - uses hardcoded data)
+        # Note: team_data available if needed for future enhancements
+        get_team_data(team_key)
+        logger.debug(f"Team data loaded for {team_name}")
 
         # Get next game from ESPN API
         logger.info(f"Fetching next {team_name} game data...")
         game_data = await game_data_func()
-        logger.info(f"Game data result: {bool(game_data)}")
-        if game_data:
-            logger.debug(f"Game data structure: {game_data}")
+        logger.debug(f"Game data result: {bool(game_data)}")
+
         if not game_data:
             await interaction.followup.send(
                 f"❌ Could not find {team_name}'s next game. The season may be over or no upcoming games are scheduled."
             )
             return
 
-        # Get logos from local storage (much faster!)
-        logger.info("Getting local team logos...")
-        team_key = get_team_key_from_choice(team.value)
+        # Get logos from local storage (includes built-in fallbacks)
+        logger.debug("Getting local team logos...")
         local_logos = get_local_team_logos(team_key)
 
         if local_logos:
             logos = {team_name: local_logos}
-            logger.info(f"Using local logos for {team_name}: {local_logos}")
+            logger.debug(f"Using local logos for {team_name}")
         else:
-            # Fallback to API-based logo fetching if local logos not available
-            logger.warning(
-                f"No local logos found for {team_name}, falling back to API..."
-            )
-            logos = await get_game_logos(game_data)
-
-            # If no logos found, try fallback from team data
-            if not any(logos.values()):
-                logger.info("No logos from game search, trying fallback...")
-                team_id = team_data.get("idTeam")
-                if team_id:
-                    fallback_logos = await get_team_logos(team_id)
-                    if not any(fallback_logos.values()):
-                        fallback_logos = extract_logos_from_team(team_data)
-                    # Convert to new format
-                    logos = {team_name: fallback_logos}
-                    logger.info(f"Using fallback logos: {logos}")
-
-            # If still no logos, use default
-            if not any(logos.values()):
-                logger.warning(
-                    f"No logos found from any source, using default {team_name} logo"
-                )
-                logos = {
-                    team_name: {
-                        "logo": default_logo,
-                        "logo_small": default_logo,
-                        "jersey": "",
-                    }
+            # This should rarely happen as local logo system has built-in fallbacks
+            logger.warning(f"No logos found for {team_name}, using team config default")
+            team_config = get_team_config(team_key)
+            default_logo = team_config.get("default_logo", "")
+            logos = {
+                team_name: {
+                    "logo": default_logo,
+                    "logo_small": default_logo,
+                    "jersey": "",
                 }
-                logger.info(f"Using fallback logos for {team_name}: {logos}")
+            }
 
         # Create rich embed
-        logger.info("Creating embed...")
+        logger.debug("Creating embed...")
         embed = await create_game_embed(game_data, logos, team_name)
         await interaction.followup.send(embed=embed)
         logger.info(f"{team_name} nextgame command completed successfully")

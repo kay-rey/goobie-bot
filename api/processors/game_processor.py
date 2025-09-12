@@ -29,13 +29,13 @@ async def get_game_logos(game_data):
                 if team_ref:
                     # Get team name and search for logos
                     team_name = await get_team_name_from_ref(team_ref)
-                    logger.info(f"Getting logos for team: {team_name}")
+                    logger.debug(f"Getting logos for team: {team_name}")
 
                     # Search TheSportsDB for this team
                     team_logos = await search_team_logos(team_name)
                     if team_logos:
                         logos[team_name] = team_logos
-                        logger.info(f"Found logos for {team_name}: {team_logos}")
+                        logger.debug(f"Found logos for {team_name}: {team_logos}")
 
         # Note: Venue/stadium image fetching removed for now
 
@@ -49,7 +49,7 @@ async def get_game_logos(game_data):
 async def create_game_embed(game_data, logos, team_name=None):
     """Create a Discord embed for the game data"""
     try:
-        logger.info("Creating embed...")
+        logger.debug("Creating embed...")
         logger.debug(f"Creating embed with logos: {logos}")
 
         # Determine team from game data or use provided team name
@@ -146,7 +146,7 @@ async def create_game_embed(game_data, logos, team_name=None):
         team_logos = logos.get(team_name, {})
         if team_logos.get("logo"):
             embed.set_thumbnail(url=team_logos["logo"])
-            logger.info(f"Setting {team_name} thumbnail to: {team_logos['logo']}")
+            logger.debug(f"Setting {team_name} thumbnail to: {team_logos['logo']}")
         else:
             logger.warning(f"No {team_name} logo available")
 
@@ -167,12 +167,12 @@ async def create_game_embed(game_data, logos, team_name=None):
                 formatted_date = game_date_pacific.strftime(
                     "%A, %B %d, %Y at %I:%M %p %Z"
                 )
-                logger.info(
+                logger.debug(
                     f"Game date: {game_date} (UTC) -> {game_date_pacific} (PDT) -> {formatted_date}"
                 )
 
                 # Truncate date if too long for Discord embed
-                logger.info(f"Date value length: {len(formatted_date)}")
+                logger.debug(f"Date value length: {len(formatted_date)}")
                 if len(formatted_date) > 1024:
                     logger.warning(
                         f"Date value too long ({len(formatted_date)} chars), truncating"
@@ -194,7 +194,7 @@ async def create_game_embed(game_data, logos, team_name=None):
         if game_data.get("name"):
             # Truncate game name if too long for Discord embed
             game_name = game_data["name"]
-            logger.info(f"Game name value length: {len(game_name)}")
+            logger.debug(f"Game name value length: {len(game_name)}")
             if len(game_name) > 1024:
                 logger.warning(
                     f"Game name value too long ({len(game_name)} chars), truncating"
