@@ -14,7 +14,6 @@ from api.cache import (
     clear_cache,
     get_cache_stats,
     team_metadata_key,
-    team_logos_key,
     game_data_key,
 )
 
