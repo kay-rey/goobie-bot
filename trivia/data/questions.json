@@ -1,0 +1,179 @@
+{
+  "questions": [
+    {
+      "question": "Which LA Galaxy player scored the winning goal in the 2014 MLS Cup final?",
+      "correct_answer": "Robbie Keane",
+      "wrong_answers": ["Landon Donovan", "Gyasi Zardes", "Zlatan Ibrahimovic"],
+      "category": "galaxy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What year did the LA Galaxy win their first MLS Cup?",
+      "correct_answer": "2002",
+      "wrong_answers": ["2000", "2005", "2011"],
+      "category": "galaxy",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which stadium do the LA Galaxy call home?",
+      "correct_answer": "Dignity Health Sports Park",
+      "wrong_answers": ["Banc of California Stadium", "Rose Bowl", "StubHub Center"],
+      "category": "galaxy",
+      "difficulty": "easy"
+    },
+    {
+      "question": "How many MLS Cups have the LA Galaxy won?",
+      "correct_answer": "5",
+      "wrong_answers": ["3", "4", "6"],
+      "category": "galaxy",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which LA Galaxy player is known as 'The Captain'?",
+      "correct_answer": "Landon Donovan",
+      "wrong_answers": ["David Beckham", "Robbie Keane", "Cobi Jones"],
+      "category": "galaxy",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What year did the Los Angeles Dodgers move to LA from Brooklyn?",
+      "correct_answer": "1958",
+      "wrong_answers": ["1955", "1960", "1962"],
+      "category": "dodgers",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which Dodger pitcher threw a perfect game in 1965?",
+      "correct_answer": "Sandy Koufax",
+      "wrong_answers": ["Don Drysdale", "Fernando Valenzuela", "Orel Hershiser"],
+      "category": "dodgers",
+      "difficulty": "hard"
+    },
+    {
+      "question": "How many World Series have the Dodgers won?",
+      "correct_answer": "7",
+      "wrong_answers": ["5", "6", "8"],
+      "category": "dodgers",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which Dodger hit the famous 'Shot Heard 'Round the World'?",
+      "correct_answer": "Bobby Thomson",
+      "wrong_answers": ["Jackie Robinson", "Duke Snider", "Pee Wee Reese"],
+      "category": "dodgers",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the Dodgers' home stadium called?",
+      "correct_answer": "Dodger Stadium",
+      "wrong_answers": ["Chavez Ravine", "Elysian Park", "Los Angeles Memorial Coliseum"],
+      "category": "dodgers",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which Laker won the NBA Finals MVP in 2020?",
+      "correct_answer": "LeBron James",
+      "wrong_answers": ["Anthony Davis", "Kobe Bryant", "Magic Johnson"],
+      "category": "lakers",
+      "difficulty": "easy"
+    },
+    {
+      "question": "How many NBA championships have the Lakers won?",
+      "correct_answer": "17",
+      "wrong_answers": ["15", "16", "18"],
+      "category": "lakers",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which Laker is known as 'The Black Mamba'?",
+      "correct_answer": "Kobe Bryant",
+      "wrong_answers": ["Magic Johnson", "Kareem Abdul-Jabbar", "Shaquille O'Neal"],
+      "category": "lakers",
+      "difficulty": "easy"
+    },
+    {
+      "question": "What year did the Lakers move to Los Angeles from Minneapolis?",
+      "correct_answer": "1960",
+      "wrong_answers": ["1958", "1962", "1965"],
+      "category": "lakers",
+      "difficulty": "hard"
+    },
+    {
+      "question": "Which Laker holds the record for most points in a single game?",
+      "correct_answer": "Kobe Bryant (81 points)",
+      "wrong_answers": ["Elgin Baylor (71 points)", "Wilt Chamberlain (100 points)", "LeBron James (61 points)"],
+      "category": "lakers",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What year did the Rams return to Los Angeles?",
+      "correct_answer": "2016",
+      "wrong_answers": ["2014", "2018", "2020"],
+      "category": "rams",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which Ram quarterback led them to Super Bowl LVI victory?",
+      "correct_answer": "Matthew Stafford",
+      "wrong_answers": ["Jared Goff", "Kurt Warner", "Marc Bulger"],
+      "category": "rams",
+      "difficulty": "easy"
+    },
+    {
+      "question": "How many Super Bowls have the Rams won?",
+      "correct_answer": "2",
+      "wrong_answers": ["1", "3", "4"],
+      "category": "rams",
+      "difficulty": "medium"
+    },
+    {
+      "question": "Which Ram is known as 'The Greatest Show on Turf'?",
+      "correct_answer": "Kurt Warner",
+      "wrong_answers": ["Marshall Faulk", "Isaac Bruce", "Torry Holt"],
+      "category": "rams",
+      "difficulty": "hard"
+    },
+    {
+      "question": "What is the Rams' home stadium called?",
+      "correct_answer": "SoFi Stadium",
+      "wrong_answers": ["Los Angeles Memorial Coliseum", "Rose Bowl", "Banc of California Stadium"],
+      "category": "rams",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which LA team plays at the Staples Center (now Crypto.com Arena)?",
+      "correct_answer": "Lakers and Kings",
+      "wrong_answers": ["Lakers and Clippers", "Kings and Galaxy", "All LA teams"],
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What is the name of the LA Kings' mascot?",
+      "correct_answer": "Bailey",
+      "wrong_answers": ["King", "Crown", "Goldie"],
+      "category": "kings",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which LA team has won the most championships?",
+      "correct_answer": "Lakers (17 NBA titles)",
+      "wrong_answers": ["Dodgers (7 World Series)", "Galaxy (5 MLS Cups)", "Rams (2 Super Bowls)"],
+      "category": "general",
+      "difficulty": "medium"
+    },
+    {
+      "question": "What year did the LA Kings win their first Stanley Cup?",
+      "correct_answer": "2012",
+      "wrong_answers": ["2010", "2014", "2016"],
+      "category": "kings",
+      "difficulty": "easy"
+    },
+    {
+      "question": "Which LA team's colors are purple and gold?",
+      "correct_answer": "Lakers",
+      "wrong_answers": ["Kings", "Galaxy", "Rams"],
+      "category": "general",
+      "difficulty": "easy"
+    }
+  ]
+}

@@ -19,6 +19,7 @@ Goobie-Bot is a powerful Discord bot that brings real-time sports statistics and
 ### ✨ Features
 
 - 🏆 **Real-time Game Data** - Get upcoming matches for LA Galaxy, Lakers, Dodgers, and Rams
+- 🧠 **Daily Trivia** - Test your LA sports knowledge with daily trivia questions
 - 🎨 **Rich Embeds** - Beautiful Discord embeds with team logos, stadium images, and match details
 - ⚡ **Lightning Fast** - Optimized API calls and caching for instant responses
 - 🐳 **Docker Ready** - Containerized for easy deployment on any platform
@@ -46,6 +47,10 @@ Create a `.env` file in the project root:
 ```bash
 # Discord Bot Configuration
 DISCORD_TOKEN=your_discord_bot_token_here
+
+# Optional: Channel IDs for notifications
+WEEKLY_NOTIFICATIONS_CHANNEL_ID=123456789012345678
+TRIVIA_CHANNEL_ID=123456789012345678
 ```
 
 ### 3. Run with Docker
@@ -90,6 +95,26 @@ Get a comprehensive weekly schedule for all LA teams (Dodgers, Lakers, Galaxy, R
 - 🏟️ Venue information for each match
 - ⚾🏀⚽🏈 Team-specific colors and emojis
 - 🕐 Automatic weekly notifications every Monday at 1pm PT
+
+### `/trivia`
+
+View the trivia leaderboard and your personal statistics:
+
+- 🏆 Top 10 players leaderboard
+- 📊 Your personal stats and ranking
+- 🎯 Accuracy and streak tracking
+- 📈 Score history and achievements
+
+### 🧠 Daily Trivia
+
+Test your LA sports knowledge with daily trivia questions:
+
+- 🎯 **Daily Questions** - Posted every day at 8 PM PT
+- 🏆 **Scoring System** - Points based on difficulty and speed
+- 📊 **Leaderboards** - Compete with other players
+- 🔒 **Private Sessions** - Each user gets their own private trivia
+- ⏰ **Time Limits** - 30 seconds per question to prevent cheating
+- 🎮 **Interactive** - Click buttons to start and answer questions
 
 ## 🏗️ Architecture
 

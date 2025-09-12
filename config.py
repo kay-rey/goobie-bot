@@ -23,6 +23,14 @@ if WEEKLY_NOTIFICATIONS_CHANNEL_ID:
     except ValueError:
         WEEKLY_NOTIFICATIONS_CHANNEL_ID = None
 
+# Get the channel ID for trivia notifications (optional)
+TRIVIA_CHANNEL_ID = os.getenv("TRIVIA_CHANNEL_ID")
+if TRIVIA_CHANNEL_ID:
+    try:
+        TRIVIA_CHANNEL_ID = int(TRIVIA_CHANNEL_ID)
+    except ValueError:
+        TRIVIA_CHANNEL_ID = None
+
 # Create a new Discord bot with necessary intents
 intents = discord.Intents.default()
 intents.message_content = True

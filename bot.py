@@ -11,6 +11,7 @@ import asyncio
 from config import (
     DISCORD_TOKEN,
     WEEKLY_NOTIFICATIONS_CHANNEL_ID,
+    TRIVIA_CHANNEL_ID,
     setup_logging,
     create_bot,
 )
@@ -24,6 +25,8 @@ from commands import nextgame_command, test_command, sync_command
 from commands.weekly import weekly_command
 from commands.cache import cache_command
 from scheduler.weekly_matches import schedule_weekly_matches
+from trivia.commands import trivia_command, trivia_admin_command
+from trivia.scheduler import schedule_daily_trivia
 from api.http_client import cleanup_http_client
 from api.cache import cache_cleanup_task
 
@@ -42,6 +45,10 @@ async def on_ready():
     # Start the weekly matches scheduler
     logger.info("Starting weekly matches scheduler...")
     asyncio.create_task(schedule_weekly_matches(bot, WEEKLY_NOTIFICATIONS_CHANNEL_ID))
+
+    # Start the daily trivia scheduler
+    logger.info("Starting daily trivia scheduler...")
+    asyncio.create_task(schedule_daily_trivia(bot, TRIVIA_CHANNEL_ID))
 
     # Start cache cleanup task
     logger.info("Starting cache cleanup task...")
@@ -67,6 +74,8 @@ async def on_app_command_error(interaction, error):
 bot.tree.add_command(nextgame_command)
 bot.tree.add_command(weekly_command)
 bot.tree.add_command(cache_command)
+bot.tree.add_command(trivia_command)
+bot.tree.add_command(trivia_admin_command)
 
 # Register text commands
 bot.add_command(test_command)
