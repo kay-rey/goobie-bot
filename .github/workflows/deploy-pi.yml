@@ -1,0 +1,47 @@
+name: Deploy to Raspberry Pi
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy to Pi
+    steps:
+      - name: Deploy to Raspberry Pi
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.PI_HOST }}
+          username: ${{ secrets.PI_USER }}
+          key: ${{ secrets.PI_SSH_KEY }}
+          port: ${{ secrets.PI_PORT || 22 }}
+          script: |
+            echo "🚀 Starting deployment to Raspberry Pi..."
+
+            # Navigate to bot directory
+            cd /home/pi/goobie-bot
+
+            # Pull latest changes
+            echo "📥 Pulling latest changes..."
+            git pull origin main
+
+            # Stop current bot
+            echo "🛑 Stopping current bot..."
+            docker-compose -f docker-compose.prod.yml down
+
+            # Rebuild and start bot
+            echo "🔨 Rebuilding and starting bot..."
+            docker-compose -f docker-compose.prod.yml up -d --build
+
+            # Wait for bot to start
+            echo "⏳ Waiting for bot to start..."
+            sleep 10
+
+            # Check bot status
+            echo "✅ Checking bot status..."
+            docker ps
+            docker logs goobie-bot --tail 20
+
+            echo "🎉 Deployment complete!"
