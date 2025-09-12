@@ -20,10 +20,9 @@ from events import (
     on_command_error as command_error_handler,
     on_app_command_error as app_command_error_handler,
 )
-from commands import ping_command, nextgame_command, test_command, sync_command
+from commands import nextgame_command, test_command, sync_command
 from commands.weekly import weekly_command
 from commands.cache import cache_command
-from commands.cache_test import cache_test_command
 from scheduler.weekly_matches import schedule_weekly_matches
 from api.http_client import cleanup_http_client
 from api.cache import cache_cleanup_task
@@ -65,11 +64,9 @@ async def on_app_command_error(interaction, error):
 
 
 # Register slash commands
-bot.tree.add_command(ping_command)
 bot.tree.add_command(nextgame_command)
 bot.tree.add_command(weekly_command)
 bot.tree.add_command(cache_command)
-bot.tree.add_command(cache_test_command)
 
 # Register text commands
 bot.add_command(test_command)
