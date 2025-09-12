@@ -2,183 +2,303 @@
 	"facts": [
 		{
 			"id": 1,
+			"fact": "The original Star Wars script was rejected by every major studio before 20th Century Fox picked it up. Even Disney initially passed on it.",
+			"category": "Star Wars",
+			"emoji": "⭐"
+		},
+		{
+			"id": 2,
+			"fact": "The Wilhelm Scream, heard in countless movies including Star Wars, was originally recorded for a 1951 Western called 'Distant Drums'.",
+			"category": "Star Wars",
+			"emoji": "🎬"
+		},
+		{
+			"id": 3,
+			"fact": "Darth Vader's breathing sound was created by putting a microphone inside a scuba regulator and breathing through it.",
+			"category": "Star Wars",
+			"emoji": "🤖"
+		},
+		{
+			"id": 4,
+			"fact": "The lightsaber sound effect was created by combining the hum of an old TV set with the buzz of a film projector motor.",
+			"category": "Star Wars",
+			"emoji": "⚔️"
+		},
+		{
+			"id": 5,
+			"fact": "Yoda was originally designed to be a small, green monkey-like creature before becoming the wise Jedi Master we know today.",
+			"category": "Star Wars",
+			"emoji": "🐸"
+		},
+		{
+			"id": 6,
+			"fact": "The Death Star's exhaust port was intentionally designed as a weakness by Galen Erso, the scientist who built it.",
+			"category": "Star Wars",
+			"emoji": "🌍"
+		},
+		{
+			"id": 7,
+			"fact": "Chewbacca's voice was created by mixing together sounds from bears, walruses, lions, and other animals.",
+			"category": "Star Wars",
+			"emoji": "🐻"
+		},
+		{
+			"id": 8,
+			"fact": "The original Star Wars was almost called 'Adventures of Luke Starkiller' before George Lucas changed it.",
+			"category": "Star Wars",
+			"emoji": "✨"
+		},
+		{
+			"id": 9,
+			"fact": "R2-D2's beeps and boops were created by sound designer Ben Burtt using his own voice and electronic synthesizers.",
+			"category": "Star Wars",
+			"emoji": "🤖"
+		},
+		{
+			"id": 10,
+			"fact": "The Millennium Falcon was originally designed to look like a hamburger with an olive on top.",
+			"category": "Star Wars",
+			"emoji": "🍔"
+		},
+		{
+			"id": 11,
+			"fact": "Walt Disney's original Mickey Mouse was almost named 'Mortimer Mouse' until his wife convinced him to change it.",
+			"category": "Disney",
+			"emoji": "🐭"
+		},
+		{
+			"id": 12,
+			"fact": "The voice of Mickey Mouse has always been provided by a man, never a woman, since 1928.",
+			"category": "Disney",
+			"emoji": "🎤"
+		},
+		{
+			"id": 13,
+			"fact": "Disneyland's Matterhorn was the first tubular steel roller coaster ever built, revolutionizing roller coaster design.",
+			"category": "Disney",
+			"emoji": "🎢"
+		},
+		{
+			"id": 14,
+			"fact": "The Haunted Mansion's stretching room portraits are actually painted on rubber that stretches as the room 'grows'.",
+			"category": "Disney",
+			"emoji": "👻"
+		},
+		{
+			"id": 15,
+			"fact": "Disney's 'It's a Small World' song was written by the Sherman Brothers and is the most performed song in history.",
+			"category": "Disney",
+			"emoji": "🌍"
+		},
+		{
+			"id": 16,
+			"fact": "The original Disneyland opened with only 18 attractions, compared to over 50 today.",
+			"category": "Disney",
+			"emoji": "🏰"
+		},
+		{
+			"id": 17,
+			"fact": "Disney's 'Snow White and the Seven Dwarfs' was the first full-length animated feature film ever made.",
+			"category": "Disney",
+			"emoji": "❄️"
+		},
+		{
+			"id": 18,
+			"fact": "The Disney castle logo is based on Neuschwanstein Castle in Germany, not a Disney creation.",
+			"category": "Disney",
+			"emoji": "🏰"
+		},
+		{
+			"id": 19,
+			"fact": "Disney's 'Fantasia' was the first commercial film to use stereophonic sound.",
+			"category": "Disney",
+			"emoji": "🎵"
+		},
+		{
+			"id": 20,
+			"fact": "The Disney character Goofy was originally named 'Dippy Dawg' and was meant to be a dog, not a human-like character.",
+			"category": "Disney",
+			"emoji": "🐕"
+		},
+		{
+			"id": 21,
+			"fact": "The word 'LEGO' comes from the Danish phrase 'leg godt,' which means 'play well' in English.",
+			"category": "Lego",
+			"emoji": "🧱"
+		},
+		{
+			"id": 22,
+			"fact": "There are approximately 400 billion LEGO pieces in the world - that's about 62 pieces for every person on Earth.",
+			"category": "Lego",
+			"emoji": "🌍"
+		},
+		{
+			"id": 23,
+			"fact": "The LEGO Group produces more than 36,000 LEGO elements every minute, or 2.16 million per hour.",
+			"category": "Lego",
+			"emoji": "⚙️"
+		},
+		{
+			"id": 24,
+			"fact": "LEGO minifigures were introduced in 1978 and have been produced in over 4,000 different variations since then.",
+			"category": "Lego",
+			"emoji": "👤"
+		},
+		{
+			"id": 25,
+			"fact": "The tallest LEGO tower ever built was 114 feet 11 inches tall, constructed in Milan, Italy in 2015.",
+			"category": "Lego",
+			"emoji": "🗼"
+		},
+		{
+			"id": 26,
+			"fact": "LEGO bricks are so precisely manufactured that only 18 out of every million fail to meet the company's standards.",
+			"category": "Lego",
+			"emoji": "📏"
+		},
+		{
+			"id": 27,
+			"fact": "The first LEGO set was called 'Town Plan' and was released in 1955, featuring buildings and vehicles.",
+			"category": "Lego",
+			"emoji": "🏘️"
+		},
+		{
+			"id": 28,
+			"fact": "LEGO produces more tires than any other company in the world, including actual tire manufacturers.",
+			"category": "Lego",
+			"emoji": "🚗"
+		},
+		{
+			"id": 29,
+			"fact": "The LEGO Group was founded in 1932 by Ole Kirk Christiansen, who started by making wooden toys.",
+			"category": "Lego",
+			"emoji": "🪵"
+		},
+		{
+			"id": 30,
+			"fact": "LEGO bricks from 1958 are still compatible with bricks made today, thanks to the company's commitment to backward compatibility.",
+			"category": "Lego",
+			"emoji": "🔗"
+		},
+		{
+			"id": 31,
+			"fact": "The LA Galaxy was originally going to be called the 'Los Angeles Stars' before the name was changed to Galaxy in 1995.",
+			"category": "Galaxy",
+			"emoji": "⭐"
+		},
+		{
+			"id": 32,
+			"fact": "The Galaxy's home stadium, Dignity Health Sports Park, was the first soccer-specific stadium built in the United States.",
+			"category": "Galaxy",
+			"emoji": "🏟️"
+		},
+		{
+			"id": 33,
+			"fact": "David Beckham's Galaxy contract included a clause that allowed him to purchase an MLS expansion team for $25 million - he now owns Inter Miami CF.",
+			"category": "Galaxy",
+			"emoji": "💰"
+		},
+		{
+			"id": 34,
+			"fact": "The Galaxy's mascot, Cozmo, is a green alien who was originally designed to look like a space creature to match the 'Galaxy' theme.",
+			"category": "Galaxy",
+			"emoji": "👽"
+		},
+		{
+			"id": 35,
+			"fact": "The Galaxy won the MLS Cup in their first season (1996) and again in 2002, making them one of only two teams to win in their inaugural year.",
+			"category": "Galaxy",
+			"emoji": "🏆"
+		},
+		{
+			"id": 36,
+			"fact": "The Los Angeles Lakers were originally called the Minneapolis Lakers because Minnesota is the 'Land of 10,000 Lakes' - they kept the name when they moved to LA.",
+			"category": "Lakers",
+			"emoji": "🏞️"
+		},
+		{
+			"id": 37,
+			"fact": "The Lakers' purple and gold colors were originally inspired by the University of Minnesota's colors, not LA's sunset.",
+			"category": "Lakers",
+			"emoji": "🎨"
+		},
+		{
+			"id": 38,
+			"fact": "The Lakers have never had a losing season at home in their entire history - a streak that spans over 70 years.",
+			"category": "Lakers",
+			"emoji": "🏠"
+		},
+		{
+			"id": 39,
+			"fact": "Magic Johnson's famous 'baby hook' shot in Game 4 of the 1987 NBA Finals was actually called 'junior, junior sky hook' by his teammates.",
+			"category": "Lakers",
+			"emoji": "🏀"
+		},
+		{
+			"id": 40,
+			"fact": "The Lakers' 'Showtime' era was almost called 'Laker Time' until Pat Riley suggested the more dramatic 'Showtime' name.",
+			"category": "Lakers",
+			"emoji": "🎭"
+		},
+		{
+			"id": 41,
 			"fact": "The Los Angeles Dodgers were originally founded in Brooklyn, New York in 1883 as the Brooklyn Atlantics, before moving to LA in 1958.",
 			"category": "Dodgers",
 			"emoji": "⚾"
 		},
 		{
-			"id": 2,
-			"fact": "The LA Galaxy was the first MLS team to win the CONCACAF Champions League in 2000, defeating Olimpia of Honduras.",
-			"category": "Galaxy",
-			"emoji": "⚽"
-		},
-		{
-			"id": 3,
-			"fact": "The Los Angeles Lakers have won 17 NBA championships, tied for the most in NBA history with the Boston Celtics.",
-			"category": "Lakers",
-			"emoji": "🏀"
-		},
-		{
-			"id": 4,
-			"fact": "The Los Angeles Rams were the first NFL team to have a logo on their helmet, introducing the ram horn design in 1948.",
-			"category": "Rams",
-			"emoji": "🏈"
-		},
-		{
-			"id": 5,
-			"fact": "The LA Kings were the first NHL team from California to win the Stanley Cup, doing so in 2012 and 2014.",
-			"category": "Kings",
-			"emoji": "🏒"
-		},
-		{
-			"id": 6,
-			"fact": "Dodger Stadium is the third-oldest ballpark in Major League Baseball, opening in 1962.",
+			"id": 42,
+			"fact": "The Dodgers got their name from Brooklyn residents who had to 'dodge' the trolley cars that ran through the city streets.",
 			"category": "Dodgers",
-			"emoji": "⚾"
+			"emoji": "🚋"
 		},
 		{
-			"id": 7,
-			"fact": "The Galaxy's home stadium, Dignity Health Sports Park, was the first soccer-specific stadium built in MLS history.",
-			"category": "Galaxy",
-			"emoji": "⚽"
-		},
-		{
-			"id": 8,
-			"fact": "Kobe Bryant scored 81 points in a single game against the Toronto Raptors in 2006, the second-highest single-game total in NBA history.",
-			"category": "Lakers",
-			"emoji": "🏀"
-		},
-		{
-			"id": 9,
-			"fact": "The Rams' 'Greatest Show on Turf' offense in 1999-2001 was the first team in NFL history to score 500+ points in three consecutive seasons.",
-			"category": "Rams",
-			"emoji": "🏈"
-		},
-		{
-			"id": 10,
-			"fact": "The Kings' 'Miracle on Manchester' in 1982 saw them overcome a 5-0 deficit in the third period to beat the Oilers 6-5 in overtime.",
-			"category": "Kings",
-			"emoji": "🏒"
-		},
-		{
-			"id": 11,
-			"fact": "Sandy Koufax threw four no-hitters for the Dodgers, including a perfect game in 1965 against the Chicago Cubs.",
+			"id": 43,
+			"fact": "Dodger Stadium is the third-oldest ballpark in Major League Baseball and the oldest west of the Mississippi River.",
 			"category": "Dodgers",
-			"emoji": "⚾"
+			"emoji": "🏟️"
 		},
 		{
-			"id": 12,
-			"fact": "David Beckham's arrival at the Galaxy in 2007 helped establish MLS as a destination for international stars.",
-			"category": "Galaxy",
-			"emoji": "⚽"
-		},
-		{
-			"id": 13,
-			"fact": "The Lakers' 33-game winning streak in 1971-72 remains the longest in NBA history.",
-			"category": "Lakers",
-			"emoji": "🏀"
-		},
-		{
-			"id": 14,
-			"fact": "The Rams' move back to Los Angeles in 2016 marked their return after 21 years in St. Louis.",
-			"category": "Rams",
-			"emoji": "🏈"
-		},
-		{
-			"id": 15,
-			"fact": "Wayne Gretzky played his final NHL season with the Kings in 1998-99, bringing unprecedented attention to hockey in LA.",
-			"category": "Kings",
-			"emoji": "🏒"
-		},
-		{
-			"id": 16,
-			"fact": "The Dodgers' Vin Scully was the longest-tenured broadcaster in professional sports history, calling games for 67 years.",
+			"id": 44,
+			"fact": "The Dodgers' famous 'Think Blue' slogan was created by legendary broadcaster Vin Scully, not the team's marketing department.",
 			"category": "Dodgers",
-			"emoji": "⚾"
+			"emoji": "💭"
 		},
 		{
-			"id": 17,
-			"fact": "The Galaxy's Landon Donovan is the all-time leading scorer in MLS history with 145 goals.",
-			"category": "Galaxy",
-			"emoji": "⚽"
-		},
-		{
-			"id": 18,
-			"fact": "Magic Johnson's 'Showtime' Lakers won five championships in the 1980s, revolutionizing fast-break basketball.",
-			"category": "Lakers",
-			"emoji": "🏀"
-		},
-		{
-			"id": 19,
-			"fact": "The Rams' SoFi Stadium is the most expensive stadium ever built, costing over $5 billion.",
-			"category": "Rams",
-			"emoji": "🏈"
-		},
-		{
-			"id": 20,
-			"fact": "The Kings' 'Triple Crown Line' of Marcel Dionne, Charlie Simmer, and Dave Taylor was one of the most prolific scoring lines in NHL history.",
-			"category": "Kings",
-			"emoji": "🏒"
-		},
-		{
-			"id": 21,
-			"fact": "The Dodgers' Jackie Robinson broke baseball's color barrier in 1947, wearing number 42 which is now retired across all of MLB.",
+			"id": 45,
+			"fact": "Dodger Stadium was built in just 42 months, using 21,000 tons of steel and 100,000 cubic yards of concrete.",
 			"category": "Dodgers",
-			"emoji": "⚾"
+			"emoji": "🔨"
 		},
 		{
-			"id": 22,
-			"fact": "The Galaxy's Zlatan Ibrahimović scored one of the most spectacular goals in MLS history with a 40-yard volley in 2018.",
-			"category": "Galaxy",
-			"emoji": "⚽"
-		},
-		{
-			"id": 23,
-			"fact": "The Lakers' LeBron James became the first player in NBA history to record a triple-double against all 30 teams.",
-			"category": "Lakers",
-			"emoji": "🏀"
-		},
-		{
-			"id": 24,
-			"fact": "The Rams' Aaron Donald has been named NFL Defensive Player of the Year three times, tying the record.",
-			"category": "Rams",
-			"emoji": "🏈"
-		},
-		{
-			"id": 25,
-			"fact": "The Kings' Anže Kopitar became the first Slovenian-born player to win the Stanley Cup in 2012.",
-			"category": "Kings",
-			"emoji": "🏒"
-		},
-		{
-			"id": 26,
-			"fact": "The Dodgers' Fernando Valenzuela's 'Fernandomania' in 1981 captivated Los Angeles and helped popularize baseball among Latino fans.",
+			"id": 46,
+			"fact": "The Dodgers' 'Dodger Dog' hot dog was originally called the 'Farmer John Dodger Dog' and is still made by the same company today.",
 			"category": "Dodgers",
-			"emoji": "⚾"
+			"emoji": "🌭"
 		},
 		{
-			"id": 27,
-			"fact": "The Galaxy's Robbie Keane scored 104 goals in 165 appearances, making him one of the most successful Designated Players in MLS history.",
-			"category": "Galaxy",
-			"emoji": "⚽"
+			"id": 47,
+			"fact": "The Dodgers were the first team to have a full-time team psychologist, hired in 1988 to help players with mental health and performance.",
+			"category": "Dodgers",
+			"emoji": "🧠"
 		},
 		{
-			"id": 28,
-			"fact": "The Lakers' Shaquille O'Neal and Kobe Bryant won three consecutive NBA championships from 2000-2002, creating one of the most dominant dynasties.",
-			"category": "Lakers",
-			"emoji": "🏀"
+			"id": 48,
+			"fact": "Dodger Stadium's famous 'Think Blue' sign was originally lit with 1,200 individual light bulbs before being converted to LED technology.",
+			"category": "Dodgers",
+			"emoji": "💡"
 		},
 		{
-			"id": 29,
-			"fact": "The Rams' 'Fearsome Foursome' defensive line of the 1960s was one of the most dominant defensive units in NFL history.",
-			"category": "Rams",
-			"emoji": "🏈"
+			"id": 49,
+			"fact": "The Dodgers' 'Bleacher Creatures' fan section was inspired by the New York Yankees' famous bleacher fans, but with a distinctly LA twist.",
+			"category": "Dodgers",
+			"emoji": "👥"
 		},
 		{
-			"id": 30,
-			"fact": "The Kings' 'That 70s Line' of Jeff Carter, Tyler Toffoli, and Tanner Pearson was instrumental in their 2014 Stanley Cup run.",
-			"category": "Kings",
-			"emoji": "🏒"
+			"id": 50,
+			"fact": "The Dodgers' spring training facility in Arizona is called 'Camelback Ranch' because it's located near Camelback Mountain in Phoenix.",
+			"category": "Dodgers",
+			"emoji": "🐪"
 		}
 	]
 }

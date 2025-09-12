@@ -7,8 +7,6 @@ import json
 import random
 import logging
 from pathlib import Path
-from datetime import datetime
-import pytz
 
 logger = logging.getLogger(__name__)
 
