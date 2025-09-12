@@ -2,303 +2,1083 @@
 	"facts": [
 		{
 			"id": 1,
-			"fact": "The original Star Wars script was rejected by every major studio before 20th Century Fox picked it up. Even Disney initially passed on it.",
-			"category": "Star Wars",
-			"emoji": "⭐"
+			"fact": "The holes in the studs of LEGO minifigure heads are a safety feature to prevent suffocation if a child swallows one.",
+			"category": "Lego",
+			"emoji": "💀"
 		},
 		{
 			"id": 2,
-			"fact": "The Wilhelm Scream, heard in countless movies including Star Wars, was originally recorded for a 1951 Western called 'Distant Drums'.",
-			"category": "Star Wars",
-			"emoji": "🎬"
+			"fact": "LEGO has an official designation for master builders called 'LEGO Certified Professionals.' There are only about 40 in the entire world.",
+			"category": "Lego",
+			"emoji": "🧑‍🎨"
 		},
 		{
 			"id": 3,
-			"fact": "Darth Vader's breathing sound was created by putting a microphone inside a scuba regulator and breathing through it.",
-			"category": "Star Wars",
-			"emoji": "🤖"
-		},
-		{
-			"id": 4,
-			"fact": "The lightsaber sound effect was created by combining the hum of an old TV set with the buzz of a film projector motor.",
-			"category": "Star Wars",
-			"emoji": "⚔️"
-		},
-		{
-			"id": 5,
-			"fact": "Yoda was originally designed to be a small, green monkey-like creature before becoming the wise Jedi Master we know today.",
-			"category": "Star Wars",
-			"emoji": "🐸"
-		},
-		{
-			"id": 6,
-			"fact": "The Death Star's exhaust port was intentionally designed as a weakness by Galen Erso, the scientist who built it.",
-			"category": "Star Wars",
-			"emoji": "🌍"
-		},
-		{
-			"id": 7,
-			"fact": "Chewbacca's voice was created by mixing together sounds from bears, walruses, lions, and other animals.",
-			"category": "Star Wars",
-			"emoji": "🐻"
-		},
-		{
-			"id": 8,
-			"fact": "The original Star Wars was almost called 'Adventures of Luke Starkiller' before George Lucas changed it.",
-			"category": "Star Wars",
-			"emoji": "✨"
-		},
-		{
-			"id": 9,
-			"fact": "R2-D2's beeps and boops were created by sound designer Ben Burtt using his own voice and electronic synthesizers.",
-			"category": "Star Wars",
-			"emoji": "🤖"
-		},
-		{
-			"id": 10,
-			"fact": "The Millennium Falcon was originally designed to look like a hamburger with an olive on top.",
-			"category": "Star Wars",
-			"emoji": "🍔"
-		},
-		{
-			"id": 11,
-			"fact": "Walt Disney's original Mickey Mouse was almost named 'Mortimer Mouse' until his wife convinced him to change it.",
-			"category": "Disney",
-			"emoji": "🐭"
-		},
-		{
-			"id": 12,
-			"fact": "The voice of Mickey Mouse has always been provided by a man, never a woman, since 1928.",
-			"category": "Disney",
-			"emoji": "🎤"
-		},
-		{
-			"id": 13,
-			"fact": "Disneyland's Matterhorn was the first tubular steel roller coaster ever built, revolutionizing roller coaster design.",
-			"category": "Disney",
-			"emoji": "🎢"
-		},
-		{
-			"id": 14,
-			"fact": "The Haunted Mansion's stretching room portraits are actually painted on rubber that stretches as the room 'grows'.",
-			"category": "Disney",
-			"emoji": "👻"
-		},
-		{
-			"id": 15,
-			"fact": "Disney's 'It's a Small World' song was written by the Sherman Brothers and is the most performed song in history.",
-			"category": "Disney",
-			"emoji": "🌍"
-		},
-		{
-			"id": 16,
-			"fact": "The original Disneyland opened with only 18 attractions, compared to over 50 today.",
-			"category": "Disney",
-			"emoji": "🏰"
-		},
-		{
-			"id": 17,
-			"fact": "Disney's 'Snow White and the Seven Dwarfs' was the first full-length animated feature film ever made.",
-			"category": "Disney",
-			"emoji": "❄️"
-		},
-		{
-			"id": 18,
-			"fact": "The Disney castle logo is based on Neuschwanstein Castle in Germany, not a Disney creation.",
-			"category": "Disney",
-			"emoji": "🏰"
-		},
-		{
-			"id": 19,
-			"fact": "Disney's 'Fantasia' was the first commercial film to use stereophonic sound.",
-			"category": "Disney",
-			"emoji": "🎵"
-		},
-		{
-			"id": 20,
-			"fact": "The Disney character Goofy was originally named 'Dippy Dawg' and was meant to be a dog, not a human-like character.",
-			"category": "Disney",
-			"emoji": "🐕"
-		},
-		{
-			"id": 21,
-			"fact": "The word 'LEGO' comes from the Danish phrase 'leg godt,' which means 'play well' in English.",
-			"category": "Lego",
-			"emoji": "🧱"
-		},
-		{
-			"id": 22,
-			"fact": "There are approximately 400 billion LEGO pieces in the world - that's about 62 pieces for every person on Earth.",
-			"category": "Lego",
-			"emoji": "🌍"
-		},
-		{
-			"id": 23,
-			"fact": "The LEGO Group produces more than 36,000 LEGO elements every minute, or 2.16 million per hour.",
-			"category": "Lego",
-			"emoji": "⚙️"
-		},
-		{
-			"id": 24,
-			"fact": "LEGO minifigures were introduced in 1978 and have been produced in over 4,000 different variations since then.",
-			"category": "Lego",
-			"emoji": "👤"
-		},
-		{
-			"id": 25,
-			"fact": "The tallest LEGO tower ever built was 114 feet 11 inches tall, constructed in Milan, Italy in 2015.",
-			"category": "Lego",
-			"emoji": "🗼"
-		},
-		{
-			"id": 26,
-			"fact": "LEGO bricks are so precisely manufactured that only 18 out of every million fail to meet the company's standards.",
+			"fact": "The mold for the classic 2x4 LEGO brick is so precise that there is a tolerance of less than two-thousandths of a millimeter (0.002 mm).",
 			"category": "Lego",
 			"emoji": "📏"
 		},
 		{
-			"id": 27,
-			"fact": "The first LEGO set was called 'Town Plan' and was released in 1955, featuring buildings and vehicles.",
+			"id": 4,
+			"fact": "The first licensed LEGO theme was a wooden toy line based on the cartoon character 'Woody Woodpecker' in the 1950s, long before Star Wars.",
 			"category": "Lego",
-			"emoji": "🏘️"
+			"emoji": "🐦"
 		},
 		{
-			"id": 28,
-			"fact": "LEGO produces more tires than any other company in the world, including actual tire manufacturers.",
+			"id": 5,
+			"fact": "The iconic LEGO yellow for minifigures was chosen to best represent all races and ethnicities in a neutral, non-specific way.",
 			"category": "Lego",
-			"emoji": "🚗"
+			"emoji": "💛"
 		},
 		{
-			"id": 29,
-			"fact": "The LEGO Group was founded in 1932 by Ole Kirk Christiansen, who started by making wooden toys.",
+			"id": 6,
+			"fact": "LEGO almost went bankrupt in the early 2000s, but was saved by the success of the Bionicle and LEGO Star Wars lines.",
 			"category": "Lego",
-			"emoji": "🪵"
+			"emoji": "📉"
 		},
 		{
-			"id": 30,
-			"fact": "LEGO bricks from 1958 are still compatible with bricks made today, thanks to the company's commitment to backward compatibility.",
+			"id": 7,
+			"fact": "The LEGO Group has a team of 'Brick Masters' whose job is to test the 'playability' of new sets.",
+			"category": "Lego",
+			"emoji": "👷"
+		},
+		{
+			"id": 8,
+			"fact": "LEGO bricks are made from a specific plastic called Acrylonitrile Butadiene Styrene (ABS), which gives them their signature clutch power and gloss.",
+			"category": "Lego",
+			"emoji": "🧪"
+		},
+		{
+			"id": 9,
+			"fact": "The LEGO company owns the largest private collection of an artist's work: the art of Carl Barks, who drew the Donald Duck comics.",
+			"category": "Lego",
+			"emoji": "🦆"
+		},
+		{
+			"id": 10,
+			"fact": "There are over 900 million different ways to combine just six eight-stud LEGO bricks of the same color.",
+			"category": "Lego",
+			"emoji": "♾️"
+		},
+		{
+			"id": 11,
+			"fact": "The tiny 'LEGO' logo is molded onto the top of every stud, a mark of authenticity.",
+			"category": "Lego",
+			"emoji": "®️"
+		},
+		{
+			"id": 12,
+			"fact": "The LEGO Ideas platform allows fans to submit their own creations; if a project gets 10,000 votes, LEGO will consider making it an official set.",
+			"category": "Lego",
+			"emoji": "🗳️"
+		},
+		{
+			"id": 13,
+			"fact": "The first LEGO minifigure with a double-sided head was Professor Quirrell from the Harry Potter theme, showing Voldemort on the back.",
+			"category": "Lego",
+			"emoji": "🎭"
+		},
+		{
+			"id": 14,
+			"fact": "In 1997, a container ship lost nearly 5 million LEGO pieces off the coast of Cornwall, UK. Beachcombers still find them washed ashore today.",
+			"category": "Lego",
+			"emoji": "🌊"
+		},
+		{
+			"id": 15,
+			"fact": "The LEGO color palette has a special color called 'Modulex White' which is slightly different from standard white, used for their architectural line in the 1960s.",
+			"category": "Lego",
+			"emoji": "🎨"
+		},
+		{
+			"id": 16,
+			"fact": "The LEGO Duplo brick, which is twice the size of a standard brick, is still perfectly compatible with the smaller bricks.",
 			"category": "Lego",
 			"emoji": "🔗"
 		},
 		{
-			"id": 31,
-			"fact": "The LA Galaxy was originally going to be called the 'Los Angeles Stars' before the name was changed to Galaxy in 1995.",
-			"category": "Galaxy",
+			"id": 17,
+			"fact": "The LEGO Group briefly made a line of educational software in the 1990s, including the popular game 'LEGO Island'.",
+			"category": "Lego",
+			"emoji": "💾"
+		},
+		{
+			"id": 18,
+			"fact": "The name of the LEGO space theme's founder, Godtfred Kirk Christiansen, can be found on the side of the spaceship from the classic set #497/#928, Galaxy Explorer. His initials, 'GKC', are printed on the hull.",
+			"category": "Lego",
+			"emoji": "🚀"
+		},
+		{
+			"id": 19,
+			"fact": "LEGO created a special, limited-edition brick made of solid 14-karat gold, which was given to employees with 25 years of service.",
+			"category": "Lego",
+			"emoji": "🥇"
+		},
+		{
+			"id": 20,
+			"fact": "The LEGO Bionicle storyline was so complex it had its own dedicated story team and a mythology that spanned over a decade.",
+			"category": "Lego",
+			"emoji": "🗿"
+		},
+		{
+			"id": 21,
+			"fact": "The LEGO company has an official policy against creating sets based on modern warfare or real-life military vehicles.",
+			"category": "Lego",
+			"emoji": "🕊️"
+		},
+		{
+			"id": 22,
+			"fact": "LEGO once created a line of scented bricks called 'Scala' aimed at young girls in the 1990s.",
+			"category": "Lego",
+			"emoji": "🍓"
+		},
+		{
+			"id": 23,
+			"fact": "The tallest LEGO structure ever built was a 114-foot tower, requiring over 500,000 bricks.",
+			"category": "Lego",
+			"emoji": "🗼"
+		},
+		{
+			"id": 24,
+			"fact": "There's a LEGO brick separator tool designed to help take apart stubborn pieces without damaging them or your teeth.",
+			"category": "Lego",
+			"emoji": "🔧"
+		},
+		{
+			"id": 25,
+			"fact": "The LEGO Technic line, with its gears and pins, was originally called 'Expert Builder'.",
+			"category": "Lego",
+			"emoji": "⚙️"
+		},
+		{
+			"id": 26,
+			"fact": "In the LEGO House, a massive 'Tree of Creativity' is one of the largest LEGO models in the world, standing over 50 feet tall.",
+			"category": "Lego",
+			"emoji": "🌳"
+		},
+		{
+			"id": 27,
+			"fact": "The LEGO Group's official motto is 'Det bedste er ikke for godt,' which means 'Only the best is good enough'.",
+			"category": "Lego",
 			"emoji": "⭐"
 		},
 		{
+			"id": 28,
+			"fact": "The first LEGO minifigures from 1978 had no facial expressions other than a neutral smile.",
+			"category": "Lego",
+			"emoji": "🙂"
+		},
+		{
+			"id": 29,
+			"fact": "LEGO minifigure hands are designed to be C-shaped to perfectly grip LEGO bars and accessories.",
+			"category": "Lego",
+			"emoji": "✋"
+		},
+		{
+			"id": 30,
+			"fact": "The LEGO company is still privately owned by the Kirk Kristiansen family who founded it.",
+			"category": "Lego",
+			"emoji": "👨‍👩‍👧‍👦"
+		},
+		{
+			"id": 31,
+			"fact": "There is a system of underground tunnels ('utilidors') beneath the Magic Kingdom in Florida so cast members can move around without being seen by guests.",
+			"category": "Disney",
+			"emoji": "🚇"
+		},
+		{
 			"id": 32,
-			"fact": "The Galaxy's home stadium, Dignity Health Sports Park, was the first soccer-specific stadium built in the United States.",
+			"fact": "The drawbridge on Sleeping Beauty's Castle at Disneyland is real and functional but has only been publicly lowered twice: on opening day in 1955 and for the Fantasyland redesign in 1983.",
+			"category": "Disney",
+			"emoji": "🌉"
+		},
+		{
+			"id": 33,
+			"fact": "In 'Toy Story', the pattern on the carpet in Sid's house is the same as the iconic carpet from the Overlook Hotel in 'The Shining'.",
+			"category": "Disney",
+			"emoji": " carpeting"
+		},
+		{
+			"id": 34,
+			"fact": "Disneyland's exclusive Club 33 has a multi-year waiting list and an initiation fee reportedly over $25,000.",
+			"category": "Disney",
+			"emoji": "💎"
+		},
+		{
+			"id": 35,
+			"fact": "The 'Partners' statue of Walt and Mickey has a subtle imperfection: Walt Disney's tie has a non-traditional Windsor knot, which was how he always wore his.",
+			"category": "Disney",
+			"emoji": "👔"
+		},
+		{
+			"id": 36,
+			"fact": "The final film Walt Disney personally oversaw was 'The Jungle Book'.",
+			"category": "Disney",
+			"emoji": " Jungle Book"
+		},
+		{
+			"id": 37,
+			"fact": "The 'grim grinning ghosts' in the Haunted Mansion's ballroom scene are created using a 19th-century illusion technique called Pepper's Ghost.",
+			"category": "Disney",
+			"emoji": "👻"
+		},
+		{
+			"id": 38,
+			"fact": "The voice of Lilo from 'Lilo & Stitch' is Daveigh Chase, the same actress who played the terrifying Samara in 'The Ring'.",
+			"category": "Disney",
+			"emoji": "📺"
+		},
+		{
+			"id": 39,
+			"fact": "In 'The Emperor's New Groove', Yzma's original plan was to blot out the sun with a giant disc, a plot that was deemed too similar to a 'Simpsons' episode.",
+			"category": "Disney",
+			"emoji": "☀️"
+		},
+		{
+			"id": 40,
+			"fact": "There is a 'Tower of Terror' themed hotel suite in the Tokyo DisneySea Hotel MiraCosta.",
+			"category": "Disney",
+			"emoji": "🏨"
+		},
+		{
+			"id": 41,
+			"fact": "The animal sounds in the jungle of 'The Lion King' were partially recorded from the tigers and lions at the San Francisco Zoo.",
+			"category": "Disney",
+			"emoji": "🦁"
+		},
+		{
+			"id": 42,
+			"fact": "The iconic Disney monorail system was the first daily operating monorail in the Western Hemisphere.",
+			"category": "Disney",
+			"emoji": "🚝"
+		},
+		{
+			"id": 43,
+			"fact": "The face of the Mad Hatter in 'Alice in Wonderland' was modeled after his voice actor, Ed Wynn.",
+			"category": "Disney",
+			"emoji": "🎩"
+		},
+		{
+			"id": 44,
+			"fact": "Disney's 'The Black Cauldron' was the company's first animated film to receive a PG rating.",
+			"category": "Disney",
+			"emoji": " PG"
+		},
+		{
+			"id": 45,
+			"fact": "The names of the four main characters in 'The Jungle Book'—Mowgli, Baloo, Bagheera, and Shere Khan—are the Hindi words for 'frog,' 'bear,' 'panther,' and 'tiger king' respectively.",
+			"category": "Disney",
+			"emoji": "🐻"
+		},
+		{
+			"id": 46,
+			"fact": "In 'Beauty and the Beast', Belle is the only person in her village who wears blue, symbolizing her status as an outsider.",
+			"category": "Disney",
+			"emoji": "💙"
+		},
+		{
+			"id": 47,
+			"fact": "The sorcerer in 'Fantasia' is named 'Yen Sid,' which is 'Disney' spelled backward.",
+			"category": "Disney",
+			"emoji": "🧙‍♂️"
+		},
+		{
+			"id": 48,
+			"fact": "Walt Disney's personal apartment, which is still maintained, is located above the Fire Department on Main Street in Disneyland.",
+			"category": "Disney",
+			"emoji": "🏠"
+		},
+		{
+			"id": 49,
+			"fact": "The movie 'Pocahontas' had its world premiere in New York's Central Park, with an audience of over 100,000 people.",
+			"category": "Disney",
+			"emoji": "🌳"
+		},
+		{
+			"id": 50,
+			"fact": "The Disney company is the world's second-largest consumer of explosives, just after the U.S. Department of Defense, due to their nightly fireworks shows.",
+			"category": "Disney",
+			"emoji": "💥"
+		},
+		{
+			"id": 51,
+			"fact": "The design for the character WALL-E was inspired by a pair of binoculars.",
+			"category": "Disney",
+			"emoji": "🤖"
+		},
+		{
+			"id": 52,
+			"fact": "The Beast in 'Beauty and the Beast' is a chimerical creature with the head of a buffalo, the mane of a lion, the tusks of a boar, and the body of a bear.",
+			"category": "Disney",
+			"emoji": "👹"
+		},
+		{
+			"id": 53,
+			"fact": "The original voice of Bambi, Donnie Dunagan, grew up to become a decorated Marine Corps drill instructor.",
+			"category": "Disney",
+			"emoji": "🎖️"
+		},
+		{
+			"id": 54,
+			"fact": "The 'hidden Mickey' phenomenon started as an inside joke among Disney Imagineers.",
+			"category": "Disney",
+			"emoji": "🐭"
+		},
+		{
+			"id": 55,
+			"fact": "The Liberty Bell in Disneyland's Liberty Square is a real replica cast from the same mold as the original.",
+			"category": "Disney",
+			"emoji": "🔔"
+		},
+		{
+			"id": 56,
+			"fact": "Disney's 'Moana' is the first Disney Princess film where the main character has no love interest.",
+			"category": "Disney",
+			"emoji": "🌊"
+		},
+		{
+			"id": 57,
+			"fact": "The voice of Eeyore, Ralph Wright, was also a storyboard artist for many Disney classics and was known for his naturally gloomy demeanor.",
+			"category": "Disney",
+			"emoji": "😔"
+		},
+		{
+			"id": 58,
+			"fact": "The Disney family crest can be seen on the Cinderella Castle in Walt Disney World.",
+			"category": "Disney",
+			"emoji": "🛡️"
+		},
+		{
+			"id": 59,
+			"fact": "The film 'Tangled' was Disney's 50th animated feature film.",
+			"category": "Disney",
+			"emoji": "5️⃣0️⃣"
+		},
+		{
+			"id": 60,
+			"fact": "The 'fainting' goat in 'Frozen' is a real breed of goat known as the Myotonic goat, which stiffens and falls over when startled.",
+			"category": "Disney",
+			"emoji": "🐐"
+		},
+		{
+			"id": 61,
+			"fact": "The bounty hunter Bossk's costume in 'The Empire Strikes Back' is a recycled spacesuit from a 'Doctor Who' episode.",
+			"category": "Star Wars",
+			"emoji": "🧑‍🚀"
+		},
+		{
+			"id": 62,
+			"fact": "Denis Lawson, who played the rebel pilot Wedge Antilles, is the maternal uncle of Ewan McGregor, who played Obi-Wan Kenobi.",
+			"category": "Star Wars",
+			"emoji": "👨‍👦"
+		},
+		{
+			"id": 63,
+			"fact": "The sound of the Droideka's blaster is a looped and pitched-up recording of a Tasmanian Devil.",
+			"category": "Star Wars",
+			"emoji": "👹"
+		},
+		{
+			"id": 64,
+			"fact": "Nien Nunb's dialogue is actually a mix of the Haya language from Tanzania and some Kikuyu, a language from Kenya.",
+			"category": "Star Wars",
+			"emoji": "🗣️"
+		},
+		{
+			"id": 65,
+			"fact": "In early drafts of 'A New Hope', R2-D2 could speak standard English and was reportedly quite foul-mouthed.",
+			"category": "Star Wars",
+			"emoji": "🤬"
+		},
+		{
+			"id": 66,
+			"fact": "The Imperial March was not introduced until 'The Empire Strikes Back'; it does not appear in 'A New Hope'.",
+			"category": "Star Wars",
+			"emoji": "🎶"
+		},
+		{
+			"id": 67,
+			"fact": "George Lucas financed 'The Empire Strikes Back' and 'Return of the Jedi' himself, allowing him to retain full creative control.",
+			"category": "Star Wars",
+			"emoji": "💸"
+		},
+		{
+			"id": 68,
+			"fact": "The iconic opening crawl was created by a practical effects company called 'Industrial Light & Magic' (ILM) by physically filming a large model of the text.",
+			"category": "Star Wars",
+			"emoji": "📜"
+		},
+		{
+			"id": 69,
+			"fact": "Luke Skywalker's original lightsaber prop was made from the handle of a 1930s Graflex camera flash.",
+			"category": "Star Wars",
+			"emoji": "📸"
+		},
+		{
+			"id": 70,
+			"fact": "The term 'Padawan' was created for the prequel trilogy and does not appear in the original films.",
+			"category": "Star Wars",
+			"emoji": "🎓"
+		},
+		{
+			"id": 71,
+			"fact": "The sound of Chewbacca's crossbow-like weapon, the Bowcaster, is the sound of a slinky being hit.",
+			"category": "Star Wars",
+			"emoji": "💥"
+		},
+		{
+			"id": 72,
+			"fact": "The original trilogy was filmed with a specific, soft-focus lens to give it a more 'used future' and slightly grimy look.",
+			"category": "Star Wars",
+			"emoji": "🎥"
+		},
+		{
+			"id": 73,
+			"fact": "The word 'Ewok' is never actually spoken aloud in 'Return of the Jedi'.",
+			"category": "Star Wars",
+			"emoji": "🐻"
+		},
+		{
+			"id": 74,
+			"fact": "The species of Admiral Ackbar, the Mon Calamari, were first designed as generic aliens for the Cantina scene.",
+			"category": "Star Wars",
+			"emoji": "🦑"
+		},
+		{
+			"id": 75,
+			"fact": "In 'The Phantom Menace', a delegation of E.T.'s species can be seen in the Galactic Senate.",
+			"category": "Star Wars",
+			"emoji": "👽"
+		},
+		{
+			"id": 76,
+			"fact": "The design of the Millennium Falcon's cockpit was inspired by the cockpit of a B-29 Superfortress bomber.",
+			"category": "Star Wars",
+			"emoji": "✈️"
+		},
+		{
+			"id": 77,
+			"fact": "The sound of a lightsaber igniting is the sound of a film projector motor starting up combined with the hum of an old television.",
+			"category": "Star Wars",
+			"emoji": "📺"
+		},
+		{
+			"id": 78,
+			"fact": "Harrison Ford was not originally supposed to play Han Solo; he was just helping read lines with other actors during auditions.",
+			"category": "Star Wars",
+			"emoji": "⭐"
+		},
+		{
+			"id": 79,
+			"fact": "The scene where Luke and Leia swing across the Death Star chasm was performed by the actors themselves, without stunt doubles.",
+			"category": "Star Wars",
+			"emoji": "😱"
+		},
+		{
+			"id": 80,
+			"fact": "The planet Coruscant was first named and developed in Timothy Zahn's 1991 novel 'Heir to the Empire' before appearing in the films.",
+			"category": "Star Wars",
+			"emoji": "📖"
+		},
+		{
+			"id": 81,
+			"fact": "The creature inside the trash compactor in 'A New Hope' was named the 'Dianoga.'",
+			"category": "Star Wars",
+			"emoji": "🐙"
+		},
+		{
+			"id": 82,
+			"fact": "Jabba the Hutt was operated by a team of three puppeteers from inside the massive puppet.",
+			"category": "Star Wars",
+			"emoji": "🐛"
+		},
+		{
+			"id": 83,
+			"fact": "The sound of the Tusken Raiders' cry is a manipulated recording of a donkey's bray.",
+			"category": "Star Wars",
+			"emoji": " donkey"
+		},
+		{
+			"id": 84,
+			"fact": "George Lucas originally envisioned Han Solo as a large, green-skinned alien with gills.",
+			"category": "Star Wars",
+			"emoji": "🦎"
+		},
+		{
+			"id": 85,
+			"fact": "An early concept for Yoda had him as a much larger, elf-like creature.",
+			"category": "Star Wars",
+			"emoji": "🧝"
+		},
+		{
+			"id": 86,
+			"fact": "The sound of the speeder bikes in 'Return of the Jedi' is a mix of a P-51 Mustang and a P-38 Lightning fighter plane.",
+			"category": "Star Wars",
+			"emoji": "✈️"
+		},
+		{
+			"id": 87,
+			"fact": "The 'Force ghost' effect was created by filming the actors through a special, semi-transparent material.",
+			"category": "Star Wars",
+			"emoji": "👻"
+		},
+		{
+			"id": 88,
+			"fact": "The rolling droid BB-8 was a practical effect, not CGI, and was operated live on set.",
+			"category": "Star Wars",
+			"emoji": "🤖"
+		},
+		{
+			"id": 89,
+			"fact": "The blaster bolts in the original trilogy were drawn in by hand, frame by frame, in a process called rotoscoping.",
+			"category": "Star Wars",
+			"emoji": "✏️"
+		},
+		{
+			"id": 90,
+			"fact": "The original Star Wars film had a budget of only $11 million.",
+			"category": "Star Wars",
+			"emoji": "💲"
+		},
+		{
+			"id": 91,
+			"fact": "The Galaxy's first-ever goal was scored by Cobi Jones on April 13, 1996.",
+			"category": "Galaxy",
+			"emoji": "⚽"
+		},
+		{
+			"id": 92,
+			"fact": "The team's official supporters' group, the Angel City Brigade, sits in section 121 of the stadium.",
+			"category": "Galaxy",
+			"emoji": "🗣️"
+		},
+		{
+			"id": 93,
+			"fact": "In 2000, the Galaxy won the CONCACAF Champions' Cup, making them one of only two MLS teams to ever win the tournament.",
+			"category": "Galaxy",
+			"emoji": "🌎"
+		},
+		{
+			"id": 94,
+			"fact": "The Galaxy's USL affiliate team is officially named LA Galaxy II, but is nicknamed 'Los Dos'.",
+			"category": "Galaxy",
+			"emoji": "2️⃣"
+		},
+		{
+			"id": 95,
+			"fact": "The Galaxy's home stadium was the first soccer-specific stadium built in the United States by a Major League Soccer team.",
 			"category": "Galaxy",
 			"emoji": "🏟️"
 		},
 		{
-			"id": 33,
-			"fact": "David Beckham's Galaxy contract included a clause that allowed him to purchase an MLS expansion team for $25 million - he now owns Inter Miami CF.",
+			"id": 96,
+			"fact": "The Galaxy once had a third jersey that was predominantly red, nicknamed the 'Salsa Picante' jersey.",
 			"category": "Galaxy",
-			"emoji": "💰"
+			"emoji": "🌶️"
 		},
 		{
-			"id": 34,
-			"fact": "The Galaxy's mascot, Cozmo, is a green alien who was originally designed to look like a space creature to match the 'Galaxy' theme.",
+			"id": 97,
+			"fact": "The team's rivalry with the San Jose Earthquakes is called the 'California Clásico' and is one of the oldest rivalries in MLS.",
+			"category": "Galaxy",
+			"emoji": "⚔️"
+		},
+		{
+			"id": 98,
+			"fact": "The LA Galaxy's academy was the first of its kind in MLS and has produced numerous professional players.",
+			"category": "Galaxy",
+			"emoji": "🎓"
+		},
+		{
+			"id": 99,
+			"fact": "The team's mascot, Cozmo, is said to be from the planet 'Planetaria'.",
+			"category": "Galaxy",
+			"emoji": "🪐"
+		},
+		{
+			"id": 100,
+			"fact": "The LA Galaxy won the first-ever MLS Cup Supporters' Shield in 1998 for having the best regular season record.",
+			"category": "Galaxy",
+			"emoji": "🛡️"
+		},
+		{
+			"id": 101,
+			"fact": "The Galaxy's first head coach was Lothar Osiander, who also coached the U.S. Olympic soccer team.",
+			"category": "Galaxy",
+			"emoji": "👨‍🏫"
+		},
+		{
+			"id": 102,
+			"fact": "The team's name, 'Galaxy,' was chosen to reflect Los Angeles's status as a 'city of stars' in the entertainment industry.",
+			"category": "Galaxy",
+			"emoji": "🌟"
+		},
+		{
+			"id": 103,
+			"fact": "The Galaxy have their own official craft beer, the 'Galaxy Blonde,' brewed by a local LA brewery.",
+			"category": "Galaxy",
+			"emoji": "🍺"
+		},
+		{
+			"id": 104,
+			"fact": "The record for the most goals in a single season for the Galaxy is held by Carlos Ruiz, with 24 goals in 2002.",
+			"category": "Galaxy",
+			"emoji": "🥅"
+		},
+		{
+			"id": 105,
+			"fact": "The Galaxy's home stadium, Dignity Health Sports Park, has a capacity of 27,000 for soccer matches.",
+			"category": "Galaxy",
+			"emoji": "🏟️"
+		},
+		{
+			"id": 106,
+			"fact": "The Galaxy were the first team in MLS history to win five MLS Cups.",
+			"category": "Galaxy",
+			"emoji": "5️⃣"
+		},
+		{
+			"id": 107,
+			"fact": "The team's official colors are navy blue, gold, and white.",
+			"category": "Galaxy",
+			"emoji": "🔵"
+		},
+		{
+			"id": 108,
+			"fact": "The Galaxy's highest-scoring game was a 7-4 victory over the Colorado Rapids in 1998.",
+			"category": "Galaxy",
+			"emoji": "🎉"
+		},
+		{
+			"id": 109,
+			"fact": "The team's rivalry with LAFC is known as 'El Tráfico,' a playful nod to Los Angeles's notorious traffic congestion.",
+			"category": "Galaxy",
+			"emoji": "🚗"
+		},
+		{
+			"id": 110,
+			"fact": "The Galaxy's original jerseys in 1996 featured a unique teal and black color scheme with a swirling logo.",
+			"category": "Galaxy",
+			"emoji": "⚫"
+		},
+		{
+			"id": 111,
+			"fact": "The LA Galaxy have their own charitable foundation, the LA Galaxy Foundation, which focuses on youth soccer and community initiatives.",
+			"category": "Galaxy",
+			"emoji": "🤝"
+		},
+		{
+			"id": 112,
+			"fact": "The team's first-ever draft pick was defender Robin Fraser.",
+			"category": "Galaxy",
+			"emoji": "📝"
+		},
+		{
+			"id": 113,
+			"fact": "The Galaxy have a 'Ring of Honor' at their stadium to commemorate legendary players like Cobi Jones and Mauricio Cienfuegos.",
+			"category": "Galaxy",
+			"emoji": "💍"
+		},
+		{
+			"id": 114,
+			"fact": "The team's all-time leader in appearances is Cobi Jones, with over 300 games played for the club.",
+			"category": "Galaxy",
+			"emoji": "🏃"
+		},
+		{
+			"id": 115,
+			"fact": "The Galaxy have played friendly matches against international giants like Real Madrid, Manchester United, and Barcelona.",
+			"category": "Galaxy",
+			"emoji": "🌍"
+		},
+		{
+			"id": 116,
+			"fact": "The team's first Designated Player was Landon Donovan, not David Beckham.",
+			"category": "Galaxy",
+			"emoji": "📜"
+		},
+		{
+			"id": 117,
+			"fact": "The Galaxy's mascot Cozmo wears the number 96 on his jersey, representing the team's inaugural season in 1996.",
 			"category": "Galaxy",
 			"emoji": "👽"
 		},
 		{
-			"id": 35,
-			"fact": "The Galaxy won the MLS Cup in their first season (1996) and again in 2002, making them one of only two teams to win in their inaugural year.",
+			"id": 118,
+			"fact": "The Galaxy's home stadium has hosted the MLS Cup final a record six times.",
 			"category": "Galaxy",
 			"emoji": "🏆"
 		},
 		{
-			"id": 36,
-			"fact": "The Los Angeles Lakers were originally called the Minneapolis Lakers because Minnesota is the 'Land of 10,000 Lakes' - they kept the name when they moved to LA.",
-			"category": "Lakers",
-			"emoji": "🏞️"
+			"id": 119,
+			"fact": "The team's original home stadium was the Rose Bowl in Pasadena.",
+			"category": "Galaxy",
+			"emoji": "🌹"
 		},
 		{
-			"id": 37,
-			"fact": "The Lakers' purple and gold colors were originally inspired by the University of Minnesota's colors, not LA's sunset.",
-			"category": "Lakers",
-			"emoji": "🎨"
+			"id": 120,
+			"fact": "The Galaxy's team motto is 'This is LA.'",
+			"category": "Galaxy",
+			"emoji": "🗣️"
 		},
 		{
-			"id": 38,
-			"fact": "The Lakers have never had a losing season at home in their entire history - a streak that spans over 70 years.",
-			"category": "Lakers",
-			"emoji": "🏠"
-		},
-		{
-			"id": 39,
-			"fact": "Magic Johnson's famous 'baby hook' shot in Game 4 of the 1987 NBA Finals was actually called 'junior, junior sky hook' by his teammates.",
-			"category": "Lakers",
-			"emoji": "🏀"
-		},
-		{
-			"id": 40,
-			"fact": "The Lakers' 'Showtime' era was almost called 'Laker Time' until Pat Riley suggested the more dramatic 'Showtime' name.",
-			"category": "Lakers",
-			"emoji": "🎭"
-		},
-		{
-			"id": 41,
-			"fact": "The Los Angeles Dodgers were originally founded in Brooklyn, New York in 1883 as the Brooklyn Atlantics, before moving to LA in 1958.",
+			"id": 121,
+			"fact": "The 'high five' was allegedly invented by Dodgers outfielder Dusty Baker in 1977 after hitting his 30th home run.",
 			"category": "Dodgers",
-			"emoji": "⚾"
+			"emoji": "🖐️"
 		},
 		{
-			"id": 42,
-			"fact": "The Dodgers got their name from Brooklyn residents who had to 'dodge' the trolley cars that ran through the city streets.",
+			"id": 122,
+			"fact": "The first-ever televised baseball game was between the Brooklyn Dodgers and the Cincinnati Reds in 1939.",
 			"category": "Dodgers",
-			"emoji": "🚋"
+			"emoji": "📺"
 		},
 		{
-			"id": 43,
-			"fact": "Dodger Stadium is the third-oldest ballpark in Major League Baseball and the oldest west of the Mississippi River.",
+			"id": 123,
+			"fact": "Dodger Stadium has its own dedicated ZIP code: 90090.",
 			"category": "Dodgers",
-			"emoji": "🏟️"
+			"emoji": "✉️"
 		},
 		{
-			"id": 44,
-			"fact": "The Dodgers' famous 'Think Blue' slogan was created by legendary broadcaster Vin Scully, not the team's marketing department.",
+			"id": 124,
+			"fact": "The Dodgers and the New York Yankees have met in the World Series 11 times, more than any other pair of teams.",
 			"category": "Dodgers",
-			"emoji": "💭"
+			"emoji": "⚔️"
 		},
 		{
-			"id": 45,
-			"fact": "Dodger Stadium was built in just 42 months, using 21,000 tons of steel and 100,000 cubic yards of concrete.",
+			"id": 125,
+			"fact": "The Dodgers' iconic script logo was first introduced in 1938.",
 			"category": "Dodgers",
-			"emoji": "🔨"
+			"emoji": "✍️"
 		},
 		{
-			"id": 46,
-			"fact": "The Dodgers' 'Dodger Dog' hot dog was originally called the 'Farmer John Dodger Dog' and is still made by the same company today.",
+			"id": 126,
+			"fact": "The Dodgers were the first MLB team to have a female general manager, Kim Ng (though she was an assistant GM at the time).",
+			"category": "Dodgers",
+			"emoji": "👩‍💼"
+		},
+		{
+			"id": 127,
+			"fact": "The color of Dodger Stadium's seats was chosen to mimic the colors of the Southern California sky at different times of day, from yellow to orange to blue.",
+			"category": "Dodgers",
+			"emoji": "🌅"
+		},
+		{
+			"id": 128,
+			"fact": "The Dodgers' spring training facility, Camelback Ranch, is shared with the Chicago White Sox.",
+			"category": "Dodgers",
+			"emoji": "🤝"
+		},
+		{
+			"id": 129,
+			"fact": "The legendary 'Fernandomania' of the 1980s saw pitcher Fernando Valenzuela become a cultural icon and the first player to win Rookie of the Year and the Cy Young Award in the same season.",
+			"category": "Dodgers",
+			"emoji": "🌟"
+		},
+		{
+			"id": 130,
+			"fact": "The Dodgers were the first MLB team to open an office in Asia, establishing a presence in Tokyo in 1998.",
+			"category": "Dodgers",
+			"emoji": "🇯🇵"
+		},
+		{
+			"id": 131,
+			"fact": "The team's official song is 'It's Time for Dodger Baseball,' written by organist Nancy Bea Hefley.",
+			"category": "Dodgers",
+			"emoji": "🎶"
+		},
+		{
+			"id": 132,
+			"fact": "The Dodgers' organist, Dieter Ruehle, also plays for the Los Angeles Lakers and Kings.",
+			"category": "Dodgers",
+			"emoji": "🎹"
+		},
+		{
+			"id": 133,
+			"fact": "The Dodgers have retired the number 42 for Jackie Robinson league-wide, but they also have their own retired numbers, including Sandy Koufax's 32 and Roy Campanella's 39.",
+			"category": "Dodgers",
+			"emoji": "4️⃣2️⃣"
+		},
+		{
+			"id": 134,
+			"fact": "The Dodgers have a 'Legends of Dodger Baseball' series to honor players who are not in the Hall of Fame but were significant to the franchise, like Steve Garvey and Don Newcombe.",
+			"category": "Dodgers",
+			"emoji": "⭐"
+		},
+		{
+			"id": 135,
+			"fact": "The team's mascot, the 'Dodger,' is a costumed character that was introduced in the 1980s but is rarely seen.",
+			"category": "Dodgers",
+			"emoji": "👻"
+		},
+		{
+			"id": 136,
+			"fact": "The Dodgers were the first team to wear batting helmets in a game in 1941.",
+			"category": "Dodgers",
+			"emoji": "⛑️"
+		},
+		{
+			"id": 137,
+			"fact": "The team's famous 'Dodger Dog' is a 10-inch pork hot dog, distinct from the all-beef hot dogs sold at most other ballparks.",
 			"category": "Dodgers",
 			"emoji": "🌭"
 		},
 		{
-			"id": 47,
-			"fact": "The Dodgers were the first team to have a full-time team psychologist, hired in 1988 to help players with mental health and performance.",
+			"id": 138,
+			"fact": "Dodger Stadium is built into a hillside, so fans can park on the same level as their seats, minimizing the need for ramps and stairs.",
 			"category": "Dodgers",
-			"emoji": "🧠"
+			"emoji": "⛰️"
 		},
 		{
-			"id": 48,
-			"fact": "Dodger Stadium's famous 'Think Blue' sign was originally lit with 1,200 individual light bulbs before being converted to LED technology.",
+			"id": 139,
+			"fact": "The Dodgers' original name in Brooklyn was the 'Brooklyn Grays.' They were also called the 'Bridegrooms,' 'Superbas,' and 'Robins' before officially becoming the Dodgers.",
 			"category": "Dodgers",
-			"emoji": "💡"
+			"emoji": "👰"
 		},
 		{
-			"id": 49,
-			"fact": "The Dodgers' 'Bleacher Creatures' fan section was inspired by the New York Yankees' famous bleacher fans, but with a distinctly LA twist.",
+			"id": 140,
+			"fact": "The Dodgers were the first team to win a World Series on the West Coast, in 1959.",
 			"category": "Dodgers",
-			"emoji": "👥"
+			"emoji": "🌊"
 		},
 		{
-			"id": 50,
-			"fact": "The Dodgers' spring training facility in Arizona is called 'Camelback Ranch' because it's located near Camelback Mountain in Phoenix.",
+			"id": 141,
+			"fact": "The team's official charity, the Los Angeles Dodgers Foundation, focuses on education, health care, and social justice.",
 			"category": "Dodgers",
-			"emoji": "🐪"
+			"emoji": "❤️"
+		},
+		{
+			"id": 142,
+			"fact": "The Dodgers have had four consecutive Rookies of the Year from 1993 to 1996: Mike Piazza, Raúl Mondesí, Hideo Nomo, and Todd Hollandsworth.",
+			"category": "Dodgers",
+			"emoji": "👶"
+		},
+		{
+			"id": 143,
+			"fact": "The Dodgers' 'Bleacher Creatures' fan section in right field is known for its passionate and sometimes rowdy support.",
+			"category": "Dodgers",
+			"emoji": "🗣️"
+		},
+		{
+			"id": 144,
+			"fact": "The Dodgers' 1988 World Series victory is considered one of the biggest upsets in baseball history, as they defeated the heavily favored Oakland Athletics.",
+			"category": "Dodgers",
+			"emoji": "😱"
+		},
+		{
+			"id": 145,
+			"fact": "The Dodgers' longtime manager, Tommy Lasorda, managed the team for 20 seasons and also won a gold medal as the manager of the U.S. Olympic baseball team in 2000.",
+			"category": "Dodgers",
+			"emoji": "🥇"
+		},
+		{
+			"id": 146,
+			"fact": "Dodger Stadium has appeared in numerous films, including 'The Fast and the Furious' and 'Naked Gun.'",
+			"category": "Dodgers",
+			"emoji": "🎬"
+		},
+		{
+			"id": 147,
+			"fact": "The Dodgers' rivalry with the San Francisco Giants is one of the oldest and most intense in all of sports, dating back to when both teams were in New York.",
+			"category": "Dodgers",
+			"emoji": "🔥"
+		},
+		{
+			"id": 148,
+			"fact": "The Dodgers' broadcaster, Vin Scully, called games for the team for an incredible 67 seasons, from 1950 in Brooklyn to 2016 in Los Angeles.",
+			"category": "Dodgers",
+			"emoji": "🎤"
+		},
+		{
+			"id": 149,
+			"fact": "The team's 'Think Blue' slogan originated in the 1970s.",
+			"category": "Dodgers",
+			"emoji": "💭"
+		},
+		{
+			"id": 150,
+			"fact": "The Dodgers' 1965 starting rotation featured two Hall of Fame pitchers, Sandy Koufax and Don Drysdale.",
+			"category": "Dodgers",
+			"emoji": "⚾"
+		},
+		{
+			"id": 151,
+			"fact": "The iconic term 'slam dunk' was coined by legendary Lakers announcer Chick Hearn.",
+			"category": "Lakers",
+			"emoji": "🏀"
+		},
+		{
+			"id": 152,
+			"fact": "Kareem Abdul-Jabbar scored his record 38,387 career points with only one three-point shot made in his entire career.",
+			"category": "Lakers",
+			"emoji": "1️⃣"
+		},
+		{
+			"id": 153,
+			"fact": "The Lakers' 33-game winning streak during the 1971-72 season is the longest winning streak in the history of major American professional sports.",
+			"category": "Lakers",
+			"emoji": "📈"
+		},
+		{
+			"id": 154,
+			"fact": "The first-ever NBA game was played by the Minneapolis Lakers' predecessor, the Detroit Gems, who had a dismal 4-40 record.",
+			"category": "Lakers",
+			"emoji": "💎"
+		},
+		{
+			"id": 155,
+			"fact": "The 'Forum Blue' color of the Lakers' jerseys was chosen by owner Jack Kent Cooke to evoke a sense of royalty, not the LA sky.",
+			"category": "Lakers",
+			"emoji": "👑"
+		},
+		{
+			"id": 156,
+			"fact": "The Lakers have had the first overall pick in the NBA draft only three times in their history.",
+			"category": "Lakers",
+			"emoji": "📝"
+		},
+		{
+			"id": 157,
+			"fact": "The Lakers' logo was designed in 1960 by a local LA artist named Frank O'Collins, who was paid only $500 for his work on the logo and the team's first program.",
+			"category": "Lakers",
+			"emoji": "✍️"
+		},
+		{
+			"id": 158,
+			"fact": "The Lakers' team plane was a customized Boeing 757 nicknamed 'Laker Air,' one of the first and most luxurious private planes in pro sports.",
+			"category": "Lakers",
+			"emoji": "✈️"
+		},
+		{
+			"id": 159,
+			"fact": "The Lakers' 'Showtime' era of the 1980s was known for its fast-breaking, entertaining style of play, which was a stark contrast to the slower, more methodical style of their rivals, the Boston Celtics.",
+			"category": "Lakers",
+			"emoji": "🎭"
+		},
+		{
+			"id": 160,
+			"fact": "The Lakers have retired the jerseys of 11 players, including legends like Magic Johnson, Kareem Abdul-Jabbar, and Kobe Bryant.",
+			"category": "Lakers",
+			"emoji": "👕"
+		},
+		{
+			"id": 161,
+			"fact": "The Lakers have had three different home arenas in Los Angeles: the Los Angeles Memorial Sports Arena, The Forum, and the Crypto.com Arena (formerly Staples Center).",
+			"category": "Lakers",
+			"emoji": "🏟️"
+		},
+		{
+			"id": 162,
+			"fact": "The Lakers have had three separate 'three-peats' (winning three consecutive championships) in their history: 1952-54, 2000-02, and have aimed for it several other times.",
+			"category": "Lakers",
+			"emoji": "3️⃣"
+		},
+		{
+			"id": 163,
+			"fact": "The Lakers' all-time leading scorer is Kobe Bryant, with 33,643 points.",
+			"category": "Lakers",
+			"emoji": "🐍"
+		},
+		{
+			"id": 164,
+			"fact": "The Lakers have had 26 different head coaches in their history.",
+			"category": "Lakers",
+			"emoji": "👨‍🏫"
+		},
+		{
+			"id": 165,
+			"fact": "The Lakers have had a player win the NBA MVP award eight times.",
+			"category": "Lakers",
+			"emoji": "🌟"
+		},
+		{
+			"id": 166,
+			"fact": "The Lakers have had a player win the NBA Finals MVP award 13 times.",
+			"category": "Lakers",
+			"emoji": "🏆"
+		},
+		{
+			"id": 167,
+			"fact": "The Lakers' rivalry with the Boston Celtics is the most storied in the NBA, with the two teams meeting in the NBA Finals a record 12 times.",
+			"category": "Lakers",
+			"emoji": "🔥"
+		},
+		{
+			"id": 168,
+			"fact": "The Lakers' 'Hollywood' nights jerseys are a special edition uniform that pays homage to the entertainment industry in Los Angeles.",
+			"category": "Lakers",
+			"emoji": "🎬"
+		},
+		{
+			"id": 169,
+			"fact": "The Lakers have had a player on the All-NBA First Team 62 times, the most in league history.",
+			"category": "Lakers",
+			"emoji": "⭐"
+		},
+		{
+			"id": 170,
+			"fact": "The Lakers' G League affiliate is the South Bay Lakers, who play their home games in El Segundo.",
+			"category": "Lakers",
+			"emoji": "🏀"
+		},
+		{
+			"id": 171,
+			"fact": "The Lakers have had a player win the NBA Sixth Man of the Year award three times.",
+			"category": "Lakers",
+			"emoji": "6️⃣"
+		},
+		{
+			"id": 172,
+			"fact": "The Lakers have had a player win the NBA Defensive Player of the Year award once (Michael Cooper in 1987).",
+			"category": "Lakers",
+			"emoji": "🛡️"
+		},
+		{
+			"id": 173,
+			"fact": "The Lakers' highest-scoring game was a 162-158 victory over the Golden State Warriors in 1990.",
+			"category": "Lakers",
+			"emoji": "🎉"
+		},
+		{
+			"id": 174,
+			"fact": "The Lakers have had the best record in the NBA 16 times in their history.",
+			"category": "Lakers",
+			"emoji": "🥇"
+		},
+		{
+			"id": 175,
+			"fact": "The Lakers have had a player on the NBA All-Rookie First Team 24 times.",
+			"category": "Lakers",
+			"emoji": "👶"
+		},
+		{
+			"id": 176,
+			"fact": "The Lakers have had a player on the NBA All-Defensive First Team 24 times.",
+			"category": "Lakers",
+			"emoji": "🔒"
+		},
+		{
+			"id": 177,
+			"fact": "The Lakers have had a player lead the league in scoring 12 times.",
+			"category": "Lakers",
+			"emoji": "득점"
+		},
+		{
+			"id": 178,
+			"fact": "The Lakers have had a player lead the league in rebounds 13 times.",
+			"category": "Lakers",
+			"emoji": "👐"
+		},
+		{
+			"id": 179,
+			"fact": "The Lakers have had a player lead the league in assists 9 times.",
+			"category": "Lakers",
+			"emoji": "🤝"
+		},
+		{
+			"id": 180,
+			"fact": "The Lakers have had a player lead the league in steals 6 times.",
+			"category": "Lakers",
+			"emoji": "✋"
 		}
 	]
 }

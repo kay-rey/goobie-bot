@@ -65,9 +65,13 @@
 			"difficulty": "medium"
 		},
 		{
-			"question": "Which Dodger hit the famous 'Shot Heard 'Round the World'?",
-			"correct_answer": "Bobby Thomson",
-			"wrong_answers": ["Jackie Robinson", "Duke Snider", "Pee Wee Reese"],
+			"question": "Against which team did Bobby Thomson hit the 'Shot Heard 'Round the World'?",
+			"correct_answer": "Brooklyn Dodgers",
+			"wrong_answers": [
+				"New York Yankees",
+				"St. Louis Cardinals",
+				"Philadelphia Phillies"
+			],
 			"category": "dodgers",
 			"difficulty": "hard"
 		},
@@ -133,9 +137,9 @@
 			"difficulty": "easy"
 		},
 		{
-			"question": "Which Ram quarterback led them to Super Bowl LVI victory?",
-			"correct_answer": "Matthew Stafford",
-			"wrong_answers": ["Jared Goff", "Kurt Warner", "Marc Bulger"],
+			"question": "Which quarterback led the Rams offense known as 'The Greatest Show on Turf'?",
+			"correct_answer": "Kurt Warner",
+			"wrong_answers": ["Jared Goff", "Marshall Faulk", "Marc Bulger"],
 			"category": "rams",
 			"difficulty": "easy"
 		},
@@ -165,12 +169,12 @@
 			"difficulty": "easy"
 		},
 		{
-			"question": "Which LA team plays at the Staples Center (now Crypto.com Arena)?",
+			"question": "Which of these NBA and NHL teams share the Crypto.com Arena?",
 			"correct_answer": "Lakers and Kings",
 			"wrong_answers": [
 				"Lakers and Clippers",
 				"Kings and Galaxy",
-				"All LA teams"
+				"Ducks and Clippers"
 			],
 			"category": "general",
 			"difficulty": "medium"
@@ -340,13 +344,13 @@
 		},
 		{
 			"question": "What was the Haunted Mansion's stretching room portraits painted on?",
-			"correct_answer": "Rubber",
-			"wrong_answers": ["Canvas", "Paper", "Glass"],
+			"correct_answer": "Canvas",
+			"wrong_answers": ["Rubber", "Paper", "Glass"],
 			"category": "disney",
 			"difficulty": "hard"
 		},
 		{
-			"question": "Who has always provided Mickey Mouse's voice since 1928?",
+			"question": "Mickey Mouse's official voice has always been provided by...",
 			"correct_answer": "A man",
 			"wrong_answers": ["A woman", "A child", "A computer"],
 			"category": "disney",
