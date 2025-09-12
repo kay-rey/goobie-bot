@@ -4,7 +4,7 @@ Provides cache statistics and management functionality
 """
 
 import discord
-from discord import app_commands
+from discord.ext import commands
 import logging
 from api.cache import get_cache_stats, clear_cache, cleanup_expired_cache
 from utils.permissions import require_admin_permissions
@@ -12,33 +12,41 @@ from utils.permissions import require_admin_permissions
 logger = logging.getLogger(__name__)
 
 
-@app_commands.command(name="cache", description="Get cache statistics and manage cache")
-@app_commands.choices(
-    action=[
-        app_commands.Choice(name="stats", value="stats"),
-        app_commands.Choice(name="clear", value="clear"),
-        app_commands.Choice(name="cleanup", value="cleanup"),
-    ]
-)
-@app_commands.default_permissions(administrator=True)
-async def cache_command(
-    interaction: discord.Interaction, action: app_commands.Choice[str]
-):
-    """Get cache statistics and manage cache"""
-    logger.info(
-        f"Cache command triggered by {interaction.user} for action: {action.value}"
-    )
+@commands.command(name="cache")
+async def cache_command(ctx, action: str = None):
+    """Get cache statistics and manage cache - !cache <action>"""
+    logger.info(f"Cache command triggered by {ctx.author} for action: {action}")
 
     # Check admin permissions
-    if not require_admin_permissions(interaction):
+    if not require_admin_permissions(ctx):
         return
 
-    await interaction.response.defer(ephemeral=True)
-
     try:
-        if action.value == "stats":
+        if not action:
+            # Show help message
+            embed = discord.Embed(
+                title="🔧 Cache Admin Commands",
+                description="Available admin commands for cache management",
+                color=0x00923F,
+            )
+            embed.add_field(
+                name="Usage",
+                value="`!cache <action>`",
+                inline=False,
+            )
+            embed.add_field(
+                name="Available Actions",
+                value="• `stats` - View cache statistics\n"
+                "• `clear` - Clear all cache data\n"
+                "• `cleanup` - Clean up expired cache entries",
+                inline=False,
+            )
+            await ctx.send(embed=embed)
+            return
+
+        if action == "stats":
             # Get cache statistics
-            logger.info(f"Retrieving cache statistics for {interaction.user}")
+            logger.info(f"Retrieving cache statistics for {ctx.author}")
             stats = await get_cache_stats()
 
             embed = discord.Embed(
@@ -97,14 +105,14 @@ async def cache_command(
                 text="Cache performance metrics • Use /cache clear to reset"
             )
 
-            await interaction.followup.send(embed=embed, ephemeral=True)
+            await ctx.send(embed=embed)
             logger.info(
                 f"Cache statistics displayed: {stats['hit_rate']}% hit rate, {stats['total_entries']} entries"
             )
 
-        elif action.value == "clear":
+        elif action == "clear":
             # Clear all cache
-            logger.info(f"Clearing all cache entries for {interaction.user}")
+            logger.info(f"Clearing all cache entries for {ctx.author}")
             cleared_count = await clear_cache()
 
             embed = discord.Embed(
@@ -114,12 +122,12 @@ async def cache_command(
                 timestamp=discord.utils.utcnow(),
             )
 
-            await interaction.followup.send(embed=embed, ephemeral=True)
+            await ctx.send(embed=embed)
             logger.info(f"Cache cleared: {cleared_count} entries removed")
 
-        elif action.value == "cleanup":
+        elif action == "cleanup":
             # Cleanup expired entries
-            logger.info(f"Cleaning up expired cache entries for {interaction.user}")
+            logger.info(f"Cleaning up expired cache entries for {ctx.author}")
             cleaned_count = await cleanup_expired_cache()
 
             embed = discord.Embed(
@@ -129,21 +137,19 @@ async def cache_command(
                 timestamp=discord.utils.utcnow(),
             )
 
-            await interaction.followup.send(embed=embed, ephemeral=True)
+            await ctx.send(embed=embed)
             logger.info(
                 f"Cache cleanup completed: {cleaned_count} expired entries removed"
             )
 
-        logger.info(f"Cache command completed successfully for {action.value}")
+        logger.info(f"Cache command completed successfully for {action}")
 
     except Exception as e:
         logger.error(f"Error in cache command: {e}")
         import traceback
 
         traceback.print_exc()
-        await interaction.followup.send(
-            "❌ An error occurred while managing cache", ephemeral=True
-        )
+        await ctx.send("❌ An error occurred while managing cache")
 
 
 # Export the command

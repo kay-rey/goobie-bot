@@ -4,7 +4,6 @@ Handles admin permission checks and user authorization
 """
 
 import logging
-from typing import List, Optional
 import discord
 
 from config import ADMIN_USER_IDS
@@ -29,7 +28,7 @@ def is_admin_user(user: discord.User) -> bool:
     return user.id in ADMIN_USER_IDS
 
 
-def has_admin_permissions(interaction: discord.Interaction) -> bool:
+def has_admin_permissions(context) -> bool:
     """
     Check if user has admin permissions using multiple methods:
     1. User ID whitelist (if configured)
@@ -37,12 +36,21 @@ def has_admin_permissions(interaction: discord.Interaction) -> bool:
     3. Guild owner
 
     Args:
-        interaction: Discord interaction to check
+        context: Discord interaction or context object to check
 
     Returns:
         True if user has admin permissions, False otherwise
     """
-    user = interaction.user
+    # Handle both interaction and context objects
+    if hasattr(context, "user"):
+        user = context.user
+        guild = context.guild
+    elif hasattr(context, "author"):
+        user = context.author
+        guild = context.guild
+    else:
+        logger.error(f"Unknown context type: {type(context)}")
+        return False
 
     # Check user ID whitelist first (if configured)
     if ADMIN_USER_IDS and is_admin_user(user):
@@ -52,14 +60,14 @@ def has_admin_permissions(interaction: discord.Interaction) -> bool:
         return True
 
     # Check guild administrator permission
-    if interaction.guild and user.guild_permissions.administrator:
+    if guild and user.guild_permissions.administrator:
         logger.info(
             f"User {user} ({user.id}) granted admin access via guild administrator permission"
         )
         return True
 
     # Check if user is guild owner
-    if interaction.guild and user.id == interaction.guild.owner_id:
+    if guild and user.id == guild.owner_id:
         logger.info(f"User {user} ({user.id}) granted admin access as guild owner")
         return True
 
@@ -67,17 +75,17 @@ def has_admin_permissions(interaction: discord.Interaction) -> bool:
     return False
 
 
-def require_admin_permissions(interaction: discord.Interaction) -> bool:
+def require_admin_permissions(context) -> bool:
     """
     Check admin permissions and send error message if not authorized
 
     Args:
-        interaction: Discord interaction to check
+        context: Discord interaction or context object to check
 
     Returns:
         True if user has admin permissions, False otherwise
     """
-    if has_admin_permissions(interaction):
+    if has_admin_permissions(context):
         return True
 
     # Send error message
@@ -102,10 +110,15 @@ def require_admin_permissions(interaction: discord.Interaction) -> bool:
 
     embed.set_footer(text="Contact a server administrator for access")
 
+    # Handle both interaction and context objects
     try:
-        interaction.response.send_message(embed=embed, ephemeral=True)
-    except:
-        # If response already sent, use followup
-        interaction.followup.send(embed=embed, ephemeral=True)
+        if hasattr(context, "response"):
+            # Interaction object
+            context.response.send_message(embed=embed, ephemeral=True)
+        else:
+            # Context object (text command)
+            context.send(embed=embed)
+    except Exception as e:
+        logger.error(f"Error sending permission denied message: {e}")
 
     return False

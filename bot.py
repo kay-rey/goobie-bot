@@ -73,13 +73,13 @@ async def on_app_command_error(interaction, error):
 # Register slash commands
 bot.tree.add_command(nextgame_command)
 bot.tree.add_command(weekly_command)
-bot.tree.add_command(cache_command)
 bot.tree.add_command(trivia_command)
-bot.tree.add_command(trivia_admin_command)
 
 # Register text commands
 bot.add_command(test_command)
 bot.add_command(sync_command)
+bot.add_command(cache_command)
+bot.add_command(trivia_admin_command)
 
 
 # Run the bot with the token from the .env file

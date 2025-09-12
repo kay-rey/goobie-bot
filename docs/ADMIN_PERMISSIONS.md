@@ -8,8 +8,10 @@ The goobie-bot uses a multi-layered permission system to restrict certain comman
 
 The following commands require admin permissions:
 
-- **`/cache`** - Cache statistics and management
-- **`/trivia-admin`** - Trivia system administration
+- **`!cache <action>`** - Cache statistics and management
+- **`!trivia-admin <action>`** - Trivia system administration
+
+**Note**: These are text commands (not slash commands) and are completely hidden from Discord's UI. Users must type them manually.
 
 ## Permission Levels
 
@@ -55,11 +57,12 @@ Alternatively, you can grant admin access by:
 
 ### Command Protection
 
-Commands are protected using the `@app_commands.default_permissions(administrator=True)` decorator, which:
+Admin commands are implemented as text commands (not slash commands), which:
 
-- Hides the command from users without admin permissions in Discord's UI
-- Provides a clean user experience
-- Prevents unauthorized access attempts
+- Completely hides the commands from Discord's UI
+- Provides maximum security through obscurity
+- Requires users to know the exact command syntax
+- Prevents accidental discovery by unauthorized users
 
 ### Runtime Permission Checks
 
@@ -148,7 +151,27 @@ All admin command usage is logged with:
 - Verify user IDs in whitelist are correct
 - Ensure bot has proper logging configuration
 
-## Examples
+## Usage Examples
+
+### Cache Management
+
+```
+!cache stats          # View cache statistics
+!cache clear          # Clear all cache data
+!cache cleanup        # Clean up expired entries
+!cache                # Show help message
+```
+
+### Trivia Administration
+
+```
+!trivia-admin stats   # View trivia system statistics
+!trivia-admin add     # Instructions for adding questions
+!trivia-admin reset   # Reset daily trivia (emergency)
+!trivia-admin         # Show help message
+```
+
+## Configuration Examples
 
 ### Basic Setup (Role-Based)
 

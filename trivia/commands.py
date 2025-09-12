@@ -5,6 +5,7 @@ Handles slash commands for trivia management
 
 import discord
 from discord import app_commands
+from discord.ext import commands
 import logging
 from datetime import datetime
 
@@ -93,32 +94,39 @@ async def trivia_command(interaction: discord.Interaction):
         )
 
 
-@app_commands.command(
-    name="trivia-admin", description="Admin commands for trivia management"
-)
-@app_commands.describe(action="Admin action to perform")
-@app_commands.choices(
-    action=[
-        app_commands.Choice(name="Add Question", value="add"),
-        app_commands.Choice(name="View Stats", value="stats"),
-        app_commands.Choice(name="Reset Daily", value="reset"),
-    ]
-)
-@app_commands.default_permissions(administrator=True)
-async def trivia_admin_command(
-    interaction: discord.Interaction, action: app_commands.Choice[str]
-):
-    """Admin commands for trivia management"""
+@commands.command(name="trivia-admin")
+async def trivia_admin_command(ctx, action: str = None):
+    """Admin commands for trivia management - !trivia-admin <action>"""
     try:
         # Check admin permissions
-        if not require_admin_permissions(interaction):
+        if not require_admin_permissions(ctx):
             return
 
-        logger.info(
-            f"Trivia admin command triggered by {interaction.user}: {action.value}"
-        )
+        logger.info(f"Trivia admin command triggered by {ctx.author}: {action}")
 
-        if action.value == "add":
+        if not action:
+            # Show help message
+            embed = discord.Embed(
+                title="🔧 Trivia Admin Commands",
+                description="Available admin commands for trivia management",
+                color=0x00923F,
+            )
+            embed.add_field(
+                name="Usage",
+                value="`!trivia-admin <action>`",
+                inline=False,
+            )
+            embed.add_field(
+                name="Available Actions",
+                value="• `add` - Instructions for adding questions\n"
+                "• `stats` - View trivia system statistics\n"
+                "• `reset` - Reset daily trivia (emergency)",
+                inline=False,
+            )
+            await ctx.send(embed=embed)
+            return
+
+        if action == "add":
             # For now, just show info about adding questions
             embed = discord.Embed(
                 title="📝 Add Trivia Question",
@@ -130,9 +138,9 @@ async def trivia_admin_command(
                 value='```json\n{\n  "question": "Your question here?",\n  "correct_answer": "Correct Answer",\n  "wrong_answers": ["Wrong 1", "Wrong 2", "Wrong 3"],\n  "category": "galaxy|dodgers|lakers|rams|kings|general",\n  "difficulty": "easy|medium|hard"\n}\n```',
                 inline=False,
             )
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+            await ctx.send(embed=embed)
 
-        elif action.value == "stats":
+        elif action == "stats":
             # Show trivia statistics
             with trivia_db.get_connection() as conn:
                 cursor = conn.cursor()
@@ -203,9 +211,9 @@ async def trivia_admin_command(
                 name="Questions by Difficulty", value=difficulty_text, inline=True
             )
 
-            await interaction.response.send_message(embed=embed, ephemeral=True)
+            await ctx.send(embed=embed)
 
-        elif action.value == "reset":
+        elif action == "reset":
             # Reset daily trivia (emergency function)
             embed = discord.Embed(
                 title="🔄 Reset Daily Trivia",
@@ -220,15 +228,11 @@ async def trivia_admin_command(
 
             # Create confirmation view
             view = ResetConfirmationView(trivia_db)
-            await interaction.response.send_message(
-                embed=embed, view=view, ephemeral=True
-            )
+            await ctx.send(embed=embed, view=view, ephemeral=True)
 
     except Exception as e:
         logger.error(f"Error in trivia admin command: {e}")
-        await interaction.response.send_message(
-            "❌ An error occurred while processing the admin command.", ephemeral=True
-        )
+        await ctx.send("❌ An error occurred while processing the admin command.")
 
 
 class ResetConfirmationView(discord.ui.View):
