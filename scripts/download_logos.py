@@ -61,7 +61,7 @@ async def download_image(session, url, filepath):
     """Download an image from URL and save to filepath"""
     try:
         if not url or url == "":
-            logger.warning(f"Empty URL provided, skipping download")
+            logger.warning("Empty URL provided, skipping download")
             return False
 
         async with session.get(url) as response:
@@ -84,7 +84,13 @@ async def download_image(session, url, filepath):
 
 async def download_team_logos():
     """Download all team logos"""
-    assets_dir = Path("/app/assets/logos")
+    # Use local path when running outside Docker, Docker path when inside
+    if Path("/app").exists() and Path("/app").is_dir():
+        assets_dir = Path("/app/assets/logos")
+    else:
+        # Running locally, use relative path
+        assets_dir = Path("assets/logos")
+
     assets_dir.mkdir(parents=True, exist_ok=True)
 
     async with aiohttp.ClientSession() as session:
@@ -118,7 +124,13 @@ def create_logo_manifest():
 
     import json
 
-    manifest_path = Path("/app/assets/logos/manifest.json")
+    # Use local path when running outside Docker, Docker path when inside
+    if Path("/app").exists() and Path("/app").is_dir():
+        manifest_path = Path("/app/assets/logos/manifest.json")
+    else:
+        # Running locally, use relative path
+        manifest_path = Path("assets/logos/manifest.json")
+
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
 

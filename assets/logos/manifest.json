@@ -1,0 +1,41 @@
+{
+  "teams": {
+    "galaxy": {
+      "team_name": "LA Galaxy",
+      "team_id": "134153",
+      "logo": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png",
+      "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/ysyysr1420227188.png",
+      "jersey": "https://www.thesportsdb.com/images/media/team/equipment/ysyysr1420227188.png"
+    },
+    "dodgers": {
+      "team_name": "Los Angeles Dodgers",
+      "team_id": "135272",
+      "logo": "https://r2.thesportsdb.com/images/media/team/badge/p2oj631663889783.png",
+      "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/p2oj631663889783.png/small",
+      "jersey": "https://r2.thesportsdb.com/images/media/team/equipment/l8j10w1725717341.png"
+    },
+    "lakers": {
+      "team_name": "Los Angeles Lakers",
+      "team_id": "134867",
+      "logo": "https://r2.thesportsdb.com/images/media/team/badge/d8uoxw1714254511.png",
+      "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/d8uoxw1714254511.png/small",
+      "jersey": "https://r2.thesportsdb.com/images/media/team/equipment/xc022l1507047766.png"
+    },
+    "rams": {
+      "team_name": "Los Angeles Rams",
+      "team_id": "135907",
+      "logo": "https://r2.thesportsdb.com/images/media/team/badge/8e8v4i1599764614.png",
+      "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/8e8v4i1599764614.png/small",
+      "jersey": "https://r2.thesportsdb.com/images/media/team/equipment/4nh10c1510252994.png"
+    },
+    "kings": {
+      "team_name": "Los Angeles Kings",
+      "team_id": "134852",
+      "logo": "https://r2.thesportsdb.com/images/media/team/badge/w408rg1719220748.png",
+      "logo_small": "https://r2.thesportsdb.com/images/media/team/badge/w408rg1719220748.png/small",
+      "jersey": "https://r2.thesportsdb.com/images/media/team/equipment/2019-134852-Jersey.png"
+    }
+  },
+  "version": "1.0.0",
+  "generated_at": "2024-01-01T00:00:00Z"
+}
