@@ -28,13 +28,15 @@ from commands.cache import cache_command
 from scheduler.weekly_matches import schedule_weekly_matches
 from trivia.commands import trivia_command, trivia_admin_command, trigger_trivia_command
 from trivia.scheduler import schedule_daily_trivia
-from facts.commands import (
+from facts.simple_commands import (
     fact_command,
     fact_stats_command,
+    fact_search_command,
     fact_text_command,
     fact_stats_text_command,
+    fact_search_text_command,
 )
-from facts.scheduler import schedule_daily_facts
+from facts.simple_scheduler import schedule_daily_facts
 from api.http_client import cleanup_http_client
 from api.cache import cache_cleanup_task
 
@@ -88,6 +90,7 @@ bot.tree.add_command(weekly_command)
 bot.tree.add_command(trivia_command)
 bot.tree.add_command(fact_command)
 bot.tree.add_command(fact_stats_command)
+bot.tree.add_command(fact_search_command)
 
 # Register text commands
 bot.add_command(test_command)
@@ -97,6 +100,7 @@ bot.add_command(trivia_admin_command)
 bot.add_command(trigger_trivia_command)
 bot.add_command(fact_text_command)
 bot.add_command(fact_stats_text_command)
+bot.add_command(fact_search_text_command)
 
 
 # Run the bot with the token from the .env file
