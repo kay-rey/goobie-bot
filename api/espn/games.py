@@ -70,6 +70,15 @@ async def get_galaxy_next_game_extended():
         start_date = today.strftime("%Y%m%d")
         end_date = future_date.strftime("%Y%m%d")
 
+        # Check cache first
+        from api.cache import get_cached, set_cached
+
+        cache_key = game_data_key("galaxy", "soccer", start_date, end_date)
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Galaxy extended game data")
+            return cached_result
+
         logger.info(f"Date range: {start_date} to {end_date}")
 
         # ESPN API endpoint for LA Galaxy events
@@ -118,6 +127,8 @@ async def get_galaxy_next_game_extended():
                 closest_date, closest_game = upcoming_games[0]
                 logger.info(f"Found next game: {closest_game}")
 
+                # Cache the result
+                await set_cached(cache_key, closest_game, "game_data")
                 # Return game data (logos will be fetched separately)
                 return closest_game
 

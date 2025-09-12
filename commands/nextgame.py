@@ -79,7 +79,6 @@ async def nextgame_command(
                 team_name: {
                     "logo": default_logo,
                     "logo_small": default_logo,
-                    "jersey": "",
                 }
             }
 

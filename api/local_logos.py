@@ -62,7 +62,6 @@ class LocalLogoManager:
         for logo_type in [
             "logo",
             "logo_small",
-            "jersey",
         ]:
             if logo_type in team_data and team_data[logo_type]:
                 # Check if local file exists for verification
