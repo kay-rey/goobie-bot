@@ -30,9 +30,6 @@ from trivia.commands import trivia_command, trivia_admin_command, trigger_trivia
 from trivia.scheduler import schedule_daily_trivia
 from facts.simple_commands import (
     fact_command,
-    fact_stats_command,
-    fact_search_command,
-    fact_text_command,
     fact_stats_text_command,
     fact_search_text_command,
 )
@@ -89,8 +86,6 @@ bot.tree.add_command(nextgame_command)
 bot.tree.add_command(weekly_command)
 bot.tree.add_command(trivia_command)
 bot.tree.add_command(fact_command)
-bot.tree.add_command(fact_stats_command)
-bot.tree.add_command(fact_search_command)
 
 # Register text commands
 bot.add_command(test_command)
@@ -98,7 +93,6 @@ bot.add_command(sync_command)
 bot.add_command(cache_command)
 bot.add_command(trivia_admin_command)
 bot.add_command(trigger_trivia_command)
-bot.add_command(fact_text_command)
 bot.add_command(fact_stats_text_command)
 bot.add_command(fact_search_text_command)
 

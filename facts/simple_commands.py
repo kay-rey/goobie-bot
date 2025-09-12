@@ -7,7 +7,6 @@ import discord
 from discord.ext import commands
 import logging
 from datetime import datetime
-import pytz
 
 from .simple_facts import SimpleFacts
 
@@ -60,76 +59,6 @@ async def fact_command(interaction: discord.Interaction):
 
 
 @discord.app_commands.command(
-    name="factstats", description="Get statistics about daily facts"
-)
-async def fact_stats_command(interaction: discord.Interaction):
-    """Slash command to get fact statistics"""
-    try:
-        # Check if user is admin
-        from utils.permissions import is_admin
-
-        if not is_admin(interaction.user.id):
-            await interaction.response.send_message(
-                "❌ You don't have permission to use this command.", ephemeral=True
-            )
-            return
-
-        # Get stats
-        stats = _facts.get_stats()
-        if not stats:
-            await interaction.response.send_message(
-                "❌ Could not retrieve fact statistics.", ephemeral=True
-            )
-            return
-
-        # Create embed
-        embed = discord.Embed(
-            title="📊 Daily Facts Statistics",
-            color=0x00923F,
-            timestamp=datetime.now(),
-        )
-
-        # Add stats fields
-        embed.add_field(
-            name="📚 Total Facts", value=str(stats["total_facts"]), inline=True
-        )
-        embed.add_field(
-            name="🏷️ Categories", value=str(stats["category_count"]), inline=True
-        )
-
-        # Add category breakdown
-        if stats["categories"]:
-            category_text = "\n".join(
-                [
-                    f"**{cat}**: {count} facts"
-                    for cat, count in sorted(stats["categories"].items())
-                ]
-            )
-            embed.add_field(
-                name="📋 By Category",
-                value=category_text,
-                inline=False,
-            )
-
-        # Add thumbnail
-        embed.set_thumbnail(
-            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
-        )
-
-        # Add footer
-        embed.set_footer(text="🏆 Go LA! • Admin only command")
-
-        await interaction.response.send_message(embed=embed)
-
-    except Exception as e:
-        logger.error(f"Error in fact stats command: {e}")
-        await interaction.response.send_message(
-            "❌ An error occurred while getting statistics. Please try again later.",
-            ephemeral=True,
-        )
-
-
-@discord.app_commands.command(
     name="factsearch", description="Search for facts by keyword"
 )
 async def fact_search_command(interaction: discord.Interaction, search_term: str):
@@ -168,11 +97,6 @@ async def fact_search_command(interaction: discord.Interaction, search_term: str
         if len(matching_facts) > 5:
             embed.set_footer(text=f"Showing 5 of {len(matching_facts)} results")
 
-        # Add thumbnail
-        embed.set_thumbnail(
-            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
-        )
-
         await interaction.response.send_message(embed=embed)
 
     except Exception as e:
@@ -183,66 +107,30 @@ async def fact_search_command(interaction: discord.Interaction, search_term: str
         )
 
 
-# Text command for random fact
-@commands.command(name="fact")
-async def fact_text_command(ctx):
-    """Text command to get a random fact"""
-    try:
-        # Get a random fact
-        fact_data = _facts.get_random_fact()
-        if not fact_data:
-            await ctx.send(
-                "❌ No facts available at the moment. Please try again later."
-            )
-            return
-
-        # Create embed
-        embed = discord.Embed(
-            title=f"{fact_data['emoji']} LA Sports Fact",
-            description=f"**{fact_data['category']}**\n\n{fact_data['fact']}",
-            color=0x00923F,  # LA City green
-            timestamp=datetime.now(),
-        )
-
-        # Add thumbnail
-        embed.set_thumbnail(
-            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
-        )
-
-        # Add footer
-        embed.set_footer(text="🏆 Go LA! • Use !fact for more random facts")
-
-        # Send message
-        await ctx.send(embed=embed)
-
-        logger.info(f"Sent fact {fact_data['id']} to {ctx.author.name}")
-
-    except Exception as e:
-        logger.error(f"Error in fact text command: {e}")
-        await ctx.send(
-            "❌ An error occurred while getting a fact. Please try again later."
-        )
-
-
 # Text command for fact stats
 @commands.command(name="factstats")
 async def fact_stats_text_command(ctx):
     """Text command to get fact statistics"""
+    # Check if user is admin
+    from utils.permissions import has_admin_permissions
+
+    if not has_admin_permissions(ctx):
+        await ctx.send("❌ You don't have permission to use this command.")
+        return
+
+    # Get stats
     try:
-        # Check if user is admin
-        from utils.permissions import is_admin
-
-        if not is_admin(ctx.author.id):
-            await ctx.send("❌ You don't have permission to use this command.")
-            return
-
-        # Get stats
         stats = _facts.get_stats()
         if not stats:
             await ctx.send("❌ Could not retrieve fact statistics.")
             return
+    except Exception as stats_error:
+        logger.error(f"Error getting stats: {stats_error}")
+        await ctx.send("❌ Error retrieving fact statistics.")
+        return
 
-        # Create embed
+    # Create embed
+    try:
         embed = discord.Embed(
             title="📊 Daily Facts Statistics",
             color=0x00923F,
@@ -271,21 +159,23 @@ async def fact_stats_text_command(ctx):
                 inline=False,
             )
 
-        # Add thumbnail
-        embed.set_thumbnail(
-            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
-        )
-
         # Add footer
         embed.set_footer(text="🏆 Go LA! • Admin only command")
+    except Exception as embed_error:
+        logger.error(f"Error creating embed: {embed_error}")
+        await ctx.send("❌ Error creating statistics display.")
+        return
 
+    # Send as DM to keep stats private
+    try:
+        await ctx.author.send(embed=embed)
+    except discord.Forbidden:
+        # If DMs are disabled, send in channel but mention it's private
+        embed.set_footer(text="🏆 Go LA! • Admin only command • Private stats")
         await ctx.send(embed=embed)
-
-    except Exception as e:
-        logger.error(f"Error in fact stats text command: {e}")
-        await ctx.send(
-            "❌ An error occurred while getting statistics. Please try again later."
-        )
+    except Exception as dm_error:
+        logger.error(f"Error sending DM: {dm_error}")
+        await ctx.send("❌ Could not send stats to DMs. Please check your DM settings.")
 
 
 # Text command for fact search
