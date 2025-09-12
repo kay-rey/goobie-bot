@@ -1,179 +1,356 @@
 {
-  "questions": [
-    {
-      "question": "Which LA Galaxy player scored the winning goal in the 2014 MLS Cup final?",
-      "correct_answer": "Robbie Keane",
-      "wrong_answers": ["Landon Donovan", "Gyasi Zardes", "Zlatan Ibrahimovic"],
-      "category": "galaxy",
-      "difficulty": "medium"
-    },
-    {
-      "question": "What year did the LA Galaxy win their first MLS Cup?",
-      "correct_answer": "2002",
-      "wrong_answers": ["2000", "2005", "2011"],
-      "category": "galaxy",
-      "difficulty": "easy"
-    },
-    {
-      "question": "Which stadium do the LA Galaxy call home?",
-      "correct_answer": "Dignity Health Sports Park",
-      "wrong_answers": ["Banc of California Stadium", "Rose Bowl", "StubHub Center"],
-      "category": "galaxy",
-      "difficulty": "easy"
-    },
-    {
-      "question": "How many MLS Cups have the LA Galaxy won?",
-      "correct_answer": "5",
-      "wrong_answers": ["3", "4", "6"],
-      "category": "galaxy",
-      "difficulty": "medium"
-    },
-    {
-      "question": "Which LA Galaxy player is known as 'The Captain'?",
-      "correct_answer": "Landon Donovan",
-      "wrong_answers": ["David Beckham", "Robbie Keane", "Cobi Jones"],
-      "category": "galaxy",
-      "difficulty": "easy"
-    },
-    {
-      "question": "What year did the Los Angeles Dodgers move to LA from Brooklyn?",
-      "correct_answer": "1958",
-      "wrong_answers": ["1955", "1960", "1962"],
-      "category": "dodgers",
-      "difficulty": "medium"
-    },
-    {
-      "question": "Which Dodger pitcher threw a perfect game in 1965?",
-      "correct_answer": "Sandy Koufax",
-      "wrong_answers": ["Don Drysdale", "Fernando Valenzuela", "Orel Hershiser"],
-      "category": "dodgers",
-      "difficulty": "hard"
-    },
-    {
-      "question": "How many World Series have the Dodgers won?",
-      "correct_answer": "7",
-      "wrong_answers": ["5", "6", "8"],
-      "category": "dodgers",
-      "difficulty": "medium"
-    },
-    {
-      "question": "Which Dodger hit the famous 'Shot Heard 'Round the World'?",
-      "correct_answer": "Bobby Thomson",
-      "wrong_answers": ["Jackie Robinson", "Duke Snider", "Pee Wee Reese"],
-      "category": "dodgers",
-      "difficulty": "hard"
-    },
-    {
-      "question": "What is the Dodgers' home stadium called?",
-      "correct_answer": "Dodger Stadium",
-      "wrong_answers": ["Chavez Ravine", "Elysian Park", "Los Angeles Memorial Coliseum"],
-      "category": "dodgers",
-      "difficulty": "easy"
-    },
-    {
-      "question": "Which Laker won the NBA Finals MVP in 2020?",
-      "correct_answer": "LeBron James",
-      "wrong_answers": ["Anthony Davis", "Kobe Bryant", "Magic Johnson"],
-      "category": "lakers",
-      "difficulty": "easy"
-    },
-    {
-      "question": "How many NBA championships have the Lakers won?",
-      "correct_answer": "17",
-      "wrong_answers": ["15", "16", "18"],
-      "category": "lakers",
-      "difficulty": "medium"
-    },
-    {
-      "question": "Which Laker is known as 'The Black Mamba'?",
-      "correct_answer": "Kobe Bryant",
-      "wrong_answers": ["Magic Johnson", "Kareem Abdul-Jabbar", "Shaquille O'Neal"],
-      "category": "lakers",
-      "difficulty": "easy"
-    },
-    {
-      "question": "What year did the Lakers move to Los Angeles from Minneapolis?",
-      "correct_answer": "1960",
-      "wrong_answers": ["1958", "1962", "1965"],
-      "category": "lakers",
-      "difficulty": "hard"
-    },
-    {
-      "question": "Which Laker holds the record for most points in a single game?",
-      "correct_answer": "Kobe Bryant (81 points)",
-      "wrong_answers": ["Elgin Baylor (71 points)", "Wilt Chamberlain (100 points)", "LeBron James (61 points)"],
-      "category": "lakers",
-      "difficulty": "medium"
-    },
-    {
-      "question": "What year did the Rams return to Los Angeles?",
-      "correct_answer": "2016",
-      "wrong_answers": ["2014", "2018", "2020"],
-      "category": "rams",
-      "difficulty": "easy"
-    },
-    {
-      "question": "Which Ram quarterback led them to Super Bowl LVI victory?",
-      "correct_answer": "Matthew Stafford",
-      "wrong_answers": ["Jared Goff", "Kurt Warner", "Marc Bulger"],
-      "category": "rams",
-      "difficulty": "easy"
-    },
-    {
-      "question": "How many Super Bowls have the Rams won?",
-      "correct_answer": "2",
-      "wrong_answers": ["1", "3", "4"],
-      "category": "rams",
-      "difficulty": "medium"
-    },
-    {
-      "question": "Which Ram is known as 'The Greatest Show on Turf'?",
-      "correct_answer": "Kurt Warner",
-      "wrong_answers": ["Marshall Faulk", "Isaac Bruce", "Torry Holt"],
-      "category": "rams",
-      "difficulty": "hard"
-    },
-    {
-      "question": "What is the Rams' home stadium called?",
-      "correct_answer": "SoFi Stadium",
-      "wrong_answers": ["Los Angeles Memorial Coliseum", "Rose Bowl", "Banc of California Stadium"],
-      "category": "rams",
-      "difficulty": "easy"
-    },
-    {
-      "question": "Which LA team plays at the Staples Center (now Crypto.com Arena)?",
-      "correct_answer": "Lakers and Kings",
-      "wrong_answers": ["Lakers and Clippers", "Kings and Galaxy", "All LA teams"],
-      "category": "general",
-      "difficulty": "medium"
-    },
-    {
-      "question": "What is the name of the LA Kings' mascot?",
-      "correct_answer": "Bailey",
-      "wrong_answers": ["King", "Crown", "Goldie"],
-      "category": "kings",
-      "difficulty": "easy"
-    },
-    {
-      "question": "Which LA team has won the most championships?",
-      "correct_answer": "Lakers (17 NBA titles)",
-      "wrong_answers": ["Dodgers", "Galaxy", "Rams"],
-      "category": "general",
-      "difficulty": "medium"
-    },
-    {
-      "question": "What year did the LA Kings win their first Stanley Cup?",
-      "correct_answer": "2012",
-      "wrong_answers": ["2010", "2014", "2016"],
-      "category": "kings",
-      "difficulty": "easy"
-    },
-    {
-      "question": "Which LA team's colors are purple and gold?",
-      "correct_answer": "Lakers",
-      "wrong_answers": ["Kings", "Galaxy", "Rams"],
-      "category": "general",
-      "difficulty": "easy"
-    }
-  ]
+	"questions": [
+		{
+			"question": "Which LA Galaxy player scored the winning goal in the 2014 MLS Cup final?",
+			"correct_answer": "Robbie Keane",
+			"wrong_answers": ["Landon Donovan", "Gyasi Zardes", "Zlatan Ibrahimovic"],
+			"category": "galaxy",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What year did the LA Galaxy win their first MLS Cup?",
+			"correct_answer": "2002",
+			"wrong_answers": ["2000", "2005", "2011"],
+			"category": "galaxy",
+			"difficulty": "easy"
+		},
+		{
+			"question": "Which stadium do the LA Galaxy call home?",
+			"correct_answer": "Dignity Health Sports Park",
+			"wrong_answers": [
+				"Banc of California Stadium",
+				"Rose Bowl",
+				"StubHub Center"
+			],
+			"category": "galaxy",
+			"difficulty": "easy"
+		},
+		{
+			"question": "How many MLS Cups have the LA Galaxy won?",
+			"correct_answer": "5",
+			"wrong_answers": ["3", "4", "6"],
+			"category": "galaxy",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which LA Galaxy player is known as 'The Captain'?",
+			"correct_answer": "Landon Donovan",
+			"wrong_answers": ["David Beckham", "Robbie Keane", "Cobi Jones"],
+			"category": "galaxy",
+			"difficulty": "easy"
+		},
+		{
+			"question": "What year did the Los Angeles Dodgers move to LA from Brooklyn?",
+			"correct_answer": "1958",
+			"wrong_answers": ["1955", "1960", "1962"],
+			"category": "dodgers",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which Dodger pitcher threw a perfect game in 1965?",
+			"correct_answer": "Sandy Koufax",
+			"wrong_answers": [
+				"Don Drysdale",
+				"Fernando Valenzuela",
+				"Orel Hershiser"
+			],
+			"category": "dodgers",
+			"difficulty": "hard"
+		},
+		{
+			"question": "How many World Series have the Dodgers won?",
+			"correct_answer": "7",
+			"wrong_answers": ["5", "6", "8"],
+			"category": "dodgers",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which Dodger hit the famous 'Shot Heard 'Round the World'?",
+			"correct_answer": "Bobby Thomson",
+			"wrong_answers": ["Jackie Robinson", "Duke Snider", "Pee Wee Reese"],
+			"category": "dodgers",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What is the Dodgers' home stadium called?",
+			"correct_answer": "Dodger Stadium",
+			"wrong_answers": [
+				"Chavez Ravine",
+				"Elysian Park",
+				"Los Angeles Memorial Coliseum"
+			],
+			"category": "dodgers",
+			"difficulty": "easy"
+		},
+		{
+			"question": "Which Laker won the NBA Finals MVP in 2020?",
+			"correct_answer": "LeBron James",
+			"wrong_answers": ["Anthony Davis", "Kobe Bryant", "Magic Johnson"],
+			"category": "lakers",
+			"difficulty": "easy"
+		},
+		{
+			"question": "How many NBA championships have the Lakers won?",
+			"correct_answer": "17",
+			"wrong_answers": ["15", "16", "18"],
+			"category": "lakers",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which Laker is known as 'The Black Mamba'?",
+			"correct_answer": "Kobe Bryant",
+			"wrong_answers": [
+				"Magic Johnson",
+				"Kareem Abdul-Jabbar",
+				"Shaquille O'Neal"
+			],
+			"category": "lakers",
+			"difficulty": "easy"
+		},
+		{
+			"question": "What year did the Lakers move to Los Angeles from Minneapolis?",
+			"correct_answer": "1960",
+			"wrong_answers": ["1958", "1962", "1965"],
+			"category": "lakers",
+			"difficulty": "hard"
+		},
+		{
+			"question": "Which Laker holds the record for most points in a single game?",
+			"correct_answer": "Kobe Bryant (81 points)",
+			"wrong_answers": [
+				"Elgin Baylor (71 points)",
+				"Wilt Chamberlain (100 points)",
+				"LeBron James (61 points)"
+			],
+			"category": "lakers",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What year did the Rams return to Los Angeles?",
+			"correct_answer": "2016",
+			"wrong_answers": ["2014", "2018", "2020"],
+			"category": "rams",
+			"difficulty": "easy"
+		},
+		{
+			"question": "Which Ram quarterback led them to Super Bowl LVI victory?",
+			"correct_answer": "Matthew Stafford",
+			"wrong_answers": ["Jared Goff", "Kurt Warner", "Marc Bulger"],
+			"category": "rams",
+			"difficulty": "easy"
+		},
+		{
+			"question": "How many Super Bowls have the Rams won?",
+			"correct_answer": "2",
+			"wrong_answers": ["1", "3", "4"],
+			"category": "rams",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which Ram is known as 'The Greatest Show on Turf'?",
+			"correct_answer": "Kurt Warner",
+			"wrong_answers": ["Marshall Faulk", "Isaac Bruce", "Torry Holt"],
+			"category": "rams",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What is the Rams' home stadium called?",
+			"correct_answer": "SoFi Stadium",
+			"wrong_answers": [
+				"Los Angeles Memorial Coliseum",
+				"Rose Bowl",
+				"Banc of California Stadium"
+			],
+			"category": "rams",
+			"difficulty": "easy"
+		},
+		{
+			"question": "Which LA team plays at the Staples Center (now Crypto.com Arena)?",
+			"correct_answer": "Lakers and Kings",
+			"wrong_answers": [
+				"Lakers and Clippers",
+				"Kings and Galaxy",
+				"All LA teams"
+			],
+			"category": "general",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What is the name of the LA Kings' mascot?",
+			"correct_answer": "Bailey",
+			"wrong_answers": ["King", "Crown", "Goldie"],
+			"category": "kings",
+			"difficulty": "easy"
+		},
+		{
+			"question": "Which LA team has won the most championships?",
+			"correct_answer": "Lakers (17 NBA titles)",
+			"wrong_answers": ["Dodgers", "Galaxy", "Rams"],
+			"category": "general",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What year did the LA Kings win their first Stanley Cup?",
+			"correct_answer": "2012",
+			"wrong_answers": ["2010", "2014", "2016"],
+			"category": "kings",
+			"difficulty": "easy"
+		},
+		{
+			"question": "Which LA team's colors are purple and gold?",
+			"correct_answer": "Lakers",
+			"wrong_answers": ["Kings", "Galaxy", "Rams"],
+			"category": "general",
+			"difficulty": "easy"
+		},
+		{
+			"question": "What was the original name of Star Wars before George Lucas changed it?",
+			"correct_answer": "Adventures of Luke Starkiller",
+			"wrong_answers": ["The Force Awakens", "A New Hope", "The Star Wars"],
+			"category": "star_wars",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What sound was used to create Darth Vader's breathing?",
+			"correct_answer": "Scuba regulator",
+			"wrong_answers": [
+				"Vacuum cleaner",
+				"Darth Vader's actual breathing",
+				"Synthesizer"
+			],
+			"category": "star_wars",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which character was originally designed to be a small, green monkey-like creature?",
+			"correct_answer": "Yoda",
+			"wrong_answers": ["Chewbacca", "R2-D2", "Jabba the Hutt"],
+			"category": "star_wars",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What was the Millennium Falcon originally designed to look like?",
+			"correct_answer": "A hamburger with an olive on top",
+			"wrong_answers": ["A flying saucer", "A bird of prey", "A space station"],
+			"category": "star_wars",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What is the Wilhelm Scream originally from?",
+			"correct_answer": "A 1951 Western called 'Distant Drums'",
+			"wrong_answers": ["Star Wars", "Indiana Jones", "A horror movie"],
+			"category": "star_wars",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What does 'LEGO' stand for?",
+			"correct_answer": "Leg godt (play well)",
+			"wrong_answers": [
+				"Let's Enjoy Great Objects",
+				"Little Educational Game Objects",
+				"Lego Entertainment Group Organization"
+			],
+			"category": "lego",
+			"difficulty": "easy"
+		},
+		{
+			"question": "How many LEGO pieces are there approximately in the world?",
+			"correct_answer": "400 billion",
+			"wrong_answers": ["40 billion", "4 billion", "4 trillion"],
+			"category": "lego",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which company produces more tires than any other in the world?",
+			"correct_answer": "LEGO",
+			"wrong_answers": ["Michelin", "Bridgestone", "Goodyear"],
+			"category": "lego",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What was the first LEGO set called?",
+			"correct_answer": "Town Plan",
+			"wrong_answers": ["Basic Set", "City", "Classic"],
+			"category": "lego",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What was Mickey Mouse almost named?",
+			"correct_answer": "Mortimer Mouse",
+			"wrong_answers": ["Minnie Mouse", "Mickey Rat", "Steamboat Willie"],
+			"category": "disney",
+			"difficulty": "easy"
+		},
+		{
+			"question": "What was Disney's first full-length animated feature film?",
+			"correct_answer": "Snow White and the Seven Dwarfs",
+			"wrong_answers": ["Fantasia", "Bambi", "Cinderella"],
+			"category": "disney",
+			"difficulty": "easy"
+		},
+		{
+			"question": "What was Goofy originally named?",
+			"correct_answer": "Dippy Dawg",
+			"wrong_answers": ["Goofy Dog", "Silly Dog", "Funny Dog"],
+			"category": "disney",
+			"difficulty": "medium"
+		},
+		{
+			"question": "Which Disney castle is the logo based on?",
+			"correct_answer": "Neuschwanstein Castle in Germany",
+			"wrong_answers": [
+				"Cinderella's Castle",
+				"Sleeping Beauty's Castle",
+				"A Disney creation"
+			],
+			"category": "disney",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What was the first commercial film to use stereophonic sound?",
+			"correct_answer": "Fantasia",
+			"wrong_answers": ["Snow White", "Bambi", "Cinderella"],
+			"category": "disney",
+			"difficulty": "hard"
+		},
+		{
+			"question": "What is the most performed song in history?",
+			"correct_answer": "It's a Small World",
+			"wrong_answers": ["Happy Birthday", "Yesterday", "White Christmas"],
+			"category": "disney",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What was the first tubular steel roller coaster ever built?",
+			"correct_answer": "Disneyland's Matterhorn",
+			"wrong_answers": [
+				"Space Mountain",
+				"Thunder Mountain",
+				"Big Thunder Mountain"
+			],
+			"category": "disney",
+			"difficulty": "hard"
+		},
+		{
+			"question": "How many attractions did the original Disneyland have?",
+			"correct_answer": "18",
+			"wrong_answers": ["25", "30", "12"],
+			"category": "disney",
+			"difficulty": "medium"
+		},
+		{
+			"question": "What was the Haunted Mansion's stretching room portraits painted on?",
+			"correct_answer": "Rubber",
+			"wrong_answers": ["Canvas", "Paper", "Glass"],
+			"category": "disney",
+			"difficulty": "hard"
+		},
+		{
+			"question": "Who has always provided Mickey Mouse's voice since 1928?",
+			"correct_answer": "A man",
+			"wrong_answers": ["A woman", "A child", "A computer"],
+			"category": "disney",
+			"difficulty": "easy"
+		}
+	]
 }
