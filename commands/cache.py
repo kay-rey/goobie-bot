@@ -140,4 +140,3 @@ async def cache_command(
 
 
 # Export the command
-cache_command = cache_command

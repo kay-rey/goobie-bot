@@ -314,4 +314,3 @@ async def weekly_command(interaction: discord.Interaction):
 
 
 # Export the command
-weekly_command = weekly_command
