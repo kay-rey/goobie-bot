@@ -6,8 +6,8 @@ Handles SQLite database operations for trivia questions, scores, and sessions
 import sqlite3
 import logging
 import json
-from datetime import datetime, date
-from typing import Optional, List, Dict, Any, Tuple
+from datetime import date
+from typing import Optional, List, Dict, Any
 from pathlib import Path
 
 logger = logging.getLogger(__name__)

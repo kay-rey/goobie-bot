@@ -126,7 +126,6 @@ async def trigger_trivia_command(ctx):
         await scheduler.send_daily_trivia_post(ctx.bot, ctx.channel.id)
 
         logger.info(f"✅ Manual trivia post sent to channel {ctx.channel.id}")
-        await ctx.send("✅ Trivia post created! The buttons should now work properly.")
 
     except Exception as e:
         logger.error(f"Error in trigger trivia command: {e}")

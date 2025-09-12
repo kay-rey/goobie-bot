@@ -7,8 +7,8 @@ import discord
 import asyncio
 import logging
 import random
-from datetime import datetime, timedelta
-from typing import List, Dict, Any, Optional
+from datetime import datetime
+from typing import List, Dict, Any
 
 from .database import TriviaDatabase
 
@@ -487,7 +487,7 @@ class TriviaAnswerView(discord.ui.View):
                     inline=False,
                 )
             else:
-                embed.description = f"❌ **Incorrect!** The correct answer was:"
+                embed.description = "❌ **Incorrect!** The correct answer was:"
                 embed.add_field(
                     name="Correct Answer",
                     value=f"**{self.question['correct_answer']}**",
