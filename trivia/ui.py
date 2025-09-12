@@ -33,8 +33,18 @@ class TriviaView(discord.ui.View):
     ):
         """Handle start trivia button click"""
         try:
+            logger.info(
+                f"🎯 Start trivia button clicked by {interaction.user} (ID: {interaction.user.id})"
+            )
+
             # Check if user already played today
-            if self.db.has_user_played_today(interaction.user.id):
+            has_played = self.db.has_user_played_today(interaction.user.id)
+            logger.info(f"📊 User {interaction.user.id} has played today: {has_played}")
+
+            if has_played:
+                logger.info(
+                    f"❌ User {interaction.user.id} already played today, blocking"
+                )
                 await interaction.response.send_message(
                     "❌ You've already played today's trivia! Come back tomorrow at 8 PM PT for a new question.",
                     ephemeral=True,
@@ -42,19 +52,39 @@ class TriviaView(discord.ui.View):
                 return
 
             # Create or update user score record
-            self.db.create_user_score(
+            logger.info(
+                f"👤 Creating/updating user score for {interaction.user.display_name}"
+            )
+            user_created = self.db.create_user_score(
                 interaction.user.id, interaction.user.display_name
             )
+            logger.info(f"✅ User score created/updated: {user_created}")
 
             # Start private trivia session
+            logger.info(f"🚀 Starting private trivia session for {interaction.user}")
             await self._start_private_trivia(interaction)
 
         except Exception as e:
-            logger.error(f"Error starting trivia: {e}")
-            await interaction.response.send_message(
-                "❌ An error occurred while starting trivia. Please try again.",
-                ephemeral=True,
+            logger.error(
+                f"❌ Error starting trivia for user {interaction.user.id}: {e}"
             )
+            import traceback
+
+            logger.error(f"❌ Full traceback: {traceback.format_exc()}")
+
+            try:
+                if not interaction.response.is_done():
+                    await interaction.response.send_message(
+                        "❌ An error occurred while starting trivia. Please try again.",
+                        ephemeral=True,
+                    )
+                else:
+                    await interaction.followup.send(
+                        "❌ An error occurred while starting trivia. Please try again.",
+                        ephemeral=True,
+                    )
+            except Exception as followup_error:
+                logger.error(f"❌ Error sending followup message: {followup_error}")
 
     @discord.ui.button(
         label="📊 Leaderboard",
@@ -169,31 +199,60 @@ class TriviaView(discord.ui.View):
     async def _start_private_trivia(self, interaction: discord.Interaction):
         """Start private trivia session in DM"""
         try:
+            logger.info(f"🔍 Getting random question for user {interaction.user.id}")
+
             # Get today's question
             question = self.db.get_random_question()
+            logger.info(f"📝 Question retrieved: {question is not None}")
+
             if not question:
+                logger.error(f"❌ No question available for user {interaction.user.id}")
                 await interaction.response.send_message(
                     "❌ No trivia question available today. Please try again later.",
                     ephemeral=True,
                 )
                 return
 
+            logger.info(
+                f"📋 Question details: ID={question.get('id')}, Category={question.get('category')}, Difficulty={question.get('difficulty')}"
+            )
+
             # Send initial response
+            logger.info(f"💬 Sending initial response to user {interaction.user.id}")
             await interaction.response.send_message(
                 "🎯 Starting your trivia session! Check your DMs for the question.",
                 ephemeral=True,
             )
 
             # Create private trivia session
+            logger.info(f"🎮 Creating private trivia session for {interaction.user}")
             session = PrivateTriviaSession(self.db, interaction.user, question)
             await session.start()
+            logger.info(
+                f"✅ Private trivia session started successfully for {interaction.user}"
+            )
 
         except Exception as e:
-            logger.error(f"Error starting private trivia: {e}")
-            await interaction.followup.send(
-                "❌ An error occurred while starting trivia. Please try again.",
-                ephemeral=True,
+            logger.error(
+                f"❌ Error starting private trivia for user {interaction.user.id}: {e}"
             )
+            import traceback
+
+            logger.error(f"❌ Full traceback: {traceback.format_exc()}")
+
+            try:
+                if not interaction.response.is_done():
+                    await interaction.response.send_message(
+                        "❌ An error occurred while starting trivia. Please try again.",
+                        ephemeral=True,
+                    )
+                else:
+                    await interaction.followup.send(
+                        "❌ An error occurred while starting trivia. Please try again.",
+                        ephemeral=True,
+                    )
+            except Exception as followup_error:
+                logger.error(f"❌ Error sending followup message: {followup_error}")
 
 
 class PrivateTriviaSession:
@@ -211,6 +270,11 @@ class PrivateTriviaSession:
     async def start(self):
         """Start the trivia session"""
         try:
+            logger.info(
+                f"🎯 Starting trivia session for user {self.user.id} ({self.user.display_name})"
+            )
+            logger.info(f"📋 Question: {self.question['question'][:50]}...")
+
             # Create question embed
             embed = discord.Embed(
                 title="🧠 Daily Trivia Question",
@@ -224,21 +288,44 @@ class PrivateTriviaSession:
             # Create answer options
             options = [self.question["correct_answer"]] + self.question["wrong_answers"]
             random.shuffle(options)
+            logger.info(f"🔀 Answer options shuffled: {len(options)} options")
 
             # Create view with answer buttons
             view = TriviaAnswerView(self.db, self.question, options, self.user)
+            logger.info(
+                f"🎮 Created trivia answer view with {len(view.children)} buttons"
+            )
+
+            # Set start time for timeout checking
+            view.start_time = datetime.now()
+            self.start_time = view.start_time
+            logger.info(f"⏰ Timer started for user {self.user.id}")
 
             # Send question to user
-            await self.user.send(embed=embed, view=view)
+            logger.info(f"📤 Sending DM to user {self.user.id}")
+            message = await self.user.send(embed=embed, view=view)
+            logger.info(f"✅ DM sent successfully to user {self.user.id}")
 
-            # Start timer
-            self.start_time = datetime.now()
+            # Start countdown
+            view.countdown_task = asyncio.create_task(view.start_countdown(message))
+            logger.info(f"⏰ Countdown started for user {self.user.id}")
 
         except Exception as e:
-            logger.error(f"Error starting trivia session: {e}")
-            await self.user.send(
-                "❌ An error occurred while starting trivia. Please try again."
+            logger.error(
+                f"❌ Error starting trivia session for user {self.user.id}: {e}"
             )
+            import traceback
+
+            logger.error(f"❌ Full traceback: {traceback.format_exc()}")
+
+            try:
+                await self.user.send(
+                    "❌ An error occurred while starting trivia. Please try again."
+                )
+            except Exception as dm_error:
+                logger.error(
+                    f"❌ Error sending error DM to user {self.user.id}: {dm_error}"
+                )
 
 
 class TriviaAnswerView(discord.ui.View):
@@ -257,6 +344,8 @@ class TriviaAnswerView(discord.ui.View):
         self.options = options
         self.user = user
         self.answered = False
+        self.countdown_task = None
+        self.start_time = None
 
         # Create buttons for each option
         for i, option in enumerate(options):
@@ -267,6 +356,68 @@ class TriviaAnswerView(discord.ui.View):
             )
             button.callback = self.create_answer_callback(i, option)
             self.add_item(button)
+
+    async def start_countdown(self, original_message):
+        """Start countdown messages at 30, 20, 10, and 5 seconds"""
+        try:
+            countdown_times = [
+                20,
+                10,
+                5,
+            ]  # Start with 20s since initial message shows 30s
+
+            for remaining_time in countdown_times:
+                if self.answered:
+                    break  # Stop countdown if user already answered
+
+                # Wait for the appropriate time
+                if remaining_time == 20:
+                    await asyncio.sleep(10)  # Wait 10s to reach 20s
+                elif remaining_time == 10:
+                    await asyncio.sleep(10)  # Wait 10s to reach 10s
+                elif remaining_time == 5:
+                    await asyncio.sleep(5)  # Wait 5s to reach 5s
+
+                if not self.answered:
+                    # Create countdown embed
+                    embed = discord.Embed(
+                        title=f"⏰ {remaining_time} seconds remaining!",
+                        description=f"**Question:** {self.question['question']}\n\n"
+                        f"⏰ **Time left:** {remaining_time} seconds\n"
+                        f"🏷️ **Category:** {self.question['category'].title()}\n"
+                        f"⚡ **Difficulty:** {self.question['difficulty'].title()}",
+                        color=0xFFA500
+                        if remaining_time > 10
+                        else 0xFF0000,  # Orange for >10s, Red for ≤10s
+                        timestamp=datetime.now(),
+                    )
+
+                    # Add answer options
+                    options_text = ""
+                    for i, option in enumerate(self.options, 1):
+                        options_text += f"{i}. {option}\n"
+                    embed.add_field(
+                        name="Answer Options", value=options_text, inline=False
+                    )
+
+                    if remaining_time <= 5:
+                        embed.set_footer(text="🚨 HURRY UP! Time is running out!")
+                    else:
+                        embed.set_footer(
+                            text="Click an answer button to submit your response!"
+                        )
+
+                    # Update the message
+                    try:
+                        await original_message.edit(embed=embed, view=self)
+                        logger.info(
+                            f"⏰ Countdown update sent: {remaining_time} seconds remaining for user {self.user.id}"
+                        )
+                    except Exception as e:
+                        logger.warning(f"⚠️ Could not update countdown message: {e}")
+
+        except Exception as e:
+            logger.error(f"❌ Error in countdown: {e}")
 
     def create_answer_callback(self, index: int, option: str):
         """Create callback for answer button"""
@@ -284,7 +435,24 @@ class TriviaAnswerView(discord.ui.View):
                 )
                 return
 
+            # Check if time has expired (30 seconds)
+            if hasattr(self, "start_time") and self.start_time:
+                time_elapsed = (datetime.now() - self.start_time).total_seconds()
+                if time_elapsed > 30:
+                    await interaction.response.send_message(
+                        "⏰ Time's up! You can't answer after 30 seconds.",
+                        ephemeral=True,
+                    )
+                    return
+
             self.answered = True
+
+            # Stop countdown if running
+            if self.countdown_task and not self.countdown_task.done():
+                self.countdown_task.cancel()
+                logger.info(
+                    f"⏰ Countdown stopped for user {self.user.id} - they answered"
+                )
 
             # Calculate score
             is_correct = option == self.question["correct_answer"]
@@ -355,6 +523,18 @@ class TriviaAnswerView(discord.ui.View):
     async def on_timeout(self):
         """Handle timeout when user doesn't answer in time"""
         if not self.answered:
+            logger.info(f"⏰ Timeout triggered for user {self.user.id}")
+
+            # Stop countdown if running
+            if self.countdown_task and not self.countdown_task.done():
+                self.countdown_task.cancel()
+                logger.info(
+                    f"⏰ Countdown cancelled due to timeout for user {self.user.id}"
+                )
+
+            # Mark as answered to prevent further interactions
+            self.answered = True
+
             # Create timeout embed
             embed = discord.Embed(
                 title="⏰ Time's Up!",
@@ -376,5 +556,6 @@ class TriviaAnswerView(discord.ui.View):
             # Update the message
             try:
                 await self.user.send(embed=embed, view=self)
-            except:
-                pass  # User might have DMs disabled
+                logger.info(f"✅ Timeout message sent to user {self.user.id}")
+            except Exception as e:
+                logger.error(f"❌ Error sending timeout message: {e}")

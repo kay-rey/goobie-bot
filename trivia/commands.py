@@ -94,6 +94,45 @@ async def trivia_command(interaction: discord.Interaction):
         )
 
 
+@commands.command(name="trigger-trivia")
+async def trigger_trivia_command(ctx):
+    """Manually trigger trivia post - !trigger-trivia"""
+    try:
+        # Check admin permissions
+        if not require_admin_permissions(ctx):
+            return
+
+        logger.info(f"🎯 Manual trivia trigger requested by {ctx.author}")
+
+        # Import here to avoid circular imports
+        from trivia.scheduler import TriviaScheduler
+
+        # Reset daily trivia first
+        with trivia_db.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute(
+                "DELETE FROM trivia_daily_posts WHERE date = ?",
+                (
+                    trivia_db.get_connection()
+                    .execute('SELECT date("now")')
+                    .fetchone()[0],
+                ),
+            )
+            conn.commit()
+            logger.info("🗑️ Cleared old trivia posts")
+
+        # Create trivia scheduler and send post
+        scheduler = TriviaScheduler()
+        await scheduler.send_daily_trivia_post(ctx.bot, ctx.channel.id)
+
+        logger.info(f"✅ Manual trivia post sent to channel {ctx.channel.id}")
+        await ctx.send("✅ Trivia post created! The buttons should now work properly.")
+
+    except Exception as e:
+        logger.error(f"Error in trigger trivia command: {e}")
+        await ctx.send("❌ An error occurred while creating trivia post.")
+
+
 @commands.command(name="trivia-admin")
 async def trivia_admin_command(ctx, action: str = None):
     """Admin commands for trivia management - !trivia-admin <action>"""

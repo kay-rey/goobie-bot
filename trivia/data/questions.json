@@ -157,7 +157,7 @@
     {
       "question": "Which LA team has won the most championships?",
       "correct_answer": "Lakers (17 NBA titles)",
-      "wrong_answers": ["Dodgers (7 World Series)", "Galaxy (5 MLS Cups)", "Rams (2 Super Bowls)"],
+      "wrong_answers": ["Dodgers", "Galaxy", "Rams"],
       "category": "general",
       "difficulty": "medium"
     },

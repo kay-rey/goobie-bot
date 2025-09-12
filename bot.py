@@ -25,7 +25,7 @@ from commands import nextgame_command, test_command, sync_command
 from commands.weekly import weekly_command
 from commands.cache import cache_command
 from scheduler.weekly_matches import schedule_weekly_matches
-from trivia.commands import trivia_command, trivia_admin_command
+from trivia.commands import trivia_command, trivia_admin_command, trigger_trivia_command
 from trivia.scheduler import schedule_daily_trivia
 from api.http_client import cleanup_http_client
 from api.cache import cache_cleanup_task
@@ -80,6 +80,7 @@ bot.add_command(test_command)
 bot.add_command(sync_command)
 bot.add_command(cache_command)
 bot.add_command(trivia_admin_command)
+bot.add_command(trigger_trivia_command)
 
 
 # Run the bot with the token from the .env file
