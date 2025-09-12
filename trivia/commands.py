@@ -7,9 +7,9 @@ import discord
 from discord import app_commands
 import logging
 from datetime import datetime
-from typing import Optional
 
 from .database import TriviaDatabase
+from utils.permissions import require_admin_permissions
 
 logger = logging.getLogger(__name__)
 
@@ -104,17 +104,14 @@ async def trivia_command(interaction: discord.Interaction):
         app_commands.Choice(name="Reset Daily", value="reset"),
     ]
 )
+@app_commands.default_permissions(administrator=True)
 async def trivia_admin_command(
     interaction: discord.Interaction, action: app_commands.Choice[str]
 ):
     """Admin commands for trivia management"""
     try:
-        # Check if user has admin permissions
-        if not interaction.user.guild_permissions.administrator:
-            await interaction.response.send_message(
-                "❌ You need administrator permissions to use this command.",
-                ephemeral=True,
-            )
+        # Check admin permissions
+        if not require_admin_permissions(interaction):
             return
 
         logger.info(

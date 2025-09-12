@@ -51,6 +51,9 @@ DISCORD_TOKEN=your_discord_bot_token_here
 # Optional: Channel IDs for notifications
 WEEKLY_NOTIFICATIONS_CHANNEL_ID=123456789012345678
 TRIVIA_CHANNEL_ID=123456789012345678
+
+# Optional: Admin user IDs (comma-separated)
+ADMIN_USER_IDS=123456789012345678,987654321098765432
 ```
 
 ### 3. Run with Docker

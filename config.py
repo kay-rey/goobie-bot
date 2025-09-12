@@ -31,6 +31,20 @@ if TRIVIA_CHANNEL_ID:
     except ValueError:
         TRIVIA_CHANNEL_ID = None
 
+# Get admin user IDs (optional, comma-separated)
+ADMIN_USER_IDS = os.getenv("ADMIN_USER_IDS", "")
+if ADMIN_USER_IDS:
+    try:
+        ADMIN_USER_IDS = [
+            int(user_id.strip())
+            for user_id in ADMIN_USER_IDS.split(",")
+            if user_id.strip()
+        ]
+    except ValueError:
+        ADMIN_USER_IDS = []
+else:
+    ADMIN_USER_IDS = []
+
 # Create a new Discord bot with necessary intents
 intents = discord.Intents.default()
 intents.message_content = True

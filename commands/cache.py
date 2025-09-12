@@ -7,6 +7,7 @@ import discord
 from discord import app_commands
 import logging
 from api.cache import get_cache_stats, clear_cache, cleanup_expired_cache
+from utils.permissions import require_admin_permissions
 
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ logger = logging.getLogger(__name__)
         app_commands.Choice(name="cleanup", value="cleanup"),
     ]
 )
+@app_commands.default_permissions(administrator=True)
 async def cache_command(
     interaction: discord.Interaction, action: app_commands.Choice[str]
 ):
@@ -26,6 +28,11 @@ async def cache_command(
     logger.info(
         f"Cache command triggered by {interaction.user} for action: {action.value}"
     )
+
+    # Check admin permissions
+    if not require_admin_permissions(interaction):
+        return
+
     await interaction.response.defer(ephemeral=True)
 
     try:
