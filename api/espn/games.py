@@ -6,7 +6,7 @@ Handles all ESPN API calls related to games and events
 import logging
 from datetime import datetime, timedelta
 from api.http_client import get_json
-from api.cache import cache_result, game_data_key, team_name_key
+from api.cache import game_data_key
 
 logger = logging.getLogger(__name__)
 
@@ -227,13 +227,22 @@ async def get_lakers_next_game():
     try:
         logger.info("Fetching Lakers next game data...")
 
-        # Get current date and 2 months from now to catch October games
+        # Get current date and 2 weeks from now (standardized)
         today = datetime.now()
-        future_date = today + timedelta(days=60)
+        future_date = today + timedelta(days=14)
 
         # Format dates for ESPN API
         start_date = today.strftime("%Y%m%d")
         end_date = future_date.strftime("%Y%m%d")
+
+        # Check cache first
+        from api.cache import get_cached, set_cached
+
+        cache_key = game_data_key("lakers", "basketball", start_date, end_date)
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Lakers game data")
+            return cached_result
 
         logger.info(f"Date range: {start_date} to {end_date}")
 
@@ -242,8 +251,8 @@ async def get_lakers_next_game():
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         data = await get_json(url, params=params)
-        logger.info(f"ESPN NBA API data keys: {list(data.keys()) if data else 'None'}")
-        logger.info(
+        logger.debug(f"ESPN NBA API data keys: {list(data.keys()) if data else 'None'}")
+        logger.debug(
             f"ESPN NBA API items count: {len(data.get('items', [])) if data else 0}"
         )
 
@@ -254,7 +263,7 @@ async def get_lakers_next_game():
             for item in data["items"]:
                 event_ref = item.get("$ref")
                 if event_ref:
-                    logger.info(f"Fetching Lakers event details from: {event_ref}")
+                    logger.debug(f"Fetching Lakers event details from: {event_ref}")
                     event_data = await get_json(event_ref)
                     if event_data:
                         event_date_str = event_data.get("date", "")
@@ -269,10 +278,10 @@ async def get_lakers_next_game():
                                 today_aware = today.replace(tzinfo=event_date.tzinfo)
 
                                 if event_date > today_aware:
-                                    logger.info(
+                                    logger.debug(
                                         f"Found upcoming Lakers game on {event_date}"
                                     )
-                                    upcoming_games.append(event_data)
+                                    upcoming_games.append((event_date, event_data))
                             except ValueError as e:
                                 logger.warning(
                                     f"Could not parse date {event_date_str}: {e}"
@@ -281,9 +290,12 @@ async def get_lakers_next_game():
 
             if upcoming_games:
                 # Sort by date and return the earliest
-                upcoming_games.sort(key=lambda x: x.get("date", ""))
-                next_game = upcoming_games[0]
+                upcoming_games.sort(key=lambda x: x[0])
+                next_game = upcoming_games[0][1]
                 logger.info(f"Found next Lakers game: {next_game}")
+
+                # Cache the result
+                await set_cached(cache_key, next_game, "game_data")
                 return next_game
 
         logger.warning("No upcoming Lakers games found")
@@ -346,6 +358,15 @@ async def get_rams_next_game():
         start_date = today.strftime("%Y%m%d")
         end_date = future_date.strftime("%Y%m%d")
 
+        # Check cache first
+        from api.cache import get_cached, set_cached
+
+        cache_key = game_data_key("rams", "football", start_date, end_date)
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Rams game data")
+            return cached_result
+
         logger.info(f"Date range: {start_date} to {end_date}")
 
         # ESPN API endpoint for Rams events (NFL team ID: 14)
@@ -353,8 +374,8 @@ async def get_rams_next_game():
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         data = await get_json(url, params=params)
-        logger.info(f"ESPN NFL API data keys: {list(data.keys()) if data else 'None'}")
-        logger.info(
+        logger.debug(f"ESPN NFL API data keys: {list(data.keys()) if data else 'None'}")
+        logger.debug(
             f"ESPN NFL API items count: {len(data.get('items', [])) if data else 0}"
         )
 
@@ -365,7 +386,7 @@ async def get_rams_next_game():
             for item in data["items"]:
                 event_ref = item.get("$ref")
                 if event_ref:
-                    logger.info(f"Fetching Rams event details from: {event_ref}")
+                    logger.debug(f"Fetching Rams event details from: {event_ref}")
                     event_data = await get_json(event_ref)
                     if event_data:
                         event_date_str = event_data.get("date", "")
@@ -380,8 +401,8 @@ async def get_rams_next_game():
                                 today_aware = today.replace(tzinfo=event_date.tzinfo)
                                 # Check if the event is in the future
                                 if event_date > today_aware:
-                                    upcoming_games.append(event_data)
-                                    logger.info(
+                                    upcoming_games.append((event_date, event_data))
+                                    logger.debug(
                                         f"Found upcoming Rams game: {event_date}"
                                     )
                             except Exception as e:
@@ -390,9 +411,13 @@ async def get_rams_next_game():
 
             # Sort by date and return the closest upcoming game
             if upcoming_games:
-                upcoming_games.sort(key=lambda x: x.get("date", ""))
+                upcoming_games.sort(key=lambda x: x[0])
+                next_game = upcoming_games[0][1]
                 logger.info(f"Found {len(upcoming_games)} upcoming Rams games")
-                return upcoming_games[0]
+
+                # Cache the result
+                await set_cached(cache_key, next_game, "game_data")
+                return next_game
 
         logger.warning("No upcoming Rams games found")
         return None
@@ -415,6 +440,15 @@ async def get_kings_next_game():
         start_date = today.strftime("%Y%m%d")
         end_date = future_date.strftime("%Y%m%d")
 
+        # Check cache first
+        from api.cache import get_cached, set_cached
+
+        cache_key = game_data_key("kings", "hockey", start_date, end_date)
+        cached_result = await get_cached(cache_key)
+        if cached_result is not None:
+            logger.info("Returning cached Kings game data")
+            return cached_result
+
         logger.info(f"Date range: {start_date} to {end_date}")
 
         # ESPN API endpoint for Kings events (NHL team ID: 8)
@@ -422,8 +456,8 @@ async def get_kings_next_game():
         params = {"dates": f"{start_date}-{end_date}", "limit": 10}
 
         data = await get_json(url, params=params)
-        logger.info(f"ESPN NHL API data keys: {list(data.keys()) if data else 'None'}")
-        logger.info(
+        logger.debug(f"ESPN NHL API data keys: {list(data.keys()) if data else 'None'}")
+        logger.debug(
             f"ESPN NHL API items count: {len(data.get('items', [])) if data else 0}"
         )
 
@@ -434,7 +468,7 @@ async def get_kings_next_game():
             for item in data["items"]:
                 event_ref = item.get("$ref")
                 if event_ref:
-                    logger.info(f"Fetching Kings event details from: {event_ref}")
+                    logger.debug(f"Fetching Kings event details from: {event_ref}")
                     event_data = await get_json(event_ref)
                     if event_data:
                         event_date_str = event_data.get("date", "")
@@ -449,8 +483,8 @@ async def get_kings_next_game():
                                 today_aware = today.replace(tzinfo=event_date.tzinfo)
                                 # Check if the event is in the future
                                 if event_date > today_aware:
-                                    upcoming_games.append(event_data)
-                                    logger.info(
+                                    upcoming_games.append((event_date, event_data))
+                                    logger.debug(
                                         f"Found upcoming Kings game: {event_date}"
                                     )
                             except Exception as e:
@@ -459,9 +493,13 @@ async def get_kings_next_game():
 
             # Sort by date and return the closest upcoming game
             if upcoming_games:
-                upcoming_games.sort(key=lambda x: x.get("date", ""))
+                upcoming_games.sort(key=lambda x: x[0])
+                next_game = upcoming_games[0][1]
                 logger.info(f"Found {len(upcoming_games)} upcoming Kings games")
-                return upcoming_games[0]
+
+                # Cache the result
+                await set_cached(cache_key, next_game, "game_data")
+                return next_game
 
         logger.warning("No upcoming Kings games found")
         return None

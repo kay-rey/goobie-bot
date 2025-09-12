@@ -49,91 +49,35 @@ async def get_game_logos(game_data):
 async def create_game_embed(game_data, logos, team_name=None):
     """Create a Discord embed for the game data"""
     try:
-        logger.debug("Creating embed...")
-        logger.debug(f"Creating embed with logos: {logos}")
+        # Team configuration mapping for quick lookup
+        TEAM_CONFIG = {
+            "dodgers": {"emoji": "⚾", "color": 0x005A9C},
+            "lakers": {"emoji": "🏀", "color": 0x552583},
+            "rams": {"emoji": "🏈", "color": 0xFFD700},
+            "kings": {"emoji": "🏒", "color": 0xA2AAAD},
+            "galaxy": {"emoji": "⚽", "color": 0x00245D},
+        }
 
-        # Determine team from game data or use provided team name
+        # Determine team name and configuration
         if not team_name:
-            team_name = "LA Galaxy"  # Default
-            color = 0x00245D  # LA Galaxy blue
-            emoji = "⚽"  # Soccer emoji
+            # Use first available team from logos or default to Galaxy
+            team_name = list(logos.keys())[0] if logos else "LA Galaxy"
 
-            # Check if this is a baseball game
-            if "baseball" in game_data.get("$ref", "").lower():
-                emoji = "⚾"
-                color = 0x005A9C  # Dodgers blue
+        # Find team configuration by matching team name
+        team_key = None
+        for key, config in TEAM_CONFIG.items():
+            if key in team_name.lower():
+                team_key = key
+                break
 
-                # Try to find Dodgers team name from logos
-                for team, team_logos in logos.items():
-                    if "dodgers" in team.lower():
-                        team_name = team
-                        break
-                else:
-                    # Fallback: look for any team with logos
-                    if logos:
-                        team_name = list(logos.keys())[0]
+        # Default to Galaxy if no match found
+        if not team_key:
+            team_key = "galaxy"
+            team_name = "LA Galaxy"
 
-            # Check if this is a basketball game
-            elif "basketball" in game_data.get("$ref", "").lower():
-                emoji = "🏀"
-                color = 0xFDB927  # Lakers gold
-
-                # Try to find Lakers team name from logos
-                for team, team_logos in logos.items():
-                    if "lakers" in team.lower():
-                        team_name = team
-                        break
-                else:
-                    # Fallback: look for any team with logos
-                    if logos:
-                        team_name = list(logos.keys())[0]
-
-            # Check if this is a football game
-            elif "football" in game_data.get("$ref", "").lower():
-                emoji = "🏈"
-                color = 0xFFD700  # Rams yellow/gold
-
-                # Try to find Rams team name from logos
-                for team, team_logos in logos.items():
-                    if "rams" in team.lower():
-                        team_name = team
-                        break
-                else:
-                    # Fallback: look for any team with logos
-                    if logos:
-                        team_name = list(logos.keys())[0]
-
-            # Check if this is a hockey game
-            elif "hockey" in game_data.get("$ref", "").lower():
-                emoji = "🏒"
-                color = 0xA2AAAD  # Kings black
-
-                # Try to find Kings team name from logos
-                for team, team_logos in logos.items():
-                    if "kings" in team.lower():
-                        team_name = team
-                        break
-                else:
-                    # Fallback: look for any team with logos
-                    if logos:
-                        team_name = list(logos.keys())[0]
-        else:
-            # Use provided team name and determine sport/color/emoji
-            if "dodgers" in team_name.lower():
-                emoji = "⚾"
-                color = 0x005A9C  # Dodgers blue
-            elif "lakers" in team_name.lower():
-                emoji = "🏀"
-                color = 0x552583  # Lakers purple
-            elif "rams" in team_name.lower():
-                emoji = "🏈"
-                color = 0xFFD700  # Rams yellow/gold
-            elif "kings" in team_name.lower():
-                emoji = "🏒"
-                color = 0xA2AAAD  # Kings black
-            else:  # Galaxy
-                emoji = "⚽"
-                color = 0x00245D  # LA Galaxy blue
+        config = TEAM_CONFIG[team_key]
+        emoji = config["emoji"]
+        color = config["color"]
 
         # Create embed
         embed = discord.Embed(
@@ -146,44 +90,27 @@ async def create_game_embed(game_data, logos, team_name=None):
         team_logos = logos.get(team_name, {})
         if team_logos.get("logo"):
             embed.set_thumbnail(url=team_logos["logo"])
-            logger.debug(f"Setting {team_name} thumbnail to: {team_logos['logo']}")
-        else:
-            logger.warning(f"No {team_name} logo available")
 
-        # Note: Stadium/venue images removed for now
-
-        # Parse game date
+        # Parse and add game date
         if game_data.get("date"):
             try:
                 game_date = datetime.fromisoformat(
                     game_data["date"].replace("Z", "+00:00")
                 )
-
                 # Convert to Pacific Time
                 pacific_tz = pytz.timezone("America/Los_Angeles")
                 game_date_pacific = game_date.astimezone(pacific_tz)
-
-                # Format the date nicely
                 formatted_date = game_date_pacific.strftime(
                     "%A, %B %d, %Y at %I:%M %p %Z"
                 )
-                logger.debug(
-                    f"Game date: {game_date} (UTC) -> {game_date_pacific} (PDT) -> {formatted_date}"
-                )
-
-                # Truncate date if too long for Discord embed
-                logger.debug(f"Date value length: {len(formatted_date)}")
+                # Truncate if too long for Discord embed
                 if len(formatted_date) > 1024:
-                    logger.warning(
-                        f"Date value too long ({len(formatted_date)} chars), truncating"
-                    )
                     formatted_date = formatted_date[:1021] + "..."
-
                 embed.add_field(
                     name="📅 Date & Time", value=formatted_date, inline=False
                 )
             except Exception as e:
-                logger.warning(f"Error parsing date {game_data.get('date')}: {e}")
+                logger.warning(f"Error parsing date: {e}")
                 embed.add_field(
                     name="📅 Date & Time",
                     value=game_data.get("date", "TBD"),
@@ -192,46 +119,22 @@ async def create_game_embed(game_data, logos, team_name=None):
 
         # Add game name
         if game_data.get("name"):
-            # Truncate game name if too long for Discord embed
             game_name = game_data["name"]
-            logger.debug(f"Game name value length: {len(game_name)}")
             if len(game_name) > 1024:
-                logger.warning(
-                    f"Game name value too long ({len(game_name)} chars), truncating"
-                )
                 game_name = game_name[:1021] + "..."
             embed.add_field(name=f"{emoji} Match", value=game_name, inline=False)
 
-        # Add venue information from game data
+        # Add venue information
         competitions = game_data.get("competitions", [])
-        venue_name = None
         if competitions:
-            competition = competitions[0]
-            venue_info = competition.get("venue", {})
-            venue_name = venue_info.get("fullName", "")
-            logger.debug(f"Game data venue from competition: {venue_name}")
-
-        if venue_name:
-            # Truncate venue name if too long for Discord embed
-            logger.debug(f"Venue value length: {len(venue_name)}")
-            if len(venue_name) > 1024:
-                logger.warning(
-                    f"Venue value too long ({len(venue_name)} chars), truncating"
-                )
-                venue_name = venue_name[:1021] + "..."
-            embed.add_field(name="🏟️ Venue", value=venue_name, inline=True)
-            logger.debug(f"Added venue: {venue_name}")
-        else:
-            logger.warning("No venue information available")
-
-        # Competition field removed - users already know what competition teams play in
+            venue_name = competitions[0].get("venue", {}).get("fullName", "")
+            if venue_name:
+                if len(venue_name) > 1024:
+                    venue_name = venue_name[:1021] + "..."
+                embed.add_field(name="🏟️ Venue", value=venue_name, inline=True)
 
         # Add footer
-        footer_text = "Go LA!"
-        # Truncate footer if too long for Discord embed
-        if len(footer_text) > 2048:  # Footer has higher limit
-            footer_text = footer_text[:2045] + "..."
-        embed.set_footer(text=footer_text)
+        embed.set_footer(text="Go LA!")
 
         return embed
 
