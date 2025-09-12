@@ -125,7 +125,9 @@ async def get_galaxy_next_game_extended():
                 # Sort by date and get the closest upcoming game
                 upcoming_games.sort(key=lambda x: x[0])
                 closest_date, closest_game = upcoming_games[0]
-                logger.info(f"Found next game: {closest_game}")
+                logger.info(
+                    f"Found next Galaxy game: {closest_game.get('name', 'Unknown')} on {closest_game.get('date', 'TBD')}"
+                )
 
                 # Cache the result
                 await set_cached(cache_key, closest_game, "game_data")
@@ -208,7 +210,9 @@ async def get_dodgers_next_game():
                 # Sort by date and get the closest upcoming game
                 upcoming_games.sort(key=lambda x: x[0])
                 closest_date, closest_game = upcoming_games[0]
-                logger.info(f"Found next Dodgers game: {closest_game}")
+                logger.info(
+                    f"Found next Dodgers game: {closest_game.get('name', 'Unknown')} on {closest_game.get('date', 'TBD')}"
+                )
 
                 # Cache the result
                 await set_cached(cache_key, closest_game, "game_data")
@@ -229,7 +233,7 @@ async def get_lakers_next_game():
 
         # Get current date and 2 weeks from now (standardized)
         today = datetime.now()
-        future_date = today + timedelta(days=14)
+        future_date = today + timedelta(days=30)
 
         # Format dates for ESPN API
         start_date = today.strftime("%Y%m%d")
@@ -292,7 +296,9 @@ async def get_lakers_next_game():
                 # Sort by date and return the earliest
                 upcoming_games.sort(key=lambda x: x[0])
                 next_game = upcoming_games[0][1]
-                logger.info(f"Found next Lakers game: {next_game}")
+                logger.info(
+                    f"Found next Lakers game: {next_game.get('name', 'Unknown')} on {next_game.get('date', 'TBD')}"
+                )
 
                 # Cache the result
                 await set_cached(cache_key, next_game, "game_data")
@@ -413,7 +419,9 @@ async def get_rams_next_game():
             if upcoming_games:
                 upcoming_games.sort(key=lambda x: x[0])
                 next_game = upcoming_games[0][1]
-                logger.info(f"Found {len(upcoming_games)} upcoming Rams games")
+                logger.info(
+                    f"Found next Rams game: {next_game.get('name', 'Unknown')} on {next_game.get('date', 'TBD')}"
+                )
 
                 # Cache the result
                 await set_cached(cache_key, next_game, "game_data")
@@ -495,7 +503,9 @@ async def get_kings_next_game():
             if upcoming_games:
                 upcoming_games.sort(key=lambda x: x[0])
                 next_game = upcoming_games[0][1]
-                logger.info(f"Found {len(upcoming_games)} upcoming Kings games")
+                logger.info(
+                    f"Found next Kings game: {next_game.get('name', 'Unknown')} on {next_game.get('date', 'TBD')}"
+                )
 
                 # Cache the result
                 await set_cached(cache_key, next_game, "game_data")
