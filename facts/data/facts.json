@@ -1,0 +1,184 @@
+{
+  "facts": [
+    {
+      "id": 1,
+      "fact": "The Los Angeles Dodgers were originally founded in Brooklyn, New York in 1883 as the Brooklyn Atlantics, before moving to LA in 1958.",
+      "category": "Dodgers",
+      "emoji": "⚾"
+    },
+    {
+      "id": 2,
+      "fact": "The LA Galaxy was the first MLS team to win the CONCACAF Champions League in 2000, defeating Olimpia of Honduras.",
+      "category": "Galaxy",
+      "emoji": "⚽"
+    },
+    {
+      "id": 3,
+      "fact": "The Los Angeles Lakers have won 17 NBA championships, tied for the most in NBA history with the Boston Celtics.",
+      "category": "Lakers",
+      "emoji": "🏀"
+    },
+    {
+      "id": 4,
+      "fact": "The Los Angeles Rams were the first NFL team to have a logo on their helmet, introducing the ram horn design in 1948.",
+      "category": "Rams",
+      "emoji": "🏈"
+    },
+    {
+      "id": 5,
+      "fact": "The LA Kings were the first NHL team from California to win the Stanley Cup, doing so in 2012 and 2014.",
+      "category": "Kings",
+      "emoji": "🏒"
+    },
+    {
+      "id": 6,
+      "fact": "Dodger Stadium is the third-oldest ballpark in Major League Baseball, opening in 1962.",
+      "category": "Dodgers",
+      "emoji": "⚾"
+    },
+    {
+      "id": 7,
+      "fact": "The Galaxy's home stadium, Dignity Health Sports Park, was the first soccer-specific stadium built in MLS history.",
+      "category": "Galaxy",
+      "emoji": "⚽"
+    },
+    {
+      "id": 8,
+      "fact": "Kobe Bryant scored 81 points in a single game against the Toronto Raptors in 2006, the second-highest single-game total in NBA history.",
+      "category": "Lakers",
+      "emoji": "🏀"
+    },
+    {
+      "id": 9,
+      "fact": "The Rams' 'Greatest Show on Turf' offense in 1999-2001 was the first team in NFL history to score 500+ points in three consecutive seasons.",
+      "category": "Rams",
+      "emoji": "🏈"
+    },
+    {
+      "id": 10,
+      "fact": "The Kings' 'Miracle on Manchester' in 1982 saw them overcome a 5-0 deficit in the third period to beat the Oilers 6-5 in overtime.",
+      "category": "Kings",
+      "emoji": "🏒"
+    },
+    {
+      "id": 11,
+      "fact": "Sandy Koufax threw four no-hitters for the Dodgers, including a perfect game in 1965 against the Chicago Cubs.",
+      "category": "Dodgers",
+      "emoji": "⚾"
+    },
+    {
+      "id": 12,
+      "fact": "David Beckham's arrival at the Galaxy in 2007 helped establish MLS as a destination for international stars.",
+      "category": "Galaxy",
+      "emoji": "⚽"
+    },
+    {
+      "id": 13,
+      "fact": "The Lakers' 33-game winning streak in 1971-72 remains the longest in NBA history.",
+      "category": "Lakers",
+      "emoji": "🏀"
+    },
+    {
+      "id": 14,
+      "fact": "The Rams' move back to Los Angeles in 2016 marked their return after 21 years in St. Louis.",
+      "category": "Rams",
+      "emoji": "🏈"
+    },
+    {
+      "id": 15,
+      "fact": "Wayne Gretzky played his final NHL season with the Kings in 1998-99, bringing unprecedented attention to hockey in LA.",
+      "category": "Kings",
+      "emoji": "🏒"
+    },
+    {
+      "id": 16,
+      "fact": "The Dodgers' Vin Scully was the longest-tenured broadcaster in professional sports history, calling games for 67 years.",
+      "category": "Dodgers",
+      "emoji": "⚾"
+    },
+    {
+      "id": 17,
+      "fact": "The Galaxy's Landon Donovan is the all-time leading scorer in MLS history with 145 goals.",
+      "category": "Galaxy",
+      "emoji": "⚽"
+    },
+    {
+      "id": 18,
+      "fact": "Magic Johnson's 'Showtime' Lakers won five championships in the 1980s, revolutionizing fast-break basketball.",
+      "category": "Lakers",
+      "emoji": "🏀"
+    },
+    {
+      "id": 19,
+      "fact": "The Rams' SoFi Stadium is the most expensive stadium ever built, costing over $5 billion.",
+      "category": "Rams",
+      "emoji": "🏈"
+    },
+    {
+      "id": 20,
+      "fact": "The Kings' 'Triple Crown Line' of Marcel Dionne, Charlie Simmer, and Dave Taylor was one of the most prolific scoring lines in NHL history.",
+      "category": "Kings",
+      "emoji": "🏒"
+    },
+    {
+      "id": 21,
+      "fact": "The Dodgers' Jackie Robinson broke baseball's color barrier in 1947, wearing number 42 which is now retired across all of MLB.",
+      "category": "Dodgers",
+      "emoji": "⚾"
+    },
+    {
+      "id": 22,
+      "fact": "The Galaxy's Zlatan Ibrahimović scored one of the most spectacular goals in MLS history with a 40-yard volley in 2018.",
+      "category": "Galaxy",
+      "emoji": "⚽"
+    },
+    {
+      "id": 23,
+      "fact": "The Lakers' LeBron James became the first player in NBA history to record a triple-double against all 30 teams.",
+      "category": "Lakers",
+      "emoji": "🏀"
+    },
+    {
+      "id": 24,
+      "fact": "The Rams' Aaron Donald has been named NFL Defensive Player of the Year three times, tying the record.",
+      "category": "Rams",
+      "emoji": "🏈"
+    },
+    {
+      "id": 25,
+      "fact": "The Kings' Anže Kopitar became the first Slovenian-born player to win the Stanley Cup in 2012.",
+      "category": "Kings",
+      "emoji": "🏒"
+    },
+    {
+      "id": 26,
+      "fact": "The Dodgers' Fernando Valenzuela's 'Fernandomania' in 1981 captivated Los Angeles and helped popularize baseball among Latino fans.",
+      "category": "Dodgers",
+      "emoji": "⚾"
+    },
+    {
+      "id": 27,
+      "fact": "The Galaxy's Robbie Keane scored 104 goals in 165 appearances, making him one of the most successful Designated Players in MLS history.",
+      "category": "Galaxy",
+      "emoji": "⚽"
+    },
+    {
+      "id": 28,
+      "fact": "The Lakers' Shaquille O'Neal and Kobe Bryant won three consecutive NBA championships from 2000-2002, creating one of the most dominant dynasties.",
+      "category": "Lakers",
+      "emoji": "🏀"
+    },
+    {
+      "id": 29,
+      "fact": "The Rams' 'Fearsome Foursome' defensive line of the 1960s was one of the most dominant defensive units in NFL history.",
+      "category": "Rams",
+      "emoji": "🏈"
+    },
+    {
+      "id": 30,
+      "fact": "The Kings' 'That 70s Line' of Jeff Carter, Tyler Toffoli, and Tanner Pearson was instrumental in their 2014 Stanley Cup run.",
+      "category": "Kings",
+      "emoji": "🏒"
+    }
+  ]
+}

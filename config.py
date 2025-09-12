@@ -31,6 +31,14 @@ if TRIVIA_CHANNEL_ID:
     except ValueError:
         TRIVIA_CHANNEL_ID = None
 
+# Get the channel ID for daily facts notifications (optional)
+FACTS_CHANNEL_ID = os.getenv("FACTS_CHANNEL_ID")
+if FACTS_CHANNEL_ID:
+    try:
+        FACTS_CHANNEL_ID = int(FACTS_CHANNEL_ID)
+    except ValueError:
+        FACTS_CHANNEL_ID = None
+
 # Get admin user IDs (optional, comma-separated)
 ADMIN_USER_IDS = os.getenv("ADMIN_USER_IDS", "")
 if ADMIN_USER_IDS:

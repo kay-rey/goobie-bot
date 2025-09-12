@@ -12,6 +12,7 @@ from config import (
     DISCORD_TOKEN,
     WEEKLY_NOTIFICATIONS_CHANNEL_ID,
     TRIVIA_CHANNEL_ID,
+    FACTS_CHANNEL_ID,
     setup_logging,
     create_bot,
 )
@@ -27,6 +28,13 @@ from commands.cache import cache_command
 from scheduler.weekly_matches import schedule_weekly_matches
 from trivia.commands import trivia_command, trivia_admin_command, trigger_trivia_command
 from trivia.scheduler import schedule_daily_trivia
+from facts.commands import (
+    fact_command,
+    fact_stats_command,
+    fact_text_command,
+    fact_stats_text_command,
+)
+from facts.scheduler import schedule_daily_facts
 from api.http_client import cleanup_http_client
 from api.cache import cache_cleanup_task
 
@@ -49,6 +57,10 @@ async def on_ready():
     # Start the daily trivia scheduler
     logger.info("Starting daily trivia scheduler...")
     asyncio.create_task(schedule_daily_trivia(bot, TRIVIA_CHANNEL_ID))
+
+    # Start the daily facts scheduler
+    logger.info("Starting daily facts scheduler...")
+    asyncio.create_task(schedule_daily_facts(bot, FACTS_CHANNEL_ID))
 
     # Start cache cleanup task
     logger.info("Starting cache cleanup task...")
@@ -74,6 +86,8 @@ async def on_app_command_error(interaction, error):
 bot.tree.add_command(nextgame_command)
 bot.tree.add_command(weekly_command)
 bot.tree.add_command(trivia_command)
+bot.tree.add_command(fact_command)
+bot.tree.add_command(fact_stats_command)
 
 # Register text commands
 bot.add_command(test_command)
@@ -81,6 +95,8 @@ bot.add_command(sync_command)
 bot.add_command(cache_command)
 bot.add_command(trivia_admin_command)
 bot.add_command(trigger_trivia_command)
+bot.add_command(fact_text_command)
+bot.add_command(fact_stats_text_command)
 
 
 # Run the bot with the token from the .env file
