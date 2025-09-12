@@ -7,7 +7,7 @@
 [![Discord.py](https://img.shields.io/badge/Discord.py-2.3.2-7289da.svg)](https://discordpy.readthedocs.io/)
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ed.svg)](https://docker.com)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-0.1.0--alpha-orange.svg)](VERSION)
+[![Version](https://img.shields.io/badge/Version-0.2.0--beta-blue.svg)](VERSION)
 
 <div align="center">
   <img src="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png" alt="Goobie-Bot LA Skyline Logo" width="200" height="200">

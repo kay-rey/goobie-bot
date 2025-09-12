@@ -5,6 +5,73 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.2.0-beta] - 2025-01-27
+
+### Added
+
+#### 📚 **Enhanced Facts System**
+
+- **Expanded Facts Database** - Increased from 50 to 180 facts (260% increase)
+- **Comprehensive LA Galaxy Facts** - 20+ new facts covering team history, achievements, and trivia
+- **Extensive LA Dodgers Facts** - 30+ new facts covering team history, stadium, and legendary players
+- **Detailed LA Lakers Facts** - 30+ new facts covering team history, championships, and iconic players
+- **LEGO Facts Collection** - 30+ new facts covering company history, products, and trivia
+- **Disney Facts Collection** - 30+ new facts covering parks, films, and behind-the-scenes trivia
+- **Star Wars Facts Collection** - 30+ new facts covering films, production, and character details
+
+#### 🧠 **Improved Trivia System**
+
+- **Enhanced Question Accuracy** - Fixed Dodgers "Shot Heard 'Round the World" question
+- **Updated Rams Questions** - Focus on "Greatest Show on Turf" era instead of recent Super Bowl
+- **Improved General Questions** - Better LA sports arena sharing question
+- **Refined Disney Questions** - Fixed Haunted Mansion and Mickey Mouse voice questions
+
+#### 🎯 **Content Quality Improvements**
+
+- **Diverse Content Categories** - Facts span from easy to hard difficulty levels
+- **Consistent Formatting** - All facts include appropriate emojis and categories
+- **Historical Coverage** - Content covers historical, statistical, and fun trivia aspects
+- **Entertainment Variety** - Maintains LA sports focus while adding general entertainment content
+
+### Changed
+
+#### 📊 **Version Status**
+
+- **Alpha to Beta Transition** - Officially moved from alpha to beta status
+- **Stability Improvements** - All core features are stable and production-ready
+- **Enhanced Documentation** - Updated README and changelog to reflect beta status
+
+### Technical Details
+
+#### **Content Expansion**
+
+- **Facts Database**: Expanded from 50 to 180 facts across 6 categories
+- **Trivia Questions**: 4 questions updated for accuracy and clarity
+- **Content Quality**: All new content includes proper categorization and emojis
+- **Difficulty Distribution**: Balanced mix of easy, medium, and hard content
+
+#### **Beta Release Criteria**
+
+- ✅ **Core Features Stable** - All major features working reliably
+- ✅ **Comprehensive Testing** - Full test suite passing
+- ✅ **Documentation Complete** - README and guides updated
+- ✅ **Content Rich** - Extensive facts and trivia database
+- ✅ **Production Ready** - Docker deployment and monitoring working
+
+### Beta Release Notes
+
+This is a **beta release** of Goobie-Bot, marking the transition from alpha to beta status. The bot now features:
+
+- **Stable Core Functionality** - All LA sports features working reliably
+- **Rich Content Database** - 180 facts and comprehensive trivia questions
+- **Production-Ready Deployment** - Full Docker support with monitoring
+- **Comprehensive Documentation** - Complete user and developer guides
+- **Extensive Testing** - Full test coverage with Docker integration
+
+**Ready for Production Use** - This beta release is suitable for production Discord servers with active monitoring and support.
+
+---
+
 ## [0.1.0-alpha] - 2025-01-27
 
 ### Added

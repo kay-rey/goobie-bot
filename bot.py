@@ -2,7 +2,7 @@
 Main bot application for goobie-bot
 A Discord bot for sports statistics
 
-Version: 0.1.0-alpha
+Version: 0.2.0-beta
 Author: kay-rey
 License: MIT
 """
