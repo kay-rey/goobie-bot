@@ -116,10 +116,37 @@ async def download_team_logos():
 
 def create_logo_manifest():
     """Create a manifest file with all logo mappings"""
+    # GitHub repository info
+    GITHUB_USER = "kay-rey"  # Your GitHub username
+    GITHUB_REPO = "goobie-bot"  # Your repo name
+    GITHUB_BRANCH = "main"  # Your default branch
+
+    # Generate GitHub raw URLs for each team
+    teams_with_github_urls = {}
+    for team_key, team_data in TEAM_LOGOS.items():
+        github_team_data = team_data.copy()
+
+        # Generate GitHub raw URLs
+        base_github_url = f"https://raw.githubusercontent.com/{GITHUB_USER}/{GITHUB_REPO}/{GITHUB_BRANCH}/assets/logos/{team_key}"
+
+        # Update logo URLs to use GitHub as primary, TheSportsDB as fallback
+        github_team_data["logo"] = f"{base_github_url}/logo.png"
+        github_team_data["logo_small"] = f"{base_github_url}/logo_small.png"
+        github_team_data["jersey"] = f"{base_github_url}/jersey.png"
+
+        # Keep original URLs as fallback
+        github_team_data["logo_fallback"] = team_data["logo"]
+        github_team_data["logo_small_fallback"] = team_data["logo_small"]
+        github_team_data["jersey_fallback"] = team_data["jersey"]
+
+        teams_with_github_urls[team_key] = github_team_data
+
     manifest = {
-        "teams": TEAM_LOGOS,
+        "teams": teams_with_github_urls,
         "version": "1.0.0",
         "generated_at": "2024-01-01T00:00:00Z",
+        "github_repo": f"{GITHUB_USER}/{GITHUB_REPO}",
+        "github_branch": GITHUB_BRANCH,
     }
 
     import json
@@ -134,7 +161,7 @@ def create_logo_manifest():
     with open(manifest_path, "w") as f:
         json.dump(manifest, f, indent=2)
 
-    logger.info("Created logo manifest: %s", manifest_path)
+    logger.info("Created logo manifest with GitHub URLs: %s", manifest_path)
 
 
 async def main():
