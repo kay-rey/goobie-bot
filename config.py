@@ -9,7 +9,7 @@ import logging
 import discord
 import asyncio
 from dotenv import load_dotenv
-from typing import Optional, Dict, Any
+from typing import Dict, Any
 
 # Try to import psutil for resource monitoring (optional)
 try:
