@@ -23,8 +23,8 @@ COPY . .
 # Create assets directory for logos and trivia data
 RUN mkdir -p /app/assets/logos /app/trivia/data
 
-# Download and store all team logos during build
-RUN python scripts/download_logos.py
+# Skip logo download - using URLs instead of local files
+# RUN python scripts/download_logos.py
 
 # Create a non-root user for security
 RUN useradd -m -u 1000 goobie && \
