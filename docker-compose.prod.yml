@@ -2,8 +2,6 @@ services:
   goobie-bot:
     build:
       context: .
-      platforms:
-        - linux/arm/v7
     container_name: goobie-bot-prod
     env_file: .env
     restart: unless-stopped
@@ -16,18 +14,10 @@ services:
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
     # Resource limits for Pi 2 Model B (1GB RAM, quad-core)
-    # Pi 4 (4GB+): memory: 1G, cpus: "1.5"
-    # Pi 4 (2GB): memory: 768M, cpus: "1.0"
-    # Pi 3 (1GB): memory: 512M, cpus: "0.8"
-    # Pi 2 Model B: memory: 512M, cpus: "1.0"
-    deploy:
-      resources:
-        limits:
-          memory: 512M # 50% of 1GB RAM (Pi 2 Model B)
-          cpus: "1.0" # 1 full core (Pi 2 Model B)
-        reservations:
-          memory: 128M # Minimum guaranteed memory
-          cpus: "0.3" # Minimum guaranteed CPU
+    # Note: Docker Compose V1 doesn't support deploy.resources
+    # Use docker run with --memory and --cpus for resource limits
+    mem_limit: 512M # 50% of 1GB RAM (Pi 2 Model B)
+    cpus: 1.0 # 1 full core (Pi 2 Model B)
     # Health check for Pi monitoring
     healthcheck:
       test:

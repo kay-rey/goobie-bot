@@ -33,7 +33,9 @@ jobs:
 
             # Rebuild and start bot
             echo "🔨 Rebuilding and starting bot..."
-            docker-compose -f docker-compose.prod.yml up -d --build
+            # Build with correct platform for Pi 2 (ARMv7)
+            docker build --platform linux/arm/v7 -t goobie-bot .
+            docker-compose -f docker-compose.prod.yml up -d
 
             # Wait for bot to start
             echo "⏳ Waiting for bot to start..."
