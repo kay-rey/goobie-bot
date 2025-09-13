@@ -17,11 +17,18 @@ jobs:
           username: ${{ secrets.PI_USER }}
           key: ${{ secrets.PI_SSH_KEY }}
           port: ${{ secrets.PI_PORT || 22 }}
+          timeout: 60s
+          command_timeout: 15m
+          debug: true
           script: |
             echo "🚀 Starting deployment to Raspberry Pi..."
+            echo "📍 Current directory: $(pwd)"
+            echo "👤 Current user: $(whoami)"
+            echo "🏠 Home directory: $HOME"
 
             # Navigate to bot directory
-            cd /home/pi/goobie-bot
+            cd /home/kayrey/goobie-bot
+            echo "📁 Bot directory: $(pwd)"
 
             # Pull latest changes
             echo "📥 Pulling latest changes..."
