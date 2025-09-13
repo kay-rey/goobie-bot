@@ -201,6 +201,8 @@ async def monitor_resources_periodically(bot):
     if not PI_MODE or not PSUTIL_AVAILABLE:
         return
 
+    import time
+
     logger = logging.getLogger(__name__)
 
     while True:
@@ -212,8 +214,6 @@ async def monitor_resources_periodically(bot):
 
                 # Log system info every hour
                 if hasattr(bot, "_last_system_log"):
-                    import time
-
                     if time.time() - bot._last_system_log > 3600:  # 1 hour
                         bot.resource_monitor.log_system_info()
                         bot._last_system_log = time.time()

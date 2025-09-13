@@ -73,14 +73,14 @@ Add these to your `.env` file for Pi optimization:
 # Pi mode (enables optimizations)
 PI_MODE=true
 
-# Memory limit in MB (default: 256 for Pi Model B v1.1)
-MEMORY_LIMIT_MB=256
+# Memory limit in MB (default: 512 for single bot on Pi 2)
+MEMORY_LIMIT_MB=512
 
-# Cache size limit (default: 50 for Pi Model B v1.1)
-CACHE_SIZE_LIMIT=50
+# Cache size limit (default: 100 for single bot on Pi 2)
+CACHE_SIZE_LIMIT=100
 
-# Log level (default: WARNING for Pi)
-LOG_LEVEL=WARNING
+# Log level (default: INFO for single bot on Pi 2)
+LOG_LEVEL=INFO
 ```
 
 ## Monitoring
@@ -106,12 +106,12 @@ print(f'Cache hit rate: {stats[\"hit_rate\"]}%')
 
 ## Performance Expectations
 
-| Pi Model               | Memory Usage   | Status           |
-| ---------------------- | -------------- | ---------------- |
-| Pi 4 (4GB)             | ~150-200MB     | ✅ Excellent     |
-| Pi 4 (2GB)             | ~100-150MB     | ✅ Great         |
-| Pi 3 (1GB)             | ~80-120MB      | ✅ Good          |
-| **Pi 2 Model B (1GB)** | **~200-300MB** | **✅ Optimized** |
+| Pi Model               | Memory Usage   | Status                      |
+| ---------------------- | -------------- | --------------------------- |
+| Pi 4 (4GB)             | ~150-200MB     | ✅ Excellent                |
+| Pi 4 (2GB)             | ~100-150MB     | ✅ Great                    |
+| Pi 3 (1GB)             | ~80-120MB      | ✅ Good                     |
+| **Pi 2 Model B (1GB)** | **~300-400MB** | **✅ Single Bot Optimized** |
 
 ## GitHub Actions Setup
 
