@@ -65,7 +65,7 @@ docker system prune -f --volumes 2>/dev/null || true
 
 # Build the image
 print_status "🔨 Building bot image for ARMv7 (Pi 2)..."
-if docker build --no-cache --platform linux/arm/v7 -t goobie-bot .; then
+if docker build --platform linux/arm/v7 -t goobie-bot .; then
     print_success "Image built successfully"
 else
     print_error "Image build failed"
