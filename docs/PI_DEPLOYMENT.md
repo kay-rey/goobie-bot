@@ -25,13 +25,13 @@ git push origin main
 ### 2. Manual Deployment
 
 ```bash
-# Build for ARMv6 (Pi Model B v1.1)
-docker build --platform linux/arm/v6 -t goobie-bot .
+# Build for ARMv7 (Pi 2 Model B)
+docker build --platform linux/arm/v7 -t goobie-bot .
 
 # Run with Pi optimizations
 docker run -d \
   --name goobie-bot \
-  --platform linux/arm/v6 \
+  --platform linux/arm/v7 \
   --env-file .env \
   -e PI_MODE=true \
   -e MEMORY_LIMIT_MB=256 \
@@ -49,7 +49,7 @@ docker-compose -f docker-compose.prod.yml up -d
 
 **Production settings:**
 
-- **Platform**: `linux/arm/v6` (Pi Model B v1.1)
+- **Platform**: `linux/arm/v7` (Pi 2 Model B)
 - **Memory limit**: 384MB (75% of 512MB RAM)
 - **CPU limit**: 0.7 cores
 - **Cache limit**: 50 entries
@@ -106,12 +106,12 @@ print(f'Cache hit rate: {stats[\"hit_rate\"]}%')
 
 ## Performance Expectations
 
-| Pi Model                    | Memory Usage   | Status           |
-| --------------------------- | -------------- | ---------------- |
-| Pi 4 (4GB)                  | ~150-200MB     | ✅ Excellent     |
-| Pi 4 (2GB)                  | ~100-150MB     | ✅ Great         |
-| Pi 3 (1GB)                  | ~80-120MB      | ✅ Good          |
-| **Pi Model B v1.1 (512MB)** | **~200-300MB** | **✅ Optimized** |
+| Pi Model               | Memory Usage   | Status           |
+| ---------------------- | -------------- | ---------------- |
+| Pi 4 (4GB)             | ~150-200MB     | ✅ Excellent     |
+| Pi 4 (2GB)             | ~100-150MB     | ✅ Great         |
+| Pi 3 (1GB)             | ~80-120MB      | ✅ Good          |
+| **Pi 2 Model B (1GB)** | **~200-300MB** | **✅ Optimized** |
 
 ## GitHub Actions Setup
 
