@@ -63,18 +63,9 @@ docker rmi goobie-bot 2>/dev/null || true
 docker rmi goobie-bot:latest 2>/dev/null || true
 docker system prune -f --volumes 2>/dev/null || true
 
-# Build the image
-print_status "🔨 Building bot image for ARMv7 (Pi 2)..."
-if docker build --platform linux/arm/v7 -t goobie-bot .; then
-    print_success "Image built successfully"
-else
-    print_error "Image build failed"
-    exit 1
-fi
-
-# Start the bot
-print_status "🚀 Starting bot with optimized settings..."
-if docker-compose -f docker-compose.prod.yml up -d; then
+# Build and start the bot
+print_status "🔨 Building and starting bot with optimized settings..."
+if docker-compose -f docker-compose.prod.yml up -d --build; then
     print_success "Bot started successfully"
 else
     print_error "Failed to start bot"
@@ -96,25 +87,7 @@ echo "📋 Recent Logs (last 20 lines):"
 docker logs goobie-bot-prod --tail 20 2>/dev/null || print_warning "Could not retrieve logs"
 
 echo ""
-echo "💾 Resource Usage:"
-docker stats goobie-bot-prod --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}\t{{.MemPerc}}" 2>/dev/null || print_warning "Could not retrieve resource stats"
 
-# Test resource monitoring
-print_status "🔍 Testing resource monitoring..."
-if docker exec goobie-bot-prod python -c "
-from config import resource_monitor
-mem = resource_monitor.get_memory_usage()
-cpu = resource_monitor.get_cpu_usage()
-print(f'Memory: {mem[\"percent\"]:.1f}% ({mem[\"used_mb\"]:.1f}MB used)')
-print(f'CPU: {cpu:.1f}%')
-print(f'Available: {mem[\"available_mb\"]:.1f}MB')
-" 2>/dev/null; then
-    print_success "Resource monitoring working"
-else
-    print_warning "Resource monitoring test failed"
-fi
-
-echo ""
 print_success "🎉 Deployment complete!"
 print_status "Bot is running with optimized settings:"
 print_status "  • Memory limit: 768MB (75% of Pi's 1GB RAM)"

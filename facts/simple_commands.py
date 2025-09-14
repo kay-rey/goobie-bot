@@ -36,7 +36,7 @@ def get_category_style(category):
     # Default style for unknown categories
     default_style = {
         "color": 0xFF6B35,  # Orange
-        "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+        "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/goobies/goobieheadclear.png",
     }
 
     return category_styles.get(category, default_style)
