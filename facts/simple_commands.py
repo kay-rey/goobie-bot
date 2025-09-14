@@ -242,7 +242,7 @@ async def fact_search_text_command(ctx, *, search_term: str):
 
         # Add thumbnail
         embed.set_thumbnail(
-            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
+            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/goobies/goobieheadclear.png"
         )
 
         await ctx.send(embed=embed)

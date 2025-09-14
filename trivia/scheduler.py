@@ -99,7 +99,7 @@ class TriviaScheduler:
 
             # Add thumbnail
             embed.set_thumbnail(
-                url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
+                url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/goobies/goobieheadclear.png"
             )
 
             # Add footer
