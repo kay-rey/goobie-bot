@@ -10,46 +10,9 @@ import pytz
 import discord
 
 from .simple_facts import SimpleFacts
+from .simple_commands import get_category_style
 
 logger = logging.getLogger(__name__)
-
-
-def get_category_style(category):
-    """Get color and image based on fact category"""
-    category_styles = {
-        "Lego": {
-            "color": 0xFF6B35,  # Orange (Lego's signature color)
-            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
-        },
-        "Disney": {
-            "color": 0x1E90FF,  # Dodger Blue (Disney magic)
-            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
-        },
-        "Star Wars": {
-            "color": 0xFFD700,  # Gold (Jedi/Sith theme)
-            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
-        },
-        "Galaxy": {
-            "color": 0x00923F,  # LA Galaxy green
-            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
-        },
-        "Dodgers": {
-            "color": 0x1E90FF,  # Dodger Blue
-            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
-        },
-        "Lakers": {
-            "color": 0x552583,  # Lakers Purple
-            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
-        },
-    }
-
-    # Default style for unknown categories
-    default_style = {
-        "color": 0xFF6B35,  # Orange
-        "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
-    }
-
-    return category_styles.get(category, default_style)
 
 
 class SimpleFactsScheduler:
