@@ -85,15 +85,15 @@ class TriviaScheduler:
 
             # Create embed
             embed = discord.Embed(
-                title="🧠 Daily Trivia - LA Sports",
+                title="🧠 Daily Trivia",
                 description=f"**{datetime.now(pytz.timezone('America/Los_Angeles')).strftime('%B %d, %Y')}**\n\n"
-                f"Test your LA sports knowledge! Answer questions about "
-                f"Galaxy, Dodgers, Lakers, Rams, and Kings.\n\n"
+                f"Are you Goobier than Goobie? Answer questions "
+                f"to find out who's the Goobiest!\n\n"
                 f"⏰ You have 30 seconds per question\n"
                 f"🏆 Earn points for correct answers and speed\n"
                 f"📊 Compete on the leaderboard!\n\n"
                 f"*Click the button below to start your private trivia session!*",
-                color=0x00923F,  # LA City green
+                color=0x9B59B6,  # Purple
                 timestamp=datetime.now(),
             )
 
@@ -103,7 +103,7 @@ class TriviaScheduler:
             )
 
             # Add footer
-            embed.set_footer(text="🔄 Resets every 24 hours at 8 PM PT • 🏆 Go LA!")
+            embed.set_footer(text="🔄 Resets every 24 hours at 8 PM PT")
 
             # Create view with buttons
             view = TriviaView(self.db, question["id"])

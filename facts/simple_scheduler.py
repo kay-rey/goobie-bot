@@ -8,8 +8,6 @@ import logging
 from datetime import datetime, timedelta
 import pytz
 import discord
-import json
-from pathlib import Path
 
 from .simple_facts import SimpleFacts
 
@@ -44,9 +42,9 @@ class SimpleFactsScheduler:
 
             # Create embed
             embed = discord.Embed(
-                title=f"📚 Daily LA Sports Fact - {today.strftime('%B %d, %Y')}",
+                title=f"📚 Daily Goobie Fact - {today.strftime('%B %d, %Y')}",
                 description=f"**{fact_data['emoji']} {fact_data['category']}**\n\n{fact_data['fact']}",
-                color=0x00923F,  # LA City green
+                color=0xFF6B35, # Orange
                 timestamp=datetime.now(),
             )
 
@@ -56,7 +54,7 @@ class SimpleFactsScheduler:
             )
 
             # Add footer
-            embed.set_footer(text="🔄 Posted daily at 12 PM PT • 🏆 Go LA!")
+            embed.set_footer(text="🔄 Posted daily at 12 PM PT")
 
             # Send message
             channel = bot.get_channel(channel_id)

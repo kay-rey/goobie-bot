@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 _facts = SimpleFacts()
 
 
-@discord.app_commands.command(name="fact", description="Get a random LA sports fact")
+@discord.app_commands.command(name="fact", description="Get a random goobie fact")
 async def fact_command(interaction: discord.Interaction):
     """Slash command to get a random fact"""
     try:
@@ -31,9 +31,9 @@ async def fact_command(interaction: discord.Interaction):
 
         # Create embed
         embed = discord.Embed(
-            title=f"{fact_data['emoji']} LA Sports Fact",
+            title=f"{fact_data['emoji']} Goobie Fact",
             description=f"**{fact_data['category']}**\n\n{fact_data['fact']}",
-            color=0x00923F,  # LA City green
+            color=0xFF6B35, # Orange
             timestamp=datetime.now(),
         )
 
@@ -43,7 +43,7 @@ async def fact_command(interaction: discord.Interaction):
         )
 
         # Add footer
-        embed.set_footer(text="🏆 Go LA! • Use /fact for more random facts")
+        embed.set_footer(text="🏆 Use /fact for more random facts")
 
         # Send response
         await interaction.response.send_message(embed=embed)
@@ -59,7 +59,7 @@ async def fact_command(interaction: discord.Interaction):
 
 
 @discord.app_commands.command(
-    name="factsearch", description="Search for facts by keyword"
+    name="factsearch", description="Search for goobie facts by keyword"
 )
 async def fact_search_command(interaction: discord.Interaction, search_term: str):
     """Slash command to search facts"""
@@ -133,11 +133,11 @@ async def fact_stats_text_command(ctx):
     try:
         embed = discord.Embed(
             title="📊 Daily Facts Statistics",
-            color=0x00923F,
+            color=0xFF6B35, # Orange
             timestamp=datetime.now(),
         )
 
-        # Add stats fields
+        # Add stats fields  
         embed.add_field(
             name="📚 Total Facts", value=str(stats["total_facts"]), inline=True
         )
@@ -160,7 +160,7 @@ async def fact_stats_text_command(ctx):
             )
 
         # Add footer
-        embed.set_footer(text="🏆 Go LA! • Admin only command")
+        embed.set_footer(text="🏆 Admin only command")
     except Exception as embed_error:
         logger.error(f"Error creating embed: {embed_error}")
         await ctx.send("❌ Error creating statistics display.")
@@ -171,7 +171,7 @@ async def fact_stats_text_command(ctx):
         await ctx.author.send(embed=embed)
     except discord.Forbidden:
         # If DMs are disabled, send in channel but mention it's private
-        embed.set_footer(text="🏆 Go LA! • Admin only command • Private stats")
+        embed.set_footer(text="🏆 Admin only command • Private stats")
         await ctx.send(embed=embed)
     except Exception as dm_error:
         logger.error(f"Error sending DM: {dm_error}")
@@ -196,7 +196,7 @@ async def fact_search_text_command(ctx, *, search_term: str):
         embed = discord.Embed(
             title=f"🔍 Facts matching '{search_term}'",
             description=f"Found {len(matching_facts)} result{'s' if len(matching_facts) != 1 else ''}",
-            color=0x00923F,
+            color=0xFF6B35, # Orange
             timestamp=datetime.now(),
         )
 
