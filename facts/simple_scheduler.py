@@ -14,6 +14,44 @@ from .simple_facts import SimpleFacts
 logger = logging.getLogger(__name__)
 
 
+def get_category_style(category):
+    """Get color and image based on fact category"""
+    category_styles = {
+        "Lego": {
+            "color": 0xFF6B35,  # Orange (Lego's signature color)
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+        },
+        "Disney": {
+            "color": 0x1E90FF,  # Dodger Blue (Disney magic)
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+        },
+        "Star Wars": {
+            "color": 0xFFD700,  # Gold (Jedi/Sith theme)
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+        },
+        "Galaxy": {
+            "color": 0x00923F,  # LA Galaxy green
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+        },
+        "Dodgers": {
+            "color": 0x1E90FF,  # Dodger Blue
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+        },
+        "Lakers": {
+            "color": 0x552583,  # Lakers Purple
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+        },
+    }
+
+    # Default style for unknown categories
+    default_style = {
+        "color": 0xFF6B35,  # Orange
+        "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+    }
+
+    return category_styles.get(category, default_style)
+
+
 class SimpleFactsScheduler:
     """Simple daily facts scheduler using JSON file"""
 
@@ -40,18 +78,19 @@ class SimpleFactsScheduler:
                 logger.error("No available facts for today's post")
                 return
 
+            # Get category-specific styling
+            style = get_category_style(fact_data["category"])
+
             # Create embed
             embed = discord.Embed(
                 title=f"📚 Daily Goobie Fact - {today.strftime('%B %d, %Y')}",
                 description=f"**{fact_data['emoji']} {fact_data['category']}**\n\n{fact_data['fact']}",
-                color=0xFF6B35, # Orange
+                color=style["color"],
                 timestamp=datetime.now(),
             )
 
             # Add thumbnail
-            embed.set_thumbnail(
-                url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
-            )
+            embed.set_thumbnail(url=style["image"])
 
             # Add footer
             embed.set_footer(text="🔄 Posted daily at 12 PM PT")

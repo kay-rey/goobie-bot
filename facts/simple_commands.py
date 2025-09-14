@@ -16,6 +16,32 @@ logger = logging.getLogger(__name__)
 _facts = SimpleFacts()
 
 
+def get_category_style(category):
+    """Get color and image based on fact category"""
+    category_styles = {
+        "Lego": {
+            "color": 0xFF6B35,  # Orange (Lego's signature color)
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/goobies/legogoobie.png",
+        },
+        "Disney": {
+            "color": 0x1AB28A,  # Dodger Blue (Disney magic)
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/goobies/disneygoobie.png",
+        },
+        "Star Wars": {
+            "color": 0xFFD700,  # Gold (Jedi/Sith theme)
+            "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/goobies/yodahead.png",
+        },
+    }
+
+    # Default style for unknown categories
+    default_style = {
+        "color": 0xFF6B35,  # Orange
+        "image": "https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobies/goobieheadclear.png",
+    }
+
+    return category_styles.get(category, default_style)
+
+
 @discord.app_commands.command(name="fact", description="Get a random goobie fact")
 async def fact_command(interaction: discord.Interaction):
     """Slash command to get a random fact"""
@@ -29,18 +55,19 @@ async def fact_command(interaction: discord.Interaction):
             )
             return
 
+        # Get category-specific styling
+        style = get_category_style(fact_data["category"])
+
         # Create embed
         embed = discord.Embed(
             title=f"{fact_data['emoji']} Goobie Fact",
             description=f"**{fact_data['category']}**\n\n{fact_data['fact']}",
-            color=0xFF6B35, # Orange
+            color=style["color"],
             timestamp=datetime.now(),
         )
 
         # Add thumbnail
-        embed.set_thumbnail(
-            url="https://raw.githubusercontent.com/kay-rey/goobie-bot/main/assets/images/goobiebotla.png"
-        )
+        embed.set_thumbnail(url=style["image"])
 
         # Add footer
         embed.set_footer(text="🏆 Use /fact for more random facts")
@@ -133,11 +160,11 @@ async def fact_stats_text_command(ctx):
     try:
         embed = discord.Embed(
             title="📊 Daily Facts Statistics",
-            color=0xFF6B35, # Orange
+            color=0xFF6B35,  # Orange
             timestamp=datetime.now(),
         )
 
-        # Add stats fields  
+        # Add stats fields
         embed.add_field(
             name="📚 Total Facts", value=str(stats["total_facts"]), inline=True
         )
@@ -196,7 +223,7 @@ async def fact_search_text_command(ctx, *, search_term: str):
         embed = discord.Embed(
             title=f"🔍 Facts matching '{search_term}'",
             description=f"Found {len(matching_facts)} result{'s' if len(matching_facts) != 1 else ''}",
-            color=0xFF6B35, # Orange
+            color=0xFF6B35,  # Orange
             timestamp=datetime.now(),
         )
 
