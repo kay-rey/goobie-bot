@@ -29,6 +29,7 @@ from events import (
 from commands import nextgame_command, test_command, sync_command
 from commands.weekly import weekly_command
 from commands.cache import cache_command
+from scheduler import scheduler_manager
 from scheduler.weekly_matches import schedule_weekly_matches
 from trivia.commands import trivia_command, trivia_admin_command, trigger_trivia_command
 from trivia.scheduler import schedule_daily_trivia
@@ -53,17 +54,24 @@ bot = create_bot()
 async def on_ready():
     await ready_handler(bot)
 
+    # Stop any existing schedulers to prevent duplicates on reconnection
+    logger.info("Stopping any existing schedulers...")
+    await scheduler_manager.stop_all_schedulers()
+
     # Start the weekly matches scheduler
-    logger.info("Starting weekly matches scheduler...")
-    asyncio.create_task(schedule_weekly_matches(bot, WEEKLY_NOTIFICATIONS_CHANNEL_ID))
+    await scheduler_manager.start_scheduler(
+        "weekly_matches", schedule_weekly_matches, bot, WEEKLY_NOTIFICATIONS_CHANNEL_ID
+    )
 
     # Start the daily trivia scheduler
-    logger.info("Starting daily trivia scheduler...")
-    asyncio.create_task(schedule_daily_trivia(bot, TRIVIA_CHANNEL_ID))
+    await scheduler_manager.start_scheduler(
+        "daily_trivia", schedule_daily_trivia, bot, TRIVIA_CHANNEL_ID
+    )
 
     # Start the daily facts scheduler
-    logger.info("Starting daily facts scheduler...")
-    asyncio.create_task(schedule_daily_facts(bot, FACTS_CHANNEL_ID))
+    await scheduler_manager.start_scheduler(
+        "daily_facts", schedule_daily_facts, bot, FACTS_CHANNEL_ID
+    )
 
     # Start cache cleanup task
     logger.info("Starting cache cleanup task...")
