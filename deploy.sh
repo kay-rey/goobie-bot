@@ -57,11 +57,11 @@ else
     print_warning "No running containers to stop"
 fi
 
-# Remove old images to force rebuild
+# Remove old images to force rebuild (but preserve volumes)
 print_status "🧹 Cleaning up old images..."
 docker rmi goobie-bot 2>/dev/null || true
 docker rmi goobie-bot:latest 2>/dev/null || true
-docker system prune -f --volumes 2>/dev/null || true
+# Note: Removed docker system prune --volumes to preserve trivia database
 
 # Build and start the bot
 print_status "🔨 Building and starting bot with optimized settings..."

@@ -45,5 +45,16 @@ services:
     # Security options
     security_opt:
       - no-new-privileges:true
+    # Volume mounts for data persistence
+    volumes:
+      - trivia_data:/app/trivia/data
+      - facts_data:/app/facts/data
     # Use default bridge network (more secure for Discord bot)
     # network_mode: "host"  # Not needed for Discord bot
+
+# Named volumes for data persistence
+volumes:
+  trivia_data:
+    driver: local
+  facts_data:
+    driver: local
